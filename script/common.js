@@ -3,54 +3,38 @@
  */
 (function($){
 
-  /**
-   * 跳转到指定的url
-   */
+   //跳转到指定的url
   $.location = function(url){
     window.location = url;
   };
   
-  /**
-   * 浏览器判定 是否IE
-   */
-  $.isIE = !-[1,];
-  
-  /**
-   * 浏览器判定 是否IE6
-   */
+  //浏览器判定 是否IE
+  $.isIE = !-[1,];//
+
+  //浏览器判定 是否IE6
   $.isIE6 = $.isIE && !window.XMLHttpRequest;
-    
-  /**
-   * 刷新当前页面
-   */
+  
+  //刷新当前页面
   $.reload = function(){
     window.location.reload();
   }
   
-  /**
-   * 新打开页面
-   */
+  //新打开页面
   $.openPage = function(url){
     window.open(url);
   }
   
-  /**
-   * 字符串替换所有 src 要替换的字符串; oldStr 被替换的字符串;  newStr 替换成的新字符串
-   */
+  //字符串替换所有 src 要替换的字符串; oldStr 被替换的字符串;  newStr 替换成的新字符串
   $.replaceAll = function (src, oldStr, newStr) {
     return src.replace(new RegExp(oldStr,"g"),newStr);   
   }
-
-  /**
-   * 特殊字符转义  (&gt; to >)   (&amp; to &) ...
-   */
+  
+  //特殊字符转义  (&gt; to >)   (&amp; to &) ...
   $.decodingHtml=function(value){
     return $('<span/>').html(value).text();
   }
-
-  /**
-   * JS Cookie操作（设置，读取，删除）
-   */
+  
+  //JS Cookie操作（设置，读取，删除）
   $.setCookie = function(name,value,time){
     var date = new Date();
       date.setTime(date.getTime() + time*24*60*60*1000);
@@ -74,9 +58,7 @@
       }
   }
 
-  /**
-   * 以下为根据浏览器的不同解决光标停在最后记录上
-   */
+  //以下为根据浏览器的不同解决光标停在最后记录上
   $.focusLastTextArea=function(objContentId){
     var element=document.getElementById(objContentId);
     if (document.all){
@@ -109,9 +91,8 @@
     }
   }
   
-  /**
-   * 获取指定元素坐标
-   */
+  
+  //获取指定元素坐标
   $.getElementPos = function (target) {
     var ua = navigator.userAgent.toLowerCase();
     var isOpera = (ua.indexOf('opera') != -1);
@@ -192,9 +173,8 @@
     image.src = obj.src;
   }
 
-  /**
-   * 数组去重复
-   */
+  
+  //数组去重复
   $.distinctEl=function(obj) {
     var tempArray = [];
     var temp = "";
