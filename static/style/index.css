@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* Reset */
+body,h1,h2,h3,h4,h5,h6,blockquote,p,pre,dl,dd,ol,ul,caption,th,td,form,fieldset,legend,input,button,textarea,address{margin:0;padding:0;}
+body,button,input,select,textarea{font: 12px/1.5 microsoft yahei,Arial,tahoma, Srial, helvetica, sans-serif;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+em{font-style:normal;}
+ul,ol,li,dl,dt,dd{list-style:none;}
+a{text-decoration:none;color:#333;}
+a:hover{text-decoration:none;color:#09f;}
+img{border:0px;display:block;}
+code,kbd,pre,samp{font-family:courier new,courier,monospace;}
+table{border-collapse:collapse;border-spacing:0;empty-cells:show;font-size:inherit}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{zoom:1}
+
+/* HTML5 reset */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {display: block;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+
