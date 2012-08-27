@@ -1,0 +1,32 @@
+<html>
+<title>jQuery鼠标事件响应</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+  var vistor = "MyFriend";
+  var title= "";
+  var isindex = true;
+</script>
+<script type="text/javascript" src="pig.js"></script>
+<style type="text/css">
+ body{height:2000px;border-bottom:10px dashed #0099ff;}
+.spig{display:block;width:150px;height:200px;position:absolute;top:-200px;left:200px;z-index:9999;}
+#message{color:#fff;border:1px solid #c4c4c4;background:rgba(0,0,0,0.8);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;min-height:1em;padding:5px;top:-30px;position:absolute;text-align:center;width:auto !important;z-index:10000;-moz-box-shadow:0 0 15px #eee;-webkit-box-shadow:0 0 15px #eee;box-shadow:0 0 15px #eee;outline:none;}
+.pig{width:150px;height:190px;cursor:move;background-image:url("spig.png");}
+
+</style>
+</head>
+<body>
+
+<div id="post-title-info">
+<h2 class="title"><a href="http://www.xiejiancong.com">前端那些事儿</a></h2>
+<p class="post-info">Date : July 26, 2011 | Views : 320  | Category : <a href="http://www.xiejiancong.com/?sort=5">乱78糟</a> / <span class="comments"><a href="http://www.xiejiancong.com/?post=149#comments" title="已经被踩了41次" >14 Comments</a></span></p>
+</div>
+
+<div id="spig" class="spig">
+<div id="message">加载中……</div>
+<div id="mumu" class="pig"></div>
+<div >
+</body>
+</html>
