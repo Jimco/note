@@ -225,7 +225,7 @@
    * 计算中英文总数
    * 
    * 调用方式 
-   * jQuery1.stringUtil.getContentLength(str, true); //返回计算短连接之后的中英文总字数 
+   * jQuery.stringUtil.getContentLength(str, true); //返回计算短连接之后的中英文总字数 
    */
   $.stringUtil = {
     'byteLength' : function(str){
