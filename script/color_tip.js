@@ -122,4 +122,4 @@ Tip.prototype = {
   }
 }
    
-})(jQuery);
+})(window.jQuery);

@@ -46,4 +46,4 @@
       }
     window.attachEvent('onload', pngfix);
   }
-})(jQuery)
+})(window.jQuery)//缓存常用变量，提升代码执行速度

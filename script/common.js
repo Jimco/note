@@ -271,4 +271,4 @@
       liNode.className = cssStyle;
     }
   }
-})(jQuery);
+})(window.jQuery);
