@@ -5,7 +5,6 @@
  */
 
 (function( XY ){
-  XY.Util = XY.Util || {};
 
   XY.Util = {
     //JSON字符串转换为JSON对象
@@ -19,35 +18,35 @@
     //JSON对象转换为JSON字符串
     decodeJSON: function (json) {
       if (window.JSON && window.JSON.stringify) {
-         return JSON.stringify(json);
-       }
-       var html = [];
-       if(typeof json == 'object') {
-         if(json instanceof Array){
-           var ar = [];
-           html.push("[");
-           for(var i = 0; i < json.length; i ++) {
-               ar.push(this.decodeJSON(json[i]));
-           }
-           html.push(ar.join());
-           html.push("]");
-         } else {
-           html.push("{");
-           var ar = [];
-           for(var p in json) {
-               ar.push("\"" + p + "\":" + (this.decodeJSON(json[p])));
-           }
-           html.push(ar.join());
-           html.push("}");
-         }
-       return html.join("");
-     } else {
-       if(typeof json !== 'number') {
-         return "\"" + ( json || "" ) + "\"";
-       } else {
-         return json;
-       }
-     }
+        return JSON.stringify(json);
+      }
+      var html = [];
+      if(typeof json == 'object') {
+        if(json instanceof Array){
+          var ar = [];
+          html.push("[");
+          for(var i = 0; i < json.length; i ++) {
+            ar.push(this.decodeJSON(json[i]));
+          }
+          html.push(ar.join());
+          html.push("]");
+        } else {
+          html.push("{");
+          var ar = [];
+          for(var p in json) {
+            ar.push("\"" + p + "\":" + (this.decodeJSON(json[p])));
+          }
+          html.push(ar.join());
+          html.push("}");
+        }
+        return html.join("");
+      } else {
+        if(typeof json !== 'number') {
+          return "\"" + ( json || "" ) + "\"";
+        } else {
+          return json;
+        }
+      }
     },
     //判断是否为 NaN
     isNaN : function( o ){
