@@ -1,5 +1,6 @@
 /*
 * Placeholder plugin for jQuery
+* 2012-08-20
 */
 
 (function($) {
@@ -29,38 +30,38 @@
         this.input[0].value = this.input.attr('placeholder');
       }
     },
-      hide : function() {
-        if (this.valueIsPlaceholder() && this.input.hasClass('placeholder')) {
-          this.input.removeClass('placeholder');
-          this.input[0].value = '';
-          if (this.isPassword) {
-            try {
-              this.input[0].setAttribute('type', 'password');
-            } catch (e) { }
-            this.input.show();
-            this.input[0].focus();
-          }
-        }
-      },
-      valueIsPlaceholder : function() {
-        return this.input[0].value == this.input.attr('placeholder');
-      },
-      handlePassword: function() {
-        var input = this.input;
-        input.attr('realType', 'password');
-        this.isPassword = true;
-        if ($.browser.msie && input[0].outerHTML) {
-          var fakeHTML = $(input[0].outerHTML.replace(/type=(['"])?password\1/gi, 'type=$1text$1'));
-          this.fakePassword = fakeHTML.val(input.attr('placeholder')).addClass('placeholder').focus(function() {
-              input.trigger('focus');
-              $(this).hide();
-            });
-          $(input[0].form).submit(function() {
-            fakeHTML.remove();
-            input.show()
-          });
+    hide : function() {
+      if (this.valueIsPlaceholder() && this.input.hasClass('placeholder')) {
+        this.input.removeClass('placeholder');
+        this.input[0].value = '';
+        if (this.isPassword) {
+          try {
+            this.input[0].setAttribute('type', 'password');
+          } catch (e) { }
+          this.input.show();
+          this.input[0].focus();
         }
       }
+    },
+    valueIsPlaceholder : function() {
+      return this.input[0].value == this.input.attr('placeholder');
+    },
+    handlePassword: function() {
+      var input = this.input;
+      input.attr('realType', 'password');
+      this.isPassword = true;
+      if ($.browser.msie && input[0].outerHTML) {
+        var fakeHTML = $(input[0].outerHTML.replace(/type=(['"])?password\1/gi, 'type=$1text$1'));
+        this.fakePassword = fakeHTML.val(input.attr('placeholder')).addClass('placeholder').focus(function() {
+            input.trigger('focus');
+            $(this).hide();
+          });
+        $(input[0].form).submit(function() {
+          fakeHTML.remove();
+          input.show()
+        });
+      }
+    }
   };
   var NATIVE_SUPPORT = !!("placeholder" in document.createElement( "input" ));
   $.fn.placeholder = function() {
