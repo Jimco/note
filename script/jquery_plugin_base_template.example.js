@@ -1,14 +1,10 @@
 /*
- * jquery插件基础模板。缺陷
- * 1、难以实现类与类之间的继承
- * 2、无法开放API供外部调用
- * 3、无法提供自定义事件支持
- * 4、无法模拟出接口
- * 5、缺少debug能力
+ * jQuery 插件两种写法
+ *
 */
 
 (function($){
-  $.fn.插件名= function(settings){
+  $.fn.plugin = function(settings){
     //默认参数
     var defaultSettings = {
  
@@ -23,4 +19,31 @@
        
   }
 
-})(jQuery);
+})(window.jQuery);
+
+
+(function($){
+  
+  var Plugin = function( element, option ){
+    //this.init( element, options)
+  }
+
+  Plugin.prototype = {
+    Constructor: Plugin,
+    //插件方法
+  }
+
+  $.fn.plugin = function( option ){
+
+  }
+
+  $.fn.plugin.Constructor = Plugin;
+
+  $.fn.plugin.defaults = {
+    //插件默认参数
+  }
+
+
+})(window.jQuery);
+
+
