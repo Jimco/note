@@ -9,9 +9,23 @@
   <meta name="description" content="记录前端开发的那些事儿！" />
   <link rel="stylesheet" href="static/style/index.css" />
   <script src="script/jquery-1.8.0.min.js"></script>
+  <script src="script/posfix.js"></script>
 </head>
-<body>
-  <h1>Hello world!</h1>
-
+<body style="height:2000px;">
+  <div id="header-frame" data-fix="posfix">
+    <div id="header">
+      <div><a id="logo" href="http://www.xiejiancong.com" title="前端那些事儿 - 记录前端开发的那些事儿！">前端那些事儿 - 记录前端开发的那些事儿！</a></div>
+      <ul id="menu">
+        <li><a href="http://www.xiejiancong.com">首页</a></li>
+      </ul>
+      <ul id="nav">
+        <li><a href="http://www.xiejiancong.com/readerwall/">读者墙</a></li>
+        <li><a href="http://www.xiejiancong.com/t/">碎语</a></li>
+        <li><a href="http://www.xiejiancong.com/guestbook/">留言</a></li>
+        <li><a href="http://www.xiejiancong.com/links/">友情链接</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap"></div>
 </body>
 </html>

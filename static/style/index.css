@@ -2,6 +2,7 @@
 /* Reset */
 body,h1,h2,h3,h4,h5,h6,blockquote,p,pre,dl,dd,ol,ul,caption,th,td,form,fieldset,legend,input,button,textarea,address{margin:0;padding:0;}
 body,button,input,select,textarea{font: 12px/1.5 microsoft yahei,Arial,tahoma, Srial, helvetica, sans-serif;}
+body{background:#fff url(../images/background.png) repeat-x fixed;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
 em{font-style:normal;}
 ul,ol,li,dl,dt,dd{list-style:none;}
@@ -18,4 +19,20 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {display: block;}
 blockquote, q {quotes: none;}
 blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+
+/* Header */
+#header-frame {background:#000;background:rgba(0,0,0,.9);height:40px;text-align:left;padding:0 10px;box-shadow:0 1px 5px rgba(0,0,0,.5);left:0;right:0;z-index:9999;}
+#header{width:1200px;margin:0 auto;position:relative;}
+#logo{width:200px;height:40px;position:absolute;left:10px;background:url(../images/logo.png) no-repeat;text-indent:-9999px;overflow:hidden;}
+#menu{position:absolute;left:210px;border-left:1px solid #262626;height:40px;}
+#menu li{float:left;border-right:1px solid #262626;height:40px;}
+#menu a {display:inline-block;height:40px;line-height:40px;font-size:14px;text-align:center;padding:0 20px;text-shadow:none;color:#ccc;}
+#menu a:hover {color:#fff;background-color:#202020;}
+#nav {position:absolute;right:0;}
+#nav li {float:left;height:40px;line-height:40px;padding:0 10px;}
+#nav a{display:block;text-shadow:none;color:#ccc;}
+#nav a:hover{color:#fff;}
+
+/* Main */
+.wrap{margin:80px auto 0;_margin-top:40px;padding:20px 16px 50px;width:966px;background:#fff;box-shadow: 0 2px 6px rgba(0, 0, 0, .1);border: 1px solid #d9d9d9\9;border: 1px solid rgba(128, 128, 128, .3);border-radius:2px;}
 
