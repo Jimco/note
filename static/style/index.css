@@ -20,6 +20,9 @@ footer, header, hgroup, menu, nav, section {display: block;}
 blockquote, q {quotes: none;}
 blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
 
+/* Common */
+a{-webkit-transition:.5s;-moz-transition:.5s;-o-transition:.5s;transition:.5s;text-shadow:1px 1px 0 #FEFEFE;}
+
 /* Header */
 #header-frame {background:#000;background:rgba(0,0,0,.9);height:40px;text-align:left;padding:0 10px;box-shadow:0 1px 5px rgba(0,0,0,.5);left:0;right:0;z-index:9999;}
 #header{width:1200px;margin:0 auto;position:relative;}
@@ -34,5 +37,10 @@ blockquote:before, blockquote:after,q:before, q:after {content: '';content: none
 #nav a:hover{color:#fff;}
 
 /* Main */
-.wrap{margin:80px auto 0;_margin-top:40px;padding:20px 16px 50px;width:966px;background:#fff;box-shadow: 0 2px 6px rgba(0, 0, 0, .1);border: 1px solid #d9d9d9\9;border: 1px solid rgba(128, 128, 128, .3);border-radius:2px;}
+.wrap{background:#fff;box-shadow: 0 2px 6px rgba(0, 0, 0, .1);border: 1px solid #d9d9d9\9;border: 1px solid rgba(128, 128, 128, .3);border-radius:3px;}
+.mainWrap{margin:80px auto 0;_margin-top:40px;padding:20px 16px 50px;width:966px;}
+
+/* Layout */
+.layoutDemo .layoutWrap{width:966px;margin:30px auto 0;padding:20px 16px 0;}
+
 
