@@ -8,14 +8,16 @@
 
   "use strict"
 
-  var Posfix = function(element, options){
+  var xy = xy || {}
+
+  xy.Posfix = function(element, options){
     this.$element = $(element)
     this.$window = $(window).on("scroll.posfix.data-api resize.posfix.data-api", $.proxy(this.fixPosition, this))
     this.options = $.extend({}, $.fn.posfix.defaults, options)
     this.fixPosition()
   }
 
-  Posfix.prototype.fixPosition = function(evt){
+  xy.Posfix.prototype.fixPosition = function(evt){
     if (!this.$element.is(':visible')) return
 
     var scrollHeight = $(document).height()
@@ -24,12 +26,15 @@
       , offsetLeft = this.options.offsetLeft
       , offsetTop = this.options.offsetTop
       , pageWidth = this.options.pageWidth || $(document).width()
-      , resizeLeft = ( this.$window.width() - pageWidth )/2 + offsetLeft;
+      , resizeLeft = ( this.$window.width() - pageWidth )/2 + offsetLeft
+      , posfix
 
+    this.$element.css({position: "fixed", top: offsetTop, left: offsetLeft})
 
-    if( evt && evt.type == "scroll" ){
-      // console.log(offsetLeft+"-"+offsetTop+"-"+position.left+"-"+position.top+"-"+scrollHeight+"-"+scrollTop+"-"+pageWidth+"-"+resizeLeft)
-      if(scrollTop > offsetTop){
+    if( !evt ) return
+
+    if( evt.type == "scroll" ){
+      if(scrollTop >= offsetTop){
         if(window.XMLHttpRequest){
           this.$element.css({position: "fixed", top: 0, left: offsetLeft})
         }else{
@@ -48,12 +53,12 @@
       var $this = $(this)
         , data = $this.data('posfix')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('posfix', (data = new Posfix(this, options)))
+      if (!data) $this.data('posfix', (data = new xy.Posfix(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
 
-  $.fn.posfix.Constructor = Posfix
+  $.fn.posfix.Constructor = xy.Posfix
 
   $.fn.posfix.defaults = {
     offsetTop: 0,
@@ -63,11 +68,11 @@
   }
 
   $(window).on("load", function(){
-    $("[data-fix='posfix']").each(function(){
-      var $fix = $(this)
-        , data = $fix.data()
+    $("[data-xy='posfix']").each(function(){
+      var $xy = $(this)
+        , data = $xy.data()
 
-      $fix.posfix(data)
+      $xy.posfix(data)
     })
   })
 
