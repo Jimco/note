@@ -1,85 +1,73 @@
 /* 
  * 滚动条随动提示插件
  * 调用方法：
- * 1、在 html 标签中增加 data-fix="posfix" 属性，位置可用 data-offset-top、data-offset-right 控制
- * 2、直接 js 调用 $([selector]).posFix([option])
+ * 1、在 html 标签中增加 data-fix="posfix" 属性，位置可用 data-offset-top、data-offset-left 控制
+ * 2、直接 js 调用 $([selector]).posfix([option])
  */
 !(function($){
 
-  $.fn.posFix = function(options) {
+  "use strict"
 
-    var defaultSettings = {
-      offset: {top: 0, right: 0},
-      headerWidth: 0,
-      destroy: false
-    },
+  var Posfix = function(element, options){
+    this.$element = $(element)
+    this.$window = $(window).on("scroll.posfix.data-api resize.posfix.data-api", $.proxy(this.fixPosition, this))
+    this.options = $.extend({}, $.fn.posfix.defaults, options)
+    this.fixPosition()
+  }
 
-    options = $.extend( true, {}, defaultSettings, options ),
+  Posfix.prototype.fixPosition = function(evt){
+    if (!this.$element.is(':visible')) return
 
-    FixedFun = function(element) {
-      var $target = $(element),
-        right = options.offset.right,
-        top = options.offset.top;
-      
-      $target.css({
-        "position":"absolute",
-        "right": right,
-        "top": top
-      });
-      
-      $(window).resize(function(){
-        right = ( $(window).width() - options.headerWidth )/2 + options.right;
-        $target.css({
-          "right" : right
-        });
-      });
+    var scrollHeight = $(document).height()
+      , scrollTop = this.$window.scrollTop()
+      , position = this.$element.offset()
+      , offsetLeft = this.options.offsetLeft
+      , offsetTop = this.options.offsetTop
+      , pageWidth = this.options.pageWidth || $(document).width()
+      , resizeLeft = ( this.$window.width() - pageWidth )/2 + offsetLeft;
 
-      $(window).on("scroll.posfix.data-api", function() {
-        var scrolls = $(this).scrollTop();
-        if (scrolls > options.offset.top) {
-          if ( window.XMLHttpRequest ){
-            //消息随动
-            $target.css({
-              position: "fixed",
-              top: 0,
-              right: right
-            });
-          } else {
-            //IE6 兼容
-            $target.css({
-              position: "absolute",
-              top: scrolls,
-              right: right
-            });
-          }
-        }else {
-          $target.css({
-            position: "absolute",
-            top: top,
-            right: right
-          });
+
+    if( evt && evt.type == "scroll" ){
+      // console.log(offsetLeft+"-"+offsetTop+"-"+position.left+"-"+position.top+"-"+scrollHeight+"-"+scrollTop+"-"+pageWidth+"-"+resizeLeft)
+      if(scrollTop > offsetTop){
+        if(window.XMLHttpRequest){
+          this.$element.css({position: "fixed", top: 0, left: offsetLeft})
+        }else{
+          this.$element.css({position: "absolute", top: scrollTop, left: offsetLeft})
         }
-      });
+      }else{
+        this.$element.css({position: "absolute", top: offsetTop, left: offsetLeft})
+      }
+    }else{
+      this.$element.css({position: "fixed", top: offsetTop, left: resizeLeft})
+    }
+  }
 
-    };
-
-    return $(this).each(function() {
-      FixedFun( $(this) )
+  $.fn.posfix = function(option){
+    return this.each(function () {
+      var $this = $(this)
+        , data = $this.data('posfix')
+        , options = typeof option == 'object' && option
+      if (!data) $this.data('posfix', (data = new Posfix(this, options)))
+      if (typeof option == 'string') data[option]()
     })
+  }
 
-  };
+  $.fn.posfix.Constructor = Posfix
 
-  $(window).on('load', function () {
-    $('[data-fix="posfix"]').each(function () {
+  $.fn.posfix.defaults = {
+    offsetTop: 0,
+    offsetLeft: 0,
+    pageWidth: 0,
+    destroy: false
+  }
+
+  $(window).on("load", function(){
+    $("[data-fix='posfix']").each(function(){
       var $fix = $(this)
-        , data = $fix.data();
+        , data = $fix.data()
 
-      data.offset = data.offset || {};
-
-      data.offsetLeft && (data.offset.left = data.offsetLeft);
-      data.offsetTop && (data.offset.top = data.offsetTop);
-      
-      $fix.posFix( data );
+      $fix.posfix(data)
     })
   })
 
