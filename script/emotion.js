@@ -10,18 +10,18 @@
   var xy = xy || {}
 
   xy.Emotion = function( element, options ){
-    this.element = $(element)
+    this.element = $(element).on("click.emotion.data-api", $.proxy(this.render, this))
     this.faceType = $.fn.emotion.faceType
     this.options = $.extend({}, $.fn.emotion.defaults, options)
   }
 
   xy.Emotion.prototype = {
 
-    constructor: Emotion,
+    constructor: xy.Emotion,
 
     //渲染
     render: function(){
-
+      console.log("fuck")
     },
 
     //设置表情弹层位置
@@ -95,22 +95,14 @@
     var $this = $(this)
         , data = $this.data('emotion')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)))
-      if (typeof option == 'string') data[option]()
-    }
+
+    if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)))
+    if (typeof option == 'string') data[option]()
+    else if (options.render) data.render()
+  }
   
 
   $.fn.emotion.Constructor = xy.Emotion
-
-  $.fn.emotion.defaults = {
-    facePath: "", //表情图片路径
-    isSmilesShow: true, //控制是否显示表情弹层
-    targetArea: "", //目标文本框 ID
-    offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
-    showEvent: "click", 
-    delay: 0,
-    tpl: $.fn.emotion.tpls["default"]
-  }
 
   $.fn.emotion.tpls = {
     "default": "<div class='xyEmotion'><ul><li><a></a></li></ul></div>"
@@ -124,13 +116,25 @@
       "imgPath" : "default/"
     }]
 
-  //emotion data-api
-  $(function(){
-    $("body").on("click.emotion.data-api", "[data-xy='emotion']", function( e ){
-      var $this = $(this)
 
+  $.fn.emotion.defaults = {
+    facePath: "", //表情图片路径
+    isSmilesShow: true, //控制是否显示表情弹层
+    targetArea: "", //目标文本框 ID
+    offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
+    showEvent: "click", 
+    delay: 0,
+    tpl: $.fn.emotion.tpls["default"]
+  }
+
+  //emotion data-api
+  $(window).on("load", function( e ){
+    $('[data-xy="emotion"]').each(function(){
+      var $xy = $(this)
+        , data = $xy.data()
+
+      $xy.emotion( data )
     })
   })
-
 
 }(window.jQuery)
