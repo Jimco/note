@@ -8,8 +8,10 @@
 
   "use strict"
 
+  //namespace
   var xy = xy || {}
 
+  //Posfix class definition
   xy.Posfix = function(element, options){
     this.$element = $(element)
     this.$window = $(window).on("scroll.posfix.data-api resize.posfix.data-api", $.proxy(this.fixPosition, this))
@@ -33,21 +35,13 @@
 
     if( !evt ) return
 
-    if( evt.type == "scroll" ){
-      if(scrollTop >= offsetTop){
-        if(window.XMLHttpRequest){
-          this.$element.css({position: "fixed", top: 0, left: offsetLeft})
-        }else{
-          this.$element.css({position: "absolute", top: scrollTop, left: offsetLeft})
-        }
-      }else{
-        this.$element.css({position: "absolute", top: offsetTop, left: offsetLeft})
-      }
-    }else{
-      this.$element.css({position: "fixed", top: offsetTop, left: resizeLeft})
-    }
+    posfix = ( evt.type == "resize" ) ? {position: "fixed", top: offsetTop, left: resizeLeft} : ( scrollTop < offsetTop ) ? {position: "absolute", top: offsetTop, left: offsetLeft} : window.XMLHttpRequest ? {position: "fixed", top: 0, left: offsetLeft} : {position: "absolute", top: scrollTop, left: offsetLeft}
+
+    this.$element.css( posfix )
+
   }
 
+  //posfix plugin definition
   $.fn.posfix = function(option){
     return this.each(function () {
       var $this = $(this)
@@ -67,6 +61,7 @@
     destroy: false
   }
 
+  //posfix data-api
   $(window).on("load", function(){
     $("[data-xy='posfix']").each(function(){
       var $xy = $(this)
