@@ -1,6 +1,7 @@
 /**
  * Emotion plugin
  * 2012-09-12
+ * example: $([selector]).emotion( options )
  */
 
 !function($){
@@ -21,25 +22,62 @@
 
     //渲染
     render: function(){
-      console.log("fuck")
-    },
 
-    //设置表情弹层位置
-    setPosition: function(){
+      console.log("Emotion render");
+      this.show()
 
     },
 
     //获取表情文字
-    getFaceText: function( type, faceId ){
+    getFaceText: function( type, id ){
       var faceType = this.faceType, faceText;
       $.each(faceType, function( i, ele ){
-        type == ele.type && faceText = "[" + ele.data[faceId] + "]";
+        faceText = type == ele.type && "[" + ele.data[id] + "]";
       })
       return faceText;
     },
 
     //表情弹层
     show: function(){
+
+      var me = this
+        , $element = $(me.element)
+        , $tpl = $(me.options.tpl)
+        , pos = me.options.offset
+        , facePath = me.options.facePath
+
+      $.each(me.faceType, function(i, ele){
+        var $eachFace = $("<ul />", { "id": ele.type })
+
+        $tpl.append($("<span />", {
+          "text": ele.name,
+          "click": function(){
+            me.changeFace( ele.type )
+          }
+        }));
+
+        (i == 0) ? $eachFace.css("display", "block") : $eachFace.css("display", "none");
+
+        $.each(ele.data, function(j, data){
+          var $li = $("<li />")
+            , $img = $("<img />", {
+              "src": facePath + ele.imgPath + (j+1) + ele.imgSuffix,
+              "alt": data,
+              "height": "22px",
+              "width": "22px",
+              "click": function(){
+                me.addText( ele.type, j )
+              }
+            })
+          $li.append($img)
+          $eachFace.append($li)
+        })
+
+        $tpl.append($eachFace)
+      })
+
+      $tpl.appendTo( document.body )
+      me.setPosition( pos )
 
     },
 
@@ -48,14 +86,27 @@
 
     },
 
-    //切换表情类型
-    changeFace: function(){
+    //设置表情弹层位置
+    setPosition: function( pos ){
+      console.log( pos.top+"-"+pos.left )
 
     },
 
-    //向文本框插入表情
-    addText: function(){
+    //切换表情类型
+    changeFace: function(){
+      console.log("changeFace")
+    },
 
+    //向文本框插入表情
+    addText: function(type, id){
+      var $targetArea = $( this.options.targetArea )
+        , text = this.getFaceText(type, id)
+        , textLength = $targetArea.val.length
+        , selection = this.getSelected( $targetArea )
+
+      text = $targetArea.val().substring(0, selection.start) + text
+      $targetArea.val( text )
+      this.setCursor($targetArea, selection.start + text.length)
     },
 
     //将表情代码替换为文字
@@ -64,13 +115,42 @@
     },
 
     //获取光标在文本框中的位置
-    getSelected: function(){
-
+    getSelected: function( textArea ){
+      var textArea = textArea.get(0), s, e, range, stored_range;
+      if ( $.browser.msie ){
+        var selection = document.selection;
+        textArea.focus();
+        range = selection.createRange();
+        stored_range = range.duplicate();
+        stored_range.moveToElementText(textArea);
+        stored_range.setEndPoint('EndToEnd', range);
+        s = stored_range.text.length - range.text.length;
+        e = s + range.text.length;
+        textArea.blur();
+      } else {
+        s = textArea.selectionStart;
+        e = textArea.selectionEnd;
+      }
+      return {
+        start : s,
+        end : e
+      }
     },
 
     //设置文本框焦点位置
-    setCursor: function(){
+    setCursor: function( textArea, end ){
+      var textArea = textArea.get(0);
+      end = end == null ? textArea.val().length : end;
 
+      textArea.focus();
+
+      if (textArea.createTextRange){ //for IE
+        var range = textArea.createTextRange();
+        range.move("character", end);
+        range.select();
+      }else{
+        textArea.setSelectionRange(end, end);
+      }
     },
 
     //表情文字与表情路径的键值对
@@ -105,7 +185,7 @@
   $.fn.emotion.Constructor = xy.Emotion
 
   $.fn.emotion.tpls = {
-    "default": "<div class='xyEmotion'><ul><li><a></a></li></ul></div>"
+    "default": "<div class='xyEmotion'></div>"
   }
 
   $.fn.emotion.faceType = [{
@@ -118,9 +198,9 @@
 
 
   $.fn.emotion.defaults = {
-    facePath: "", //表情图片路径
+    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
     isSmilesShow: true, //控制是否显示表情弹层
-    targetArea: "", //目标文本框 ID
+    targetArea: "#content1", //目标文本框 selector
     offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
     showEvent: "click", 
     delay: 0,
