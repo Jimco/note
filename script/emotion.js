@@ -24,7 +24,12 @@
     render: function(){
 
       console.log("Emotion render");
-      this.show()
+      
+      this.options.isSmilesShow ? this.toggleFace("#xyEmotion") : this.show()
+
+      console.log(this.faceMap())
+
+      this.setPosition( this.options.offset )
 
     },
 
@@ -67,6 +72,7 @@
               "width": "22px",
               "click": function(){
                 me.addText( ele.type, j )
+                me.toggleFace( $tpl )
               }
             })
           $li.append($img)
@@ -77,18 +83,21 @@
       })
 
       $tpl.appendTo( document.body )
-      me.setPosition( pos )
+
+      me.options.isSmilesShow = true
+      console.log($tpl)
 
     },
 
     //隐藏表情层
-    hide: function(){
-
+    toggleFace: function( ele ){
+      $(ele).toggle()
     },
 
     //设置表情弹层位置
     setPosition: function( pos ){
-      console.log( pos.top+"-"+pos.left )
+      console.log( pos )
+      console.log( this.element )
 
     },
 
@@ -155,18 +164,30 @@
 
     //表情文字与表情路径的键值对
     faceMap: function(){
-      var faceMap = {};
+      var faceMap = {}
+        , facePath = this.options.facePath
       $.each(this.faceType, function( i, face ){
-        $.each( face.data, function( j, text ){
-          faceMap[text] = facePath + face.imgPath + ( y + 1 ) + face.imgSuffix;
+        $.each(face.data, function( j, text ){
+          faceMap[text] = facePath + face.imgPath + ( j + 1 ) + face.imgSuffix;
         })
       })
       return faceMap;
     },
 
     //表情字符替换成表情图片
-    textToFace: function( element ){
-      
+    textToFace: function( decodeArea ){
+      var me = this
+        , $faceContainers = $(decodeArea)
+      $faceContainers.length && faceMap = faceMap || this.faceMap()
+
+      $faceContainers.each(function(i, ele){
+        var $ele = $(ele)
+        $ele.html($ele.html().replace(/\[([\u4e00-\u9fa5\s\w]*)\]/g, function(text){
+          var faceText = me.faceToText(text)
+          !faceMap[faceText] ? text : "<img src='" + faceMap[faceText] + "' title='" + faceText + "' alt='" + faceText + "' />" 
+        }))
+
+      }) 
     }
 
   }
@@ -185,7 +206,7 @@
   $.fn.emotion.Constructor = xy.Emotion
 
   $.fn.emotion.tpls = {
-    "default": "<div class='xyEmotion'></div>"
+    "default": "<div id='xyEmotion'></div>"
   }
 
   $.fn.emotion.faceType = [{
@@ -199,16 +220,16 @@
 
   $.fn.emotion.defaults = {
     facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
-    isSmilesShow: true, //控制是否显示表情弹层
+    isSmilesShow: false, //控制表情弹层显示与隐藏
     targetArea: "#content1", //目标文本框 selector
     offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
-    showEvent: "click", 
+    showEvent: "click",
     delay: 0,
     tpl: $.fn.emotion.tpls["default"]
   }
 
   //emotion data-api
-  $(window).on("load", function( e ){
+  $(window).on("load", function(e){
     $('[data-xy="emotion"]').each(function(){
       var $xy = $(this)
         , data = $xy.data()
