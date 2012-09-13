@@ -68,6 +68,7 @@
             , $img = $("<img />", {
               "src": facePath + ele.imgPath + (j+1) + ele.imgSuffix,
               "alt": data,
+              "title": data,
               "height": "22px",
               "width": "22px",
               "click": function(){
@@ -114,6 +115,7 @@
         , selection = this.getSelected( $targetArea )
 
       text = $targetArea.val().substring(0, selection.start) + text
+
       $targetArea.val( text )
       this.setCursor($targetArea, selection.start + text.length)
     },
@@ -178,7 +180,7 @@
     textToFace: function( decodeArea ){
       var me = this
         , $faceContainers = $(decodeArea)
-      $faceContainers.length && faceMap = faceMap || this.faceMap()
+      $faceContainers.length && (faceMap = faceMap || this.faceMap())
 
       $faceContainers.each(function(i, ele){
         var $ele = $(ele)
@@ -219,7 +221,7 @@
 
 
   $.fn.emotion.defaults = {
-    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
+    facePath: "file:///G:/Github/cc/plugin-demo/emotion/smiles/", //表情图片路径
     isSmilesShow: false, //控制表情弹层显示与隐藏
     targetArea: "#content1", //目标文本框 selector
     offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
