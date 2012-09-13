@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>QQ表情 jQuery 插件</title>
+<link href="emotion.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../../script/emotion.js"></script>
+
+<style type="text/css">
+  .t{font-size:12px;color:#666666;line-height:20px;}
+  h1{color:#000000;border-bottom:1px #ccc solid;}
+  .tools{width:510px;display:inline-block;background:#ebeff8;border:1px #d4d7e6 solid;padding:5px;}
+  .faceBtn{color:#656565;font-size:12px;width:80px;height:25px;line-height:25px;padding-left:25px;background:url(face.gif) 4px 4px no-repeat;cursor:pointer;}
+</style>
+
+<script type="text/javascript">
+
+</script>
+</head>
+
+<body>
+  <h1>QQ表情jQuery插件</h1>
+  <div class="t">
+    Author：Jimco<br />
+    Github: <a href="http://github.com/Jimco">github.com/Jimco</a><br />
+    Email：<a href="mailto:jimco@color7.net">jimco@color7.net</a><br />
+    Blog：<a href="http://www.xiejiancong.com">http://www.xiejiancong.com</a><br />
+    欢迎前端爱好者加 Q 群：92907430 , 一起交流心得体会。
+  </div>
+
+  <div id="result"></div>
+
+  <div>
+
+    <br />
+    <br />
+
+    <div class="tools">
+      <div id="face1" class="faceBtn" data-xy="emotion">添加表情</div>
+      <textarea id="content1" style="width:500px;height:100px;"></textarea><br />
+    </div>
+
+    <br />
+    <input type="button" value="提交" onclick="view('content1');" />
+
+
+    <br />
+    <br />
+
+
+    <div class="tools">
+      <div id="face2" class="faceBtn">添加表情</div>
+      <textarea id="content2" style="width:500px;height:100px;"></textarea>
+    </div>
+
+    <br />
+    <input type="button" value="提交" onclick="view('content2');" />
+
+  </div>
+</body>
+</html>

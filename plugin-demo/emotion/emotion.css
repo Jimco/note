@@ -1,0 +1,15 @@
+.emotion{
+	background:#fff;
+	padding:8px;
+	border:1px #dfe6f6 solid;
+}
+.emotion table td{
+	padding:2px;
+}
+.emotion table td img{
+	cursor:pointer;
+	border:1px #fff solid;
+}
+.emotion table td img:hover{
+	border:1px #0066cc solid;
+}
