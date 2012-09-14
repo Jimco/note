@@ -1,5 +1,7 @@
 ul, li, dl, dt, dd{list-style:none;margin:0;padding:0;}
 
+#xyEmotion{position:absolute;top:0;left:0;}
+
 #xyEmotion ul:after{content:'.';display:block;height:0;clear:both;visibility: hidden;}
 #xyEmotion ul{zoom:1;}
 
