@@ -12,11 +12,10 @@
   var xy = xy || {}
 
   xy.Emotion = function( element, options ){
-    this.element = $(element) //.on("click.emotion.data-api", $.proxy(this.init, this))
-    this.faceType = $.fn.emotion.faceType
-    this.isSmilesShow = false
-    this.options = $.extend({}, $.fn.emotion.defaults, options)
-    this.init()
+    this.element = $(element); //.on("click.emotion.data-api", $.proxy(this.init, this))
+    this.isSmilesShow = false;
+    this.options = $.extend({}, $.fn.emotion.defaults, options);
+    this.init();
   }
 
   xy.Emotion.prototype = {
@@ -26,31 +25,35 @@
     // 初始化插件时执行init
     init: function(){
 
-      var me = this,
-        $element = this.element
+      var me = this
+        , $element = this.element
+        , decodeArea = this.options.decodeArea
 
       $element.on("click.emotion.data-api", function(e){
-        me.isSmilesShow ? me.toggleFace("#xyEmotion") : me.show()
-        me.setPosition( me.options.offset )
-        e.stopPropagation()
+        
+        me.isSmilesShow ? me.toggleFace("#xyEmotion") : me.show();
+        me.setPosition( me.options.offset );
+        e.stopPropagation();
       })
 
       $("html, body, document").on("click.emotion.data-api", function(e){
-        me.isSmilesShow && $("#xyEmotion").hide()
+        me.isSmilesShow && $("#xyEmotion").hide();
       })
 
       // hacky: 是否应该抽象 ？
       $("input[type='button']").on("click", function(){
-        $("#content1").val().length && $("#result").html( $("#content1").val() )
-        $("#content1").val("")
-        me.textToFace("#result")
+        $("#content1").val().length && $("#result").html( $("#content1").val() );
+        $("#content1").val("");
+        me.textToFace( decodeArea );
       })
+
+      this.textToFace( decodeArea )
 
     },
 
     //获取表情文字
     getFaceText: function( type, id ){
-      var faceType = this.faceType, faceText;
+      var faceType = this.options.faceType, faceText;
       $.each(faceType, function( i, ele ){
         faceText = type == ele.type && "[" + ele.data[id] + "]";
       })
@@ -64,15 +67,15 @@
         , $element = $(me.element)
         , $tpl = $(me.options.tpl)
         , pos = me.options.offset
-        , facePath = me.options.facePath
+        , facePath = me.options.facePath;
 
-      $.each(me.faceType, function(i, ele){
-        var $eachFace = $("<ul />", { "id": ele.type })
+      $.each(me.options.faceType, function(i, ele){
+        var $eachFace = $("<ul />", { "id": ele.type });
 
         $tpl.append($("<span />", {
           "text": ele.name,
           "click": function(){
-            me.changeFace( ele.type )
+            me.changeFace( ele.type );
           }
         }));
 
@@ -87,27 +90,27 @@
               "height": "22px",
               "width": "22px",
               "click": function(e){
-                me.addText( ele.type, j )
-                me.toggleFace( $tpl )
-                e.stopPropagation()
+                me.addText( ele.type, j );
+                me.toggleFace( $tpl );
+                e.stopPropagation();
               }
             })
-          $li.append($img)
-          $eachFace.append($li)
+          $li.append($img);
+          $eachFace.append($li);
         })
 
-        $tpl.append($eachFace)
-      })
+        $tpl.append($eachFace);
+      });
 
-      $tpl.appendTo( document.body )
+      $tpl.appendTo( document.body );
 
-      me.isSmilesShow = true
+      me.isSmilesShow = true;
 
     },
 
     //隐藏表情层
     toggleFace: function( ele ){
-      $(ele).toggle()
+      $(ele).toggle();
     },
 
     //设置表情弹层位置
@@ -116,9 +119,9 @@
       var me = this
         , currentPos = me.element.offset()
         , top = currentPos.top + pos.top + this.element.height()
-        , left = currentPos.left + pos.left
+        , left = currentPos.left + pos.left;
 
-      $("#xyEmotion").css({position: "absolute", top: top, left: left})
+      $("#xyEmotion").css({position: "absolute", top: top, left: left});
  
     },
 
@@ -132,12 +135,12 @@
       var $targetArea = $( this.options.targetArea )
         , text = this.getFaceText(type, id)
         , textLength = $targetArea.val.length
-        , selection = this.getSelected( $targetArea )
+        , selection = this.getSelected( $targetArea );
 
-      text = $targetArea.val().substring(0, selection.start) + text
+      text = $targetArea.val().substring(0, selection.start) + text;
 
-      $targetArea.val( text )
-      this.setCursor($targetArea, selection.start + text.length)
+      $targetArea.val( text );
+      this.setCursor($targetArea, selection.start + text.length);
     },
 
     //将表情代码替换为文字
@@ -171,6 +174,7 @@
     //设置文本框焦点位置
     setCursor: function( textArea, end ){
       var textArea = textArea.get(0);
+
       end = end == null ? textArea.val().length : end;
 
       textArea.focus();
@@ -187,8 +191,8 @@
     //表情文字与表情路径的键值对
     faceMap: function(){
       var faceMap = {}
-        , facePath = this.options.facePath
-      $.each(this.faceType, function( i, face ){
+        , facePath = this.options.facePath;
+      $.each(this.options.faceType, function( i, face ){
         $.each(face.data, function( j, text ){
           faceMap[text] = facePath + face.imgPath + ( j + 1 ) + face.imgSuffix;
         })
@@ -200,21 +204,18 @@
     textToFace: function( decodeArea ){
       var me = this
         , $faceContainers = $(decodeArea)
-        , faceMap = me.faceMap()
+        , faceMap = me.faceMap();
 
       if( !$faceContainers.length) return 
 
       $faceContainers.each(function(i, ele){
-        var $ele = $(ele)
+        var $ele = $(ele);
 
         $ele.html($ele.html().replace(/\[([\u4e00-\u9fa5\s\w]*)\]/g, function(text){
-          var faceText = me.faceToText(text)
+          var faceText = me.faceToText(text);
           return !faceMap[faceText] ? text : "<img src='" + faceMap[faceText] + "' title='" + faceText + "' alt='" + faceText + "' />" 
-
         }))
-
       })
-
     }
 
   }
@@ -222,9 +223,9 @@
   $.fn.emotion = function( option ){
     var $this = $(this)
         , data = $this.data('emotion')
-        , options = typeof option == 'object' && option
+        , options = typeof option == 'object' && option;
 
-    if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)))
+    if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)));
     if (typeof option == 'string') data[option]()
     else if (options.decodeFace) data.decodeFace()
   }
@@ -236,23 +237,22 @@
     "default": "<div id='xyEmotion'></div>"
   }
 
-  $.fn.emotion.faceType = [{
+
+  $.fn.emotion.defaults = {
+    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
+    targetArea: "#content1", //目标文本框 selector
+    decodeArea: "#result",
+    offset: { "left": 0, "top": 0 }, //表情弹层相对于触发元素的位置
+    showEvent: "click", //暂时未做扩展
+    delay: 0,
+    tpl: $.fn.emotion.tpls["default"],
+    faceType: [{
       "type" : "default",
       "name" : "默认",
       "data" : [ "呵呵", "嘻嘻", "哈哈", "可爱", "可怜", "挖鼻屎", "吃惊", "害羞", "挤眼", "闭嘴", "鄙视", "爱你", "泪", "偷笑", "亲亲", "生病", "太开心", "懒得理你", "右哼哼", "左哼哼", "嘘", "衰", "委屈", "吐", "打哈欠", "抱抱", "怒", "疑问", "馋嘴", "拜拜", "思考", "汗", "困", "睡觉", "钱", "失望", "酷", "花心", "哼", "鼓掌", "晕", "悲伤", "抓狂", "黑线", "阴险", "怒骂", "OK", "耶", "good", "不要", "赞", "来", "弱", "伤心", "心", "给力", "威武", "囧", "礼物", "蛋糕" ],
       "imgSuffix" : ".gif",
       "imgPath" : "default/"
     }]
-
-
-  $.fn.emotion.defaults = {
-    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
-    targetArea: "#content1", //目标文本框 selector
-    decodeArea: "#result",
-    offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
-    showEvent: "click",
-    delay: 0,
-    tpl: $.fn.emotion.tpls["default"]
   }
 
   //emotion data-api
