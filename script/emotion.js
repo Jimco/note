@@ -1,7 +1,8 @@
 /**
  * Emotion plugin
  * 2012-09-12
- * example: $([selector]).emotion( options )
+ * example: 1、$([selector]).emotion( options )
+ *          2、用 data 来控制，在需要调用表情的元素上加上 data-xy="emotion"
  */
 
 !function($){
@@ -11,25 +12,39 @@
   var xy = xy || {}
 
   xy.Emotion = function( element, options ){
-    this.element = $(element).on("click.emotion.data-api", $.proxy(this.render, this))
+    this.element = $(element) //.on("click.emotion.data-api", $.proxy(this.init, this))
     this.faceType = $.fn.emotion.faceType
+    this.isSmilesShow = false
     this.options = $.extend({}, $.fn.emotion.defaults, options)
+    this.init()
   }
 
   xy.Emotion.prototype = {
 
     constructor: xy.Emotion,
 
-    //渲染
-    render: function(){
+    // 初始化插件时执行init
+    init: function(){
 
-      console.log("Emotion render");
-      
-      this.options.isSmilesShow ? this.toggleFace("#xyEmotion") : this.show()
+      var me = this,
+        $element = this.element
 
-      console.log(this.faceMap())
+      $element.on("click.emotion.data-api", function(e){
+        me.isSmilesShow ? me.toggleFace("#xyEmotion") : me.show()
+        me.setPosition( me.options.offset )
+        e.stopPropagation()
+      })
 
-      this.setPosition( this.options.offset )
+      $("html, body, document").on("click.emotion.data-api", function(e){
+        me.isSmilesShow && $("#xyEmotion").hide()
+      })
+
+      // hacky: 是否应该抽象 ？
+      $("input[type='button']").on("click", function(){
+        $("#content1").val().length && $("#result").html( $("#content1").val() )
+        $("#content1").val("")
+        me.textToFace("#result")
+      })
 
     },
 
@@ -71,9 +86,10 @@
               "title": data,
               "height": "22px",
               "width": "22px",
-              "click": function(){
+              "click": function(e){
                 me.addText( ele.type, j )
                 me.toggleFace( $tpl )
+                e.stopPropagation()
               }
             })
           $li.append($img)
@@ -85,8 +101,7 @@
 
       $tpl.appendTo( document.body )
 
-      me.options.isSmilesShow = true
-      console.log($tpl)
+      me.isSmilesShow = true
 
     },
 
@@ -97,9 +112,14 @@
 
     //设置表情弹层位置
     setPosition: function( pos ){
-      console.log( pos )
-      console.log( this.element )
 
+      var me = this
+        , currentPos = me.element.offset()
+        , top = currentPos.top + pos.top + this.element.height()
+        , left = currentPos.left + pos.left
+
+      $("#xyEmotion").css({position: "absolute", top: top, left: left})
+ 
     },
 
     //切换表情类型
@@ -180,16 +200,21 @@
     textToFace: function( decodeArea ){
       var me = this
         , $faceContainers = $(decodeArea)
-      $faceContainers.length && (faceMap = faceMap || this.faceMap())
+        , faceMap = me.faceMap()
+
+      if( !$faceContainers.length) return 
 
       $faceContainers.each(function(i, ele){
         var $ele = $(ele)
+
         $ele.html($ele.html().replace(/\[([\u4e00-\u9fa5\s\w]*)\]/g, function(text){
           var faceText = me.faceToText(text)
-          !faceMap[faceText] ? text : "<img src='" + faceMap[faceText] + "' title='" + faceText + "' alt='" + faceText + "' />" 
+          return !faceMap[faceText] ? text : "<img src='" + faceMap[faceText] + "' title='" + faceText + "' alt='" + faceText + "' />" 
+
         }))
 
-      }) 
+      })
+
     }
 
   }
@@ -201,7 +226,7 @@
 
     if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)))
     if (typeof option == 'string') data[option]()
-    else if (options.render) data.render()
+    else if (options.decodeFace) data.decodeFace()
   }
   
 
@@ -221,9 +246,9 @@
 
 
   $.fn.emotion.defaults = {
-    facePath: "file:///G:/Github/cc/plugin-demo/emotion/smiles/", //表情图片路径
-    isSmilesShow: false, //控制表情弹层显示与隐藏
+    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
     targetArea: "#content1", //目标文本框 selector
+    decodeArea: "#result",
     offset: {"left": 0, "top": 0}, //表情弹层相对于触发元素的位置
     showEvent: "click",
     delay: 0,
