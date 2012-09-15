@@ -30,7 +30,7 @@
         , decodeArea = this.options.decodeArea
 
       $element.on("click.emotion.data-api", function(e){
-        
+
         me.isSmilesShow ? me.toggleFace("#xyEmotion") : me.show();
         me.setPosition( me.options.offset );
         e.stopPropagation();
@@ -225,7 +225,6 @@
         , data = $this.data('emotion')
         , options = typeof option == 'object' && option;
 
-    debugger
     if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)));
     if (typeof option == 'string') data[option]()
     else if (options.decodeFace) data.decodeFace()
@@ -256,7 +255,6 @@
     $('[data-xy="emotion"]').each(function(){
       var $xy = $(this)
         , data = $xy.data()
-      debugger
 
       $xy.emotion( data )
     })
