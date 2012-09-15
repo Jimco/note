@@ -225,34 +225,30 @@
         , data = $this.data('emotion')
         , options = typeof option == 'object' && option;
 
+    debugger
     if (!data) $this.data('emotion', (data = new xy.Emotion(this, options)));
     if (typeof option == 'string') data[option]()
     else if (options.decodeFace) data.decodeFace()
   }
-  
 
   $.fn.emotion.Constructor = xy.Emotion
 
-  $.fn.emotion.tpls = {
-    "default": "<div id='xyEmotion'></div>"
-  }
-
-
   $.fn.emotion.defaults = {
     facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
-    targetArea: "#content1", //目标文本框 selector
-    decodeArea: "#result",
-    offset: { "left": 0, "top": 0 }, //表情弹层相对于触发元素的位置
-    showEvent: "click", //暂时未做扩展
-    delay: 0,
-    tpl: $.fn.emotion.tpls["default"],
+    faceWrap: "xyEmotion",               // 表情弹层ID
+    targetArea: "#content1",             // 目标文本框 selector
+    decodeArea: "#result",               // 需要将表情字符转换成表情图片的区域 selector
+    offset: { "left": 0, "top": 0 },     // 表情弹层相对于触发元素的位置
+    showEvent: "click",                  // ** 暂未做扩展 **
+    delay: 0,                            // ** 暂未做扩展 **
+    tpl: "<div id='xyEmotion'></div>",   // 弹层wrapper
     faceType: [{
-      "type" : "default",
-      "name" : "默认",
-      "data" : [ "呵呵", "嘻嘻", "哈哈", "可爱", "可怜", "挖鼻屎", "吃惊", "害羞", "挤眼", "闭嘴", "鄙视", "爱你", "泪", "偷笑", "亲亲", "生病", "太开心", "懒得理你", "右哼哼", "左哼哼", "嘘", "衰", "委屈", "吐", "打哈欠", "抱抱", "怒", "疑问", "馋嘴", "拜拜", "思考", "汗", "困", "睡觉", "钱", "失望", "酷", "花心", "哼", "鼓掌", "晕", "悲伤", "抓狂", "黑线", "阴险", "怒骂", "OK", "耶", "good", "不要", "赞", "来", "弱", "伤心", "心", "给力", "威武", "囧", "礼物", "蛋糕" ],
-      "imgSuffix" : ".gif",
-      "imgPath" : "default/"
-    }]
+      "type": "default",
+      "name": "默认",
+      "imgPath": "default/",      
+      "imgSuffix": ".gif",
+      "data": [ "呵呵", "嘻嘻", "哈哈", "可爱", "可怜", "挖鼻屎", "吃惊", "害羞", "挤眼", "闭嘴", "鄙视", "爱你", "泪", "偷笑", "亲亲", "生病", "太开心", "懒得理你", "右哼哼", "左哼哼", "嘘", "衰", "委屈", "吐", "打哈欠", "抱抱", "怒", "疑问", "馋嘴", "拜拜", "思考", "汗", "困", "睡觉", "钱", "失望", "酷", "花心", "哼", "鼓掌", "晕", "悲伤", "抓狂", "黑线", "阴险", "怒骂", "OK", "耶", "good", "不要", "赞", "来", "弱", "伤心", "心", "给力", "威武", "囧", "礼物", "蛋糕" ]
+    }]                                   // 表情数组
   }
 
   //emotion data-api
@@ -260,6 +256,7 @@
     $('[data-xy="emotion"]').each(function(){
       var $xy = $(this)
         , data = $xy.data()
+      debugger
 
       $xy.emotion( data )
     })
