@@ -1,8 +1,22 @@
 /**
- * Emotion plugin
- * 2012-09-12
- * example: 1、$([selector]).emotion( options )
- *          2、用 data 来控制，在需要调用表情的元素上加上 data-xy="emotion"
+ *  Emotion plugin v1.0
+ *  Author: xiejiancong.com
+ *  Date: 2012-09-12
+ * 
+ * 参数设置
+ *  facePath:       // 表情图片文件夹路径
+ *  faceWrap:       // 控制表情弹层ID
+ *  targetArea:     // 目标文本框 selector( jQuery选择器 )
+ *  decodeAera:     // 表情字符转换成表情图片的区域
+ *  offset:         // 表情弹层的相对位置
+ *  tpl:            // 
+ *  faceType: 
+ *
+ *
+ * eg: 
+ *  1、$([selector]).emotion( options )
+ *  2、用 data 来控制，在需要调用表情的元素上加上 data-xy="emotion"
+ *
  */
 
 !function($){
