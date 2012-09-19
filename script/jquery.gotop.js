@@ -19,7 +19,7 @@
  *    scrollduration: 1000 
  *  });
  */
-(function($){
+!function($){
 
   $.xy = $.xy || {};
 
@@ -123,4 +123,4 @@
     return init();
   };
 
-})(window.jQuery);
+}(window.jQuery);
