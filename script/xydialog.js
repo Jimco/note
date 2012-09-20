@@ -32,25 +32,25 @@ var  Dialog = function(){};
         options = {},
         // 默认参数
         defaults = {
-          container:   null,      // string / object   弹处层内容的id或内容模板
-          overlay:     true,      // boolean       是否添加遮罩层
-          drag:       true,      // boolean       是否绑定拖拽事件
-          fixed:        true,      // boolean       是否静止定位
-          follow:      null,      // string / object   是否跟随自定义元素来定位
-          followX:     0,        // number        相对于自定义元素的X坐标的偏移
-          followY:     0,        // number           相对于自定义元素的Y坐标的偏移
-          autoClose:   0,        // number            自动关闭弹出层的时间
-          lock:        false,      // boolean           是否允许ESC键来关闭弹出层
-          callback:    null      // function          关闭弹出层后执行的回调函数
+          container: null,      // string /object 弹处层内容的id或内容模板
+          overlay: true,        // boolean 是否添加遮罩层
+          drag: true,           // boolean 是否绑定拖拽事件
+          fixed: true,          // boolean 是否静止定位
+          follow: null,         // string / object 是否跟随自定义元素来定位
+          followX: 0,           // number 相对于自定义元素的X坐标的偏移
+          followY: 0,           // number 相对于自定义元素的Y坐标的偏移
+          autoClose: 0,         // number 自动关闭弹出层的时间
+          lock: false,          // boolean 是否允许ESC键来关闭弹出层
+          callback: null        // function 关闭弹出层后执行的回调函数
           /** 
-           *  container为object时的参数格式
-           *  container : {
-           *    header : '弹出层标题',
-           *    content : '弹出层内容',
-           *    yesFn : function(){},      // 确定按钮的回调函数
-           *    noFn : function(){} / true,  // 取消按钮的回调函数
-           *    yesText : '确定',        // 确定按钮的文本，默认为‘确定’
-           *    noText : '取消'         // 取消按钮的文本，默认为‘取消’    
+           *  container为 object 时的参数格式
+           *  container: {
+           *    header: '弹出层标题',
+           *    content: '弹出层内容',
+           *    yesFn: function(){},        // 确定按钮的回调函数
+           *    noFn: function(){} / true,  // 取消按钮的回调函数
+           *    yesText: '确定',             // 确定按钮的文本，默认为‘确定’
+           *    noText: '取消'               // 取消按钮的文本，默认为‘取消’    
            *  }    
            */
         };
