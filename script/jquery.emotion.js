@@ -132,7 +132,7 @@
 
       var me = this
         , currentPos = me.element.offset()
-        , top = currentPos.top + pos.top + this.element.height()
+        , top = currentPos.top + pos.top + this.element.outerHeight()
         , left = currentPos.left + pos.left;
 
       $("#xyEmotion").css({position: "absolute", top: top, left: left});
@@ -274,4 +274,4 @@
     })
   })
 
-}(window.jQuery)
+}(window.jQuery);
