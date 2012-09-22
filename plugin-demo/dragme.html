@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../script/jquery-1.8.0.min.js"></script>
+  <script>
+
+    //Drag me
+    (function($){
+      $.fn.drag = function(options){
+        var defaultSetting = {
+
+        };
+        options = $.extend( {}, defaultSetting, options );
+        var $me = $(this),
+          _move = false,
+          _x, _y;
+        $me.mousedown(function(evt){
+          _move = true;
+          _x = evt.pageX - parseInt($me.offset().left);
+          _y = evt.pageY - parseInt($me.offset().top);
+          $me.css({position: "absolute",cursor: "move"}).fadeTo(20, 0.5);
+        });
+        $(document).mousemove(function(evt){
+          if(_move){
+            var x = evt.pageX - _x,
+              y = evt.pageY - _y;
+            $me.css({top: y,left: x})
+          }
+        })
+        .mouseup(function(evt){
+          _move = false;
+          $me.css({cursor: "pointer"}).fadeTo("fast", 1);
+        })
+      }
+    })(jQuery)
+
+
+    $(function() {
+
+      $(".move").drag();
+
+    });
+
+    
+
+  </script>
+</head>
+<body style="height:2000px;border:5px dashed #09f;">
+
+  <div id="test" style="text-align:center;">Click me!</div>
+
+  <p class="mousePos"></p>
+
+  <div class="move" style="width:200px;height:200px;background:#09f;position:absolute;left:100px;top:100px;">Drag me!</div>
+
+  <script type="text/javascript">
+
+    $("#test").on("click.reload", function(evt){
+      console.log(123);
+      window.parent.location = "http://www.xiejiancong.com"
+    })
+
+  </script>
+
+</body>
+</html>
