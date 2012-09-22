@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Demo</title>
+  <meta name="title" content="前端那些事儿" />
+  <meta name="description" content="记录前端开发的那些事儿！" />
+  <link rel="stylesheet" href="../../static/style/index.css" />
+  <link rel="stylesheet" href="xytip.css" />
+  <script src="../../script/jquery-1.8.0.min.js"></script>
+  <script src="../../script/jquery.xytip.js"></script>
+
+</head>
+<body style="height:2000px;">
+  <div id="blogTitle"></div>
+
+  <div class="mainWrap wrap">
+    <a class="tooltip" href="#" title="Hello world!" style="line-height:70px;margin:200px;">Hello world!</a>
+    <button class="yunMessages tooltip" title="云信">云信</button>
+    <div class="tooltip" title="Hello world!" style="width:100px;height:30px;border:1px solid #09f;text-align:center;line-height:30px;">Hello world</div>
+
+    <input class="tooltip" title="Hello world!" style="width:100px;height:30px;border:1px solid #09f;text-align:center;line-height:30px;margin:20px;" />
+
+    <div class="tooltip" original-title="木头人<img src='123.png'>" style="width:100px;height:30px;border:1px solid #09f;text-align:center;line-height:30px;">木头人</div>
+
+  </div>
+  <script>
+    $(".tooltip").xytip()
+  </script>
+</body>
+</html>
