@@ -4,16 +4,16 @@
  *  2012-09-15
  *   
  *  参数设置
- *  startline :         出现返回顶部按钮离顶部的距离
- *  scrollto :          滚动到距离顶部的距离，或者某个id元素的位置
- *  scrollduration :    平滑滚动时间
- *  fadeduration :      淡入淡出时间 eg:[ 500, 100 ] [0]淡入、[1]淡出
- *  controlHTML :       html代码 例如：<a href="javascript:;"><b>回到顶部↑</b></a> 也可以是图片
- *  className ：         样式名称
- *  titleName :         回到顶部的title属性
- *  offsetx :           回到顶部 right 偏移位置
- *  offsety :           回到顶部 bottom 偏移位置
- *  anchorkeyword :     猫点链接
+ *  startline:         出现返回顶部按钮离顶部的距离
+ *  scrollto:          滚动到距离顶部的距离，或者某个id元素的位置
+ *  scrollduration:    平滑滚动时间
+ *  fadeduration:      淡入淡出时间 eg:[ 500, 100 ] [0]淡入、[1]淡出
+ *  controlHTML:       html代码 例如：<a href="javascript:;"><b>回到顶部↑</b></a> 也可以是图片
+ *  className:         样式名称
+ *  titleName:         回到顶部的title属性
+ *  offsetx:           回到顶部 right 偏移位置
+ *  offsety:           回到顶部 bottom 偏移位置
+ *  anchorkeyword:     锚点链接
  * eg:
  *  $.goTop({
  *    scrollduration: 1000 
@@ -32,7 +32,7 @@
       fadeduration : [ 500, 100 ],  // 淡入淡出时间 ，[0]淡入、[1]淡出
       controlHTML : '<a href="javascript:;"><b>回到顶部</b></a>', // HTML代码
       className: 'totop',           // 样式名称下面DIV的样式
-      titleName: '回到顶部',         // 回到顶部的title属性
+      titleName: '回到顶部',          // 回到顶部的title属性
       offsetx : 0,                  // 回到顶部 right 偏移位置
       offsety : 25,                 // 回到顶部 bottom 偏移位置
       anchorkeyword : '#top'        // 锚点链接
