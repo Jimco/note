@@ -9,17 +9,29 @@
   var xy = xy || {};
 
   xy.Tab = function( element, options ){
-    this.options = $.extend({}, $.fn.tab.defaults, options)
-    this.$element = $(element)
+    this.options = $.extend({}, $.fn.tab.defaults, options);
+    this.$element = $(element);
+    this.tabBox = this.$element.children('div.tab_box').children('div');
+    this.menu = this.$element.children('ul.tab_menu');
+    this.items = this.menu.find('li');
 
   }
 
   xy.Tab.prototype = {
 
-    constructor: Tab,
+    constructor: xy.Tab,
 
-    show: function(){
-
+    tabHandle: function(elem){
+      elem.siblings( 'li' )
+        .removeClass( 'current' )
+        .end()
+        .addClass( 'current' );
+        
+      tabBox.siblings( 'div' )
+        .addClass( 'hide' )
+        .end()
+        .eq( elem.index() )
+        .removeClass( 'hide' );
     },
 
     delay: function(){
@@ -34,7 +46,21 @@
     },
 
     autoRun: function(){
-
+      var current = menu.find( 'li.current' )
+        , firstItem = items.eq(0)
+        , len = items.length
+        , index = current.index() + 1
+        , item = index === len ? firstItem : current.next( 'li' )
+        , i = index === len ? 0 : index;
+      
+      current.removeClass( 'current' );
+      item.addClass( 'current' );
+      
+      tabBox.siblings( 'div' )
+        .addClass( 'hide' )
+        .end()
+        .eq(i)
+        .removeClass( 'hide' );
     }
 
   }
@@ -66,4 +92,4 @@
     })
   })
 
-}(window.jQuery)
+}(jQuery)
