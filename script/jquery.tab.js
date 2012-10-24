@@ -14,20 +14,48 @@
     this.tabBox = this.$element.children('div.tab_box').children('div');
     this.menu = this.$element.children('ul.tab_menu');
     this.items = this.menu.find('li');
-
+    this.init();
   }
 
   xy.Tab.prototype = {
 
     constructor: xy.Tab,
 
+    init: function(){
+
+      var me = this
+        , $elem = this.$element
+        , options = this.options;
+
+      me.items.bind( options.event, function(){
+        me.delay( $elem, options.timeout );
+        if( options.callback ){
+          options.callback( $elem );
+        }
+      });
+      
+      if( options.auto ){
+        me.start();
+        $elem.hover(function(){
+          clearInterval( me.timer );
+          me.timer = undefined;
+        },function(){
+          me.start();
+        });
+      }
+      
+      return this;
+
+    },
+
     tabHandle: function(elem){
+      console.log("123123")
       elem.siblings( 'li' )
         .removeClass( 'current' )
         .end()
         .addClass( 'current' );
         
-      tabBox.siblings( 'div' )
+      this.tabBox.siblings( 'div' )
         .addClass( 'hide' )
         .end()
         .eq( elem.index() )
@@ -35,18 +63,20 @@
     },
 
     delay: function(){
-      var time = this.options.timeout
-      time ? setTimeout( function(){ tabHandle(elem) }, time) : tabHandle(elem)
+      var me = this
+        , time = this.options.timeout;
+      time ? setTimeout( function(){ me.tabHandle(me.items) }, time) : me.tabHandle(me.items)
     },
 
     start: function(){
-      var auto = this.options.auto
-      if( !auto ) return
-      timer = setInterval( autoRun, auto )
+      var me = this 
+        , auto = this.options.auto
+      if( !auto ) return;
+      me.timer = setInterval( me.autoRun, auto )
     },
 
     autoRun: function(){
-      var current = menu.find( 'li.current' )
+      var current = this.menu.find( 'li.current' )
         , firstItem = items.eq(0)
         , len = items.length
         , index = current.index() + 1
