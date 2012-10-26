@@ -247,7 +247,7 @@
   $.fn.emotion.Constructor = xy.Emotion
 
   $.fn.emotion.defaults = {
-    facePath: "file://localhost/Users/user/repo/cc/plugin-demo/emotion/smiles/", //表情图片路径
+    facePath: "../emotion/smiles/", //表情图片路径
     faceWrap: "xyEmotion",               // 表情弹层ID
     targetArea: "#content1",             // 目标文本框 selector
     decodeArea: "#result",               // 需要将表情字符转换成表情图片的区域 selector
