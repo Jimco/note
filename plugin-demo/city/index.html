@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>jQuery二级联动</title>
+  <script src="http://res.xiejiancong.com/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+
+  <script>
+    // 调用插件
+    // $(function(){
+    //   new CTK.ProvinceCity();
+    // });
+  </script>
+
+ <style>
+   #selectTest select{width:100px;float:left;margin-left:20px;}
+   .add{float:left;margin-left:20px;}
+ </style>
+ 
+</head>
+<body>
+
+  <div id="selectTest">
+    <select class="region" data-ctv="region"></select>
+    <select class="city" data-ctv="city"></select>
+  </div>
+  <button class="add">添加</button>
+   <script src="provinceCity.js" type="text/javascript"></script>
+</body>
+</html>
