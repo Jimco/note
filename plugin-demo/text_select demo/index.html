@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="keywords" content="关键字"/>
+  <meta name="description" content="描述内容"/>
+  <script type="text/javascript" src="textSelect.js"></script>
+</head>
+<body>
+  <p>&nbsp;<textarea id="text" style="width:300px;height:50px;">尼玛测试看看有没有bug</textarea></p>
+  <p>&nbsp;<input type="button" value="插入文字" onclick="insertText(document.getElementById('text'),'vvg')"></p>
+  <p>&nbsp;<input type="button" value="移到末尾" onclick="moveEnd(document.getElementById('text'))"></p>
+  <p>&nbsp;<input type="button" value="获取光标位置" onclick="alert(getCursortPosition(document.getElementById('text')));document.getElementById('text').focus();"></p>
+  <p>&nbsp;<input type="button" value="设置光标位置" onclick="setCaretPosition(document.getElementById('text'),prompt('设置位置',1))"></p>
+  <p>&nbsp;<input type="button" value="获取光标位置以及选中的文字" onclick="alert('start: ' + getCursorPosition('text').start + ' end: ' + getCursorPosition('text').end + ' text:' + getCursorPosition('text').text)"></p>
+
+</body>
+</html>
