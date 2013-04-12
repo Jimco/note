@@ -22,7 +22,7 @@
   $.xy.imgLazyLoad= function(options){
     // 构造最终参数(默认参数设置与自定义参数合并)
     var settings = $.extend({
-          lazySrcName : "src2",//存储img src的自定义属性名称
+          lazySrcName : "lazy-src",//存储img src的自定义属性名称
           scrollStep: 200//滚动步长
         }, options)   
      , imgLoadStatus = 0
