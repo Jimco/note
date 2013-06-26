@@ -1,3 +1,5 @@
+window.console || (console = { log: function(){}, dir: function(){}, error: function(){} });
+
 /**
  * 观察者模式
  * eg: 猫叫、老鼠跑、主人醒
