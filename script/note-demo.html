@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+</head>
+<body>
+  
+  <script src="http://res.xiejiancong.com/js/jquery-1.7.2.min.js"></script>
+  <script src="note.js"></script>
+  <script>
+    var jim = $.extend({
+      dangItDoug: function(numberStolen){
+        this.emit('stolenkill', numberStolen);
+      }
+    }, observer);
+
+    var alex = {
+      tauntJim: function(numStolen, dt){
+        $('body').append('<div>Jim, your incompetence has cost you ' + 
+            numStolen + (numStolen > 1 ? ' kills' : ' kill') + '.</div>');
+      }
+    }
+
+    jim.on('stolenkill', alex.tauntJim);
+    var i = 0;
+    jim.dangItDoug(++i);
+    jim.dangItDoug(++i);
+    jim.dangItDoug(++i);
+    jim.dangItDoug(++i);
+    jim.dangItDoug(++i);
+
+  </script>
+</body>
+</html>

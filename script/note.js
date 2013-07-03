@@ -180,3 +180,50 @@ Date.prototype.pattern = function (fmt) {
   }
   return fmt;
 };
+
+
+/**
+ * 观察者模式
+ */
+var observer = {
+  subscribers: {},
+
+  on: function(event, callback, context){
+    this.subscribers[event] = this.subscribers[event] || [];
+    this.subscribers[event].push({
+      callback: callback,
+      context: context
+    });
+  },
+
+  off: function(event, callback, context){
+    var idx, subs, sub;
+    if((subs = subscribers[event])){
+      idx = subs.length - 1;
+      while(idx >= 0){
+        sub = subs[event][idx];
+        if(sub.callback === callback && (!context || sub.context === context)){
+          subs[event].splice(idx, 1);
+          break;
+        }
+        idx--;
+      }
+    }
+  },
+
+  emit: function(event){
+    var idx = 0
+      , args = Array.prototype.slice.call(arguments, 1)
+      , subs, sub;
+
+    if((subs = this.subscribers[event])){
+      while(idx < subs.length){
+        sub = subs[idx];
+        sub.callback.apply(sub.context || this, args);
+        idx++;
+      }
+    }
+  }
+}
+
+
