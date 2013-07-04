@@ -230,7 +230,7 @@ var observer = {
 /**
  * 创建命名空间
  */
-(function(window, XY, undefined){
+var XY = (function(window, XY, undefined){
 
   XY.createNamespace = function(){
     var args = arguments
@@ -248,14 +248,14 @@ var observer = {
     return space;
   };
 
-  return window.XY = XY;
+  return XY;
 })(window, window.XY || {});
 
 
 /**
  * 观察者模式2
  */
-(function(window, pubsub, undefined){
+var pubsub = (function(window, pubsub, undefined){
 
   var topics = {}
     , subUid = -1;
@@ -302,7 +302,7 @@ var observer = {
     return false;
   };
 
-  return window.pubsub = pubsub;
+  return pubsub;
 
 })(window, window.pubsub || {});
 
