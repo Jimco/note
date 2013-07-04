@@ -123,7 +123,7 @@ Function.prototype.before = function(func){
     }
     return __self.apply(this, arguments);
   }
-}
+};
 
 Function.prototype.after = function(func){
   var  __self = this;
@@ -133,7 +133,7 @@ Function.prototype.after = function(func){
     if(ret) return ret;
     return func.apply(this, arguments);
   }
-}
+};
 
 
 /**   
@@ -224,6 +224,88 @@ var observer = {
       }
     }
   }
-}
+};
+
+
+/**
+ * 创建命名空间
+ */
+(function(window, XY, undefined){
+
+  XY.createNamespace = function(){
+    var args = arguments
+      , space = null
+      , arr, i, j, l;
+
+    for(i = 0, args.length; i < l; i++){
+      arr = ('' + args[i]).split('.');
+      space = XY;
+      for(j = 'XY' === arr[0] ? 1 : 0; j < arr.length; j++){
+        XY[arr[j]] = XY[arr[j]] || {};
+        space = space[arr[j]];
+      }
+    }
+    return space;
+  };
+
+  return window.XY = XY;
+})(window, window.XY || {});
+
+
+/**
+ * 观察者模式2
+ */
+(function(window, pubsub, undefined){
+
+  var topics = {}
+    , subUid = -1;
+
+  // 发布
+  pubsub.publish = function(topic, args){
+    if(!topics[topic]) return false;
+
+    setTimeout(function(){
+      var subscribers = topics[topic]
+        , len = subscribers ? subscribers.length : 0;
+
+      while(len--){
+        // debugger;
+        subscribers[len].func(topic, args);
+      }
+    }, 0);
+  };
+
+  // 订阅
+  pubsub.subscribe = function(topic, func){
+    if(!topics[topic]) topics[topic] = [];
+
+    var token = (++subUid).toString();
+    topics[topic].push({
+      token: token,
+      func: func
+    });
+    return token;
+  };
+
+  // 退订
+  pubsub.unsubscribe = function(token){
+    for(var m in topics){
+      if(topics[m]){
+        for(var i = 0, j = topics[m].length; i < j; i++){
+          if(topics[m][i].token === token){
+            topics[m].splice(i, 1);
+            return token;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  return window.pubsub = pubsub;
+
+})(window, window.pubsub || {});
+
+
 
 

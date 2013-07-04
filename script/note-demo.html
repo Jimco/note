@@ -6,7 +6,7 @@
 </head>
 <body>
   
-  <script src="http://res.xiejiancong.com/js/jquery-1.7.2.min.js"></script>
+  <script src="jquery-1.8.0.js"></script>
   <script src="note.js"></script>
   <script>
     var jim = $.extend({
@@ -29,6 +29,19 @@
     jim.dangItDoug(++i);
     jim.dangItDoug(++i);
     jim.dangItDoug(++i);
+
+    pubsub.subscribe('demoFunc1', function(topic, data){
+      console.log(topic, data);
+    });
+
+    pubsub.subscribe('demoFunc2', function(topic, data){
+      console.log(topic, data);
+    });
+
+    // pubsub.publish('demoFunc', 'Hello world !');
+    // pubsub.publish('demoFunc', ['text', 1, 2, 3]);
+    pubsub.publish('demoFunc1', [{order: 'first'}, {color: 'blue'}]);
+    pubsub.publish('demoFunc2', [{text: 'second'}, {color: 'red'}]);
 
   </script>
 </body>
