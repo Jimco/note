@@ -9,14 +9,14 @@
   "use strict"
 
   //namespace
-  var xy = xy || {}
+  var xy = xy || {};
 
   //Posfix class definition
   xy.Posfix = function(element, options){
-    this.$element = $(element)
-    this.$window = $(window).on("scroll.posfix.data-api resize.posfix.data-api", $.proxy(this.fixPosition, this))
-    this.options = $.extend({}, $.fn.posfix.defaults, options)
-    this.fixPosition()
+    this.$element = $(element);
+    this.$window = $(window).on("scroll.posfix.data-api resize.posfix.data-api", $.proxy(this.fixPosition, this));
+    this.options = $.extend({}, $.fn.posfix.defaults, options);
+    this.fixPosition();
   }
 
   xy.Posfix.prototype.fixPosition = function(evt){
@@ -29,15 +29,15 @@
       , offsetTop = this.options.offsetTop
       , pageWidth = this.options.pageWidth || $(document).width()
       , resizeLeft = ( this.$window.width() - pageWidth )/2 + offsetLeft
-      , posfix
+      , posfix;
 
-    this.$element.css({position: "fixed", top: offsetTop, left: offsetLeft})
+    this.$element.css({position: "fixed", top: offsetTop, left: offsetLeft});
 
-    if( !evt ) return
+    if( !evt ) return;
 
-    posfix = ( evt.type == "resize" ) ? {position: "fixed", top: offsetTop, left: resizeLeft} : ( scrollTop < offsetTop ) ? {position: "absolute", top: offsetTop, left: offsetLeft} : window.XMLHttpRequest ? {position: "fixed", top: 0, left: offsetLeft} : {position: "absolute", top: scrollTop, left: offsetLeft}
+    posfix = ( evt.type == "resize" ) ? {position: "fixed", top: offsetTop, left: resizeLeft} : ( scrollTop < offsetTop ) ? {position: "absolute", top: offsetTop, left: offsetLeft} : window.XMLHttpRequest ? {position: "fixed", top: 0, left: offsetLeft} : {position: "absolute", top: scrollTop, left: offsetLeft};
 
-    this.$element.css( posfix )
+    this.$element.css( posfix );
 
   }
 
@@ -46,9 +46,10 @@
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('posfix')
-        , options = typeof option == 'object' && option
-      if (!data) $this.data('posfix', (data = new xy.Posfix(this, options)))
-      if (typeof option == 'string') data[option]()
+        , options = typeof option == 'object' && option;
+
+      if (!data) $this.data('posfix', (data = new xy.Posfix(this, options)));
+      if (typeof option == 'string') data[option]();
     })
   }
 
@@ -65,10 +66,10 @@
   $(window).on("load", function(){
     $("[data-xy='posfix']").each(function(){
       var $xy = $(this)
-        , data = $xy.data()
+        , data = $xy.data();
 
-      $xy.posfix(data)
-    })
-  })
+      $xy.posfix(data);
+    });
+  });
 
-})(window.jQuery)
+})(window.jQuery);
