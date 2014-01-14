@@ -51,9 +51,55 @@ window.Message = (function(){
   }
 
   Messager.prototype.addTarget = function(target, name){
-
+    var targetObj = new Target(target, name);
+    this.targets[name] = targetObj;
   }
 
-  Messager.prototype
+  Messager.prototype.initListen = function(){
+    var me = this
+      , generalCallback = function(msg){
+          if(typeof msg == 'object' && msg.data){
+            msg = msg.data;
+          }
+
+          msg = msg.slice(prefix.length);
+          for(var i = 0; i < me.listenFunc.length; i++){
+            me.listenFunc[i](msg);
+          }
+        };
+
+    if(supportPostMessage){
+      if('addEventListener' in document){
+        window.addEventListener('message', generalCallback, false);
+      }
+      else if('attachEvent' in document){
+        window.attachEvent('onmessage', generalCallback);
+      }
+    }
+    else{
+      window.navigator[prefix + this.name] = generalCallback;
+    }
+  }
+
+  Messager.prototype.listen = function(callback){
+    this.listenFunc.push(callback);
+  }
+
+  Messager.prototype.clear = function(){
+    this.listenFunc = [];
+  }
+
+  Messager.prototype.send = function(msg){
+    var targets = this.targets
+      , target;
+
+    for(target in targets){
+      if(targets.hasOwnProperty(target)){
+        targets[target].send(msg);
+      }
+    }
+  }
+
+  return Messager;
 
 })();
