@@ -5,6 +5,7 @@ window.Message = (function(){
   var prefix = '[PROJECT_NAME]'
     , supportPostMessage = 'postMessage' in window;
 
+  // Target 类， 消息对象
   function Target(target, name){
     var errMsg = '';
 
@@ -42,7 +43,7 @@ window.Message = (function(){
     }
   }
 
-
+  // 信使类
   function Messager(name){
     this.targets = {};
     this.name = name;
