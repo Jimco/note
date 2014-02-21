@@ -212,20 +212,21 @@ IE7中引入的hasLayout成员
 4. 要求只用一个额外的 div 标签
 5. 要求用最少的 CSS，最少的 Hack 语句
 
-      .wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
-      .center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
-      .center{width: 100%; background: #eee;}
-      .left{width: 120px; margin-left: 100%; background: #ace; position: relative; left: -120px;}
-      .right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
+`
+.wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
+.center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
+.center{width: 100%; background: #eee;}
+.left{width: 120px; margin-left: 100%; background: #ace; position: relative; left: -120px;}
+.right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
 
-      <div class="header"></div>
-      <div class="wrap">
-        <div class="main"></div>
-        <div class="left"></div>
-        <div class="right"></div>
-      </div>
-      <div class="footer"></div>
-
+<div class="header"></div>
+<div class="wrap">
+<div class="main"></div>
+<div class="left"></div>
+<div class="right"></div>
+</div>
+<div class="footer"></div>
+`
 
 
 # 2. HTTP
