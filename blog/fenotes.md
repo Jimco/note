@@ -212,21 +212,21 @@ IE7中引入的hasLayout成员
 4. 要求只用一个额外的 div 标签
 5. 要求用最少的 CSS，最少的 Hack 语句
 
-`
-.wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
-.center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
-.center{width: 100%; background: #eee;}
-.left{width: 120px; margin-left: 100%; background: #ace; position: relative; left: -120px;}
-.right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
 
-<div class="header"></div>
-<div class="wrap">
-<div class="main"></div>
-<div class="left"></div>
-<div class="right"></div>
-</div>
-<div class="footer"></div>
-`
+        .wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
+        .center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
+        .center{width: 100%; background: #eee;}
+        .left{width: 120px; margin-left: 100%; background: #ace; position: relative; left: -120px;}
+        .right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
+        
+        <div class="header"></div>
+        <div class="wrap">
+        <div class="main"></div>
+        <div class="left"></div>
+        <div class="right"></div>
+        </div>
+        <div class="footer"></div>
+
 
 
 # 2. HTTP
@@ -314,18 +314,18 @@ JS 和浏览器提供的原生方法基本都是基于事件触发机制的，�
 Promise 对象是 CommonJS 工作组提出的一种规范，目的是为异步编程提供统一的接口。简单说，它的思想是，每一个异步任务返回一个 Promise 对象，该对象有一个 then 方法，允许指定回调函数。
 
 
-      var Promise = function(thens){
-        this.thens = thens || [];
-      }
-      Promise.prototype = {
-        resolve: function(){
-          var t = this.thens.shift(), n;
-          t && ( n ＝ t.apply(null, arguments), n instanceof Promise && ( n.thens = this.thens ) )
-        },
-        then: function(n){
-          return this.thens.push(n), this;
+        var Promise = function(thens){
+          this.thens = thens || [];
         }
-      }
+        Promise.prototype = {
+          resolve: function(){
+            var t = this.thens.shift(), n;
+            t && ( n ＝ t.apply(null, arguments), n instanceof Promise && ( n.thens = this.thens ) )
+          },
+          then: function(n){
+            return this.thens.push(n), this;
+          }
+        }
 
 ## 3.1 Javascript OO 简单说明
 
@@ -337,19 +337,19 @@ Promise 对象是 CommonJS 工作组提出的一种规范，目的是为异步�
 2. this, 代表调用这个函数的对象
 3. prototype, 用它来定义成员函数，比较规范和保险
 
-      // 定义 Circle 类，拥有成员变量 r，常量 PI 和计算面积的成员函数 area()
-      function Circle(radius){
+        // 定义 Circle 类，拥有成员变量 r，常量 PI 和计算面积的成员函数 area()
+        function Circle(radius){
         this.r = radius;
-      }
-
-      Circle.PI = 3.1415926;
-      Circle.prototype.area = function(){
+        }
+        
+        Circle.PI = 3.1415926;
+        Circle.prototype.area = function(){
         return Circle.PI * this.r * this.r;
-      }
-
-      // 使用 Circle 类
-      var c = new Circle(1.0);
-      console.log(c);
+        }
+        
+        // 使用 Circle 类
+        var c = new Circle(1.0);
+        console.log(c);
 
 另外成员函数也可以写成这样：
 
@@ -366,25 +366,25 @@ Promise 对象是 CommonJS 工作组提出的一种规范，目的是为异步�
 1. 定义继承关系 `ChildCircle.prototype = new Circle(0);` 其中 0 是占位用的
 2. 调用父类的构造函数
 
-      // 定义 ChildCircle 子类
-      function ChildCircle(radius){
+        // 定义 ChildCircle 子类
+        function ChildCircle(radius){
         this.base = Circle;
         this.base(radius);
-      }
-
-      ChildCircle.prototype = new Circle(0);
-
-      function Circle_max(a, b){
+        }
+        
+        ChildCircle.prototype = new Circle(0);
+        
+        function Circle_max(a, b){
         return (a.r > b.r) ? a : b;
-      }
-
-      ChildCircle.max = Circle_max;
-
-      // 使用 ChildCircle 子类
-      var c = new ChildCircle(1);
-      var d = new ChildCircle(2);
-      var bigger = d.max(c, d);
-      console.log(bigger.area());
+        }
+        
+        ChildCircle.max = Circle_max;
+        
+        // 使用 ChildCircle 子类
+        var c = new ChildCircle(1);
+        var d = new ChildCircle(2);
+        var bigger = d.max(c, d);
+        console.log(bigger.area());
 
 ### var 式定义
 
