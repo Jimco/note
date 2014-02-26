@@ -201,7 +201,6 @@ IE7中引入的hasLayout成员
 * max-height: 除 `none` 之外的任意值
 
 
-
 ## 1.1 圣杯布局
 
 经典的三列布局，也叫做圣杯布局【Holy Grail of Layouts】，是Kevin Cornell在2006年提出的一个布局模型概念，在国内最早是由淘宝UED的工程师传播开来，在中国也有叫法是双飞翼布局，它的布局要求有几点：
@@ -232,6 +231,15 @@ IE7中引入的hasLayout成员
 # 2. HTTP
 
 Http 定义了与服务器交互的不同方法，最基本的方法有 4 种，分别是 `GET、POST、PUT、DELETE`。URL 全称是资源描述符，我们可以这样认为：一个 URL 地址，它用于描述一个网络上的资源，而 HTTP 中的 `GET、POST、PUT、DELETE` 就对应着这个资源的 `查、该、增、删` 4个操作。
+
+在传统的模式，用户请求的生命周期如下：
+
+1. 浏览器发送一个 HTTP 请求到 Web 服务器。
+2. Web 服务器解析请求，然后读取数据存储层，制定一个 HTML 文件，并用一个 HTTP 响应把它发送到客户端。
+3. HTTP 响应通过互联网传送到浏览器。
+4. 浏览器解析 Web 服务器的响应，使用 HTML 文件构建了一个的 DOM 树，并且下载引用的 CSS 和 JavaScript 文件。
+5. CSS 资源下载后，浏览器解析它们，并将它们应用到 DOM 树。
+6. JavaScript 资源下载后，浏览器解析并执行它们。
 
 
 
@@ -332,6 +340,7 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
           }
         }
 
+
 ## 3.1 Javascript OO 简单说明
 
 ### 简单栗子
@@ -405,6 +414,7 @@ JS 还支持一种 `var Circle = { radius: 1.0, PI: 3.1415926 }` 的形式，因
 
     console.log(newCircle.area());
 
+
 ## 3.2 Javascript 跨域总结
 
 ### 什么情况会跨域
@@ -468,6 +478,127 @@ JS 还支持一种 `var Circle = { radius: 1.0, PI: 3.1415926 }` 的形式，因
 参考资料：[Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage)
 
 6. 利用 Flash
+
+
+## 3.3 Javascript 事件机制
+
+事件触发有 3 个阶段
+1. document 往事件触发地点，捕获前进，遇到相同注册事件立即触发
+2. 到达事件位置，触发事件（**如果该处既注册了冒泡事件，也注册了捕获事件，按照注册顺序执行**）
+3. 事件触发地点往 document 方向，冒泡前进，遇到相同注册事件立即触发
+
+
+几个注意点：
+
+* `event.target` 和 `event.currentTarget` 的区别：
+真正的事件 dispatch 者是 `event.target`，监听事件(addEventListener/attachEvent)的对象是 `event.currentTarget`。
+
+* `event.stopPropagation()` 阻止了事件的冒泡，还阻止了事件的继续捕获
+
+* `event.stopImmediatePropagation()` 不仅阻止事件的传播，还阻止了该元素上绑定的其它函数的执行
+
+* `setCapture` 和 `releaseCapture`, 这两个是 IE 下的事件绑定函数，对指定对象设置/释放鼠标捕获，只要我们在某个元素上 setCapture 了，那么你在任何地方的鼠标操作（mouseXXX之类的动作）都会在这个元素上触发（前提是你在这个元素上绑定了事件），releaseCapture 或者本窗口失去聚焦才会释放这个绑定
+
+
+## 3.4 前端模块化开发的价值
+
+主要解决：命名冲突、文件依赖。
+其他：模块版本管理、提高可维护性、前端性能优化、跨环境共享模块
+
+### 14.1 模块化加载的实现原理
+
+1. 数据模块的加载：Ajax (存在跨域问题)、创建 script 标签
+
+2. 解析模块的层次依赖关系：一般采用正则匹配
+
+3. 添加事件机制，优化管理代码
+
+
+Seajs，模块的加载采用的是创建文本节点，让文档去加载模块，实时查看状态为 interactive 的 script 标签，如果处于交互状态就拿到它的代码，接着删除节点。当节点数目为 0 的时候，加载工作完成。
+在 Seajs 中，所有 Javascript 模块都遵循 CMD 模块定义规范，该规范明确了模块的基本书写格式和基本交互规则。
+
+
+## 3.5 Javascript 中的内存管理
+
+无论哪种语言，内存的生命周期差不多总是相同的：
+
+1. 分配你需要的内存
+2. 使用它（读、写）
+3. 当不再需要已分配的内存时释放它
+
+js 中，大部分内存管理问题出现在释放内存阶段l，基本问题在于无法确定一些内存是否“不再被需要”。高阶语言的的解释器包含一个称为“垃圾收集器”的软件，它的工作是追踪内存的分配使用，以便在于不再需要某个已分配的内存时发现，并自动释放它。
+
+垃圾回收算法：
+
+1. 引用计数式
+
+引发内存泄漏的主要方式：循环引用、内部函数引用（闭包）、页面交叉泄漏、貌似泄漏
+    
+    function f(){
+      var o = {};
+      var o2 = {};
+      o.a = o2;
+      o2.a = o;
+      return 'azerty';
+    }
+    f();
+
+2. 标记 - 扫描式
+
+这个算法将定义“一个对象不再被需要”，缩小为“一个对象不能被到达”。算法假设一组称为 roots 的对象（在 js 中，roots 是全局对象）。垃圾收集器会定期地从 root 开始查找所有被 root 引用的对象，然后是所有被这些对象引用的对象，以此类推。由于是从 root 开始，因此垃圾收集器将找到所有可以到达的对象，并收集所有不可到达的对象。
+
+参考资料：
+
+[Javascript中的内存管理](https://developer.mozilla.org/zh-CN/docs/JavaScript/Javascript%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86)
+
+[理解并解决IE的内存泄漏方式](http://birdshome.cnblogs.com/archive/2006/05/28/IE_MemoryLeak.html)
+
+
+## 3.6 WebSocket 协议
+
+### Web 的交互过程
+
+Web 应用典型的信息交互过程通常是：客户端通过浏览器发出一个请求，服务端接收请求后进行处理并返回结果给客户端，然后客户端浏览器将信息呈现出来。
+
+这种机制对于信息交互不是特别频繁的应用尚能相安无事，但是对于那些实时要求比较高的应用来说（比如在线游戏），当客户端浏览器准备呈现获取到的信息的时候，这些信息在服务器端可能已经过时，所以，保持客户端和服务器端的信息同步是实时 Web 应用的关键要素。
+在 WebSocket 规范出来之前，开发人员想实现这种应用，不得不采用一些折中的方案，其中最常用的就是轮询（Polling）和 Comet（轮询的改进版本，又可细分为长轮询机制与流技术）技术。这几种方案基本都是在用 Ajax 来模拟实时的效果，服务器与客户端编程都比较复杂，而且效率不高。
+
+HTML5 WebSocket 设计出来的目的就是要取代轮询和 Comet 技术，是客户端浏览器具备像 C/S 架构下桌面系统的实时通讯能力。浏览器向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。因为 WebSocket 连接本质上就是一个 TCP 连接，所以在数据传输的稳定性和数据传输量的大小方面，和轮询以及 Comet 技术比较，具有很大的性能优势。
+
+### WebSocket 协议
+
+WebSocket 协议本质上是一个基于 TCP 协议。为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息 ”Upgrade: WebSocket” 表明这是一个申请协议升级的 HTTP 请求(详细的 WebSocket 消息的内容这里就不详细说了，基本和 HTTP 的差不多，而且都是由 WebSocket 对象自动发送和接收的，对用户透明)，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接。
+
+WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间范围内的任意时刻，相互推送信息。WebSocket 并不限于以 Ajax (或 XmlHttpRequest )方式通信，因为 Ajax 技术需要客户端发起请求，而 WebSocket 服务器和客户端可以彼此相互推送信息；XmlHttpRequest 通信受到域的限制，而 WebSocket 允许跨域通信。 
+
+需要注意的问题是，除了安全和性能以外，服务端只管往 socket 里面写数据就可以了，WebSocket 的通信数据全部是以 ”\x00″ 开头以 ”\xFF” 结尾的，无论是服务端发出的数据还是客户端发送的数据都遵从这个格式，唯一不同的是客户端的 WebSocket 对象能够自动将头尾去除，获得主体数据，这就省却了在客户端处理原始数据的必要，而且 WebSocket 通信的消息总是 UTF-8 格式的。 
+
+[参考资料](http://www.cnblogs.com/dxy1982/archive/2012/01/19/2325419.html)
+
+
+## 3.7 Web Worker 多线程
+
+在 HTML5 之前，浏览器中的 Javascript 的运行都是以单线程的方式工作的，虽然有多种方式实现了对多线程的模拟（例如：Javascript 中的 setInterval 、setTimeout 方法等），但是在本质上程序的运行仍然是由 Javascript 引擎以单线程调度的方式进行的。在HTML5 中引入的工作线程使得浏览器端的 Javascirpt 引擎可以并发地执行 Javascript 代码，从而实现了对浏览器端多线程编程的良好支持。
+
+[参考资料](http://www.cnblogs.com/dxy1982/archive/2012/08/06/2359202.html)
+
+
+## 3.8 雅虎14条前端性能优化原则
+
+1. 尽可能的减少 HTTP 的请求数 [content]
+2. 使用 CDN（Content Delivery Network） [server]
+3. 添加 Expires 头(或者 Cache-control ) [server]
+4. Gzip 组件 [server]
+5. 将 CSS 样式放在页面的上方 [css]
+6. 将脚本移动到底部（包括内联的） [javascript]
+7. 避免使用 CSS 中的 Expressions [css]
+8. 将 JavaScript 和 CSS 独立成外部文件 [javascript] [css]
+9. 减少 DNS 查询 [content]
+10. 压缩 JavaScript 和 CSS (包括内联的) [javascript] [css]
+11. 避免重定向 [server]
+12. 移除重复的脚本 [javascript]
+13. 配置实体标签（ETags） [css]
+14. 使 AJAX 缓存 
 
 
 
