@@ -426,11 +426,11 @@ JS 还支持一种 `var Circle = { radius: 1.0, PI: 3.1415926 }` 的形式，因
 
 ### Ajax 跨域解决办法
 
-1. document.domain + iframe
+(1) document.domain + iframe
 
 对于主域相同而子域不同的例子，可以通过设置 document.domain 的办法来解决。具体的做法是可以在 http://www.a.com/a.html 和 http://script.a.com/b.html 两个文件中分别加上 `document.domain = 'a.com';` 然后通过 a.html 文件中创建一个 iframe，去控制 iframe 的 contentDocument。当然这种办法只能解决主域相同而二级域名不同的情况。
 
-2. 动态创建 script (jsonp)
+(2) 动态创建 script (jsonp)
 
         var loadJsonp = (function(){
             var seq = new Date() * 1;
@@ -463,26 +463,27 @@ JS 还支持一种 `var Circle = { radius: 1.0, PI: 3.1415926 }` 的形式，因
             };
           }());
 
-3. 利用 iframe 和 location.hash
+(3) 利用 iframe 和 location.hash
 
 这个办法比较绕，但是可以解决完全跨域情况下的脚步置换问题。原理是利用 location.hash 来进行传值。在 url: http://a.com#helloword 中的 `#helloworld` 就是 location.hash，改变 hash 并不会导致页面刷新，所以可以利用 hash 值来进行数据传递，当然数据容量是有限的。假设域名 a.com 下的文件 cs1.html 要和 cnblogs.com 域名下的 cs2.html 传递信息，cs1.html 首先创建自动创建一个隐藏的 iframe，iframe 的 src 指向 cnblogs.com 域名下的 cs2.html 页面，这时的 hash 值可以做参数传递用。cs2.html 响应请求后再将通过修改 cs1.html 的 hash 值来传递数据（由于两个页面不在同一个域下 IE、Chrome 不允许修改 parent.location.hash 的值，所以要借助于 a.com 域名下的一个代理 iframe，Firefox可以修改）。同时在 cs1.html 上加一个定时器，隔一段时间来判断 location.hash 的值有没有变化，一点有变化则获取获取 hash 值。
 
-4. window.name 实现跨域数据传输
+(4) window.name 实现跨域数据传输
 
 `name` 在浏览器环境中是一个全局 window 对象属性，当在 iframe 中加载新页面时，`name` 的属性值依旧保持不变，`name` 属性仅对相同域名的 iframe 可访问。
 总结起来即：iframe 的 src 属性由外域转向本地域，跨域数据即由 iframe 的 window.name 从外域传递到本地域。这个就巧妙地绕过了浏览器的跨域访问限制，但同时它又是安全操作。
 
-5. 利用 HTML5 postMessage
+(5) 利用 HTML5 postMessage
 
 `postMessage` 是 HTML5 新增 API 之一，下一代浏览器支持这个功能 Chrome 2.0+, Internet Explorer 8.0+, Firefox 3.0+, Opera 9.6+, 和 Safari 4.0+ 。
 参考资料：[Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage)
 
-6. 利用 Flash
+(6) 利用 Flash
 
 
 ## 3.3 Javascript 事件机制
 
 事件触发有 3 个阶段
+
 1. document 往事件触发地点，捕获前进，遇到相同注册事件立即触发
 2. 到达事件位置，触发事件（**如果该处既注册了冒泡事件，也注册了捕获事件，按照注册顺序执行**）
 3. 事件触发地点往 document 方向，冒泡前进，遇到相同注册事件立即触发
@@ -530,7 +531,7 @@ js 中，大部分内存管理问题出现在释放内存阶段l，基本问题�
 
 垃圾回收算法：
 
-1. 引用计数式
+(1) 引用计数式
 
 引发内存泄漏的主要方式：循环引用、内部函数引用（闭包）、页面交叉泄漏、貌似泄漏
     
@@ -543,7 +544,7 @@ js 中，大部分内存管理问题出现在释放内存阶段l，基本问题�
     }
     f();
 
-2. 标记 - 扫描式
+(2) 标记 - 扫描式
 
 这个算法将定义“一个对象不再被需要”，缩小为“一个对象不能被到达”。算法假设一组称为 roots 的对象（在 js 中，roots 是全局对象）。垃圾收集器会定期地从 root 开始查找所有被 root 引用的对象，然后是所有被这些对象引用的对象，以此类推。由于是从 root 开始，因此垃圾收集器将找到所有可以到达的对象，并收集所有不可到达的对象。
 
