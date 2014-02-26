@@ -10,7 +10,11 @@
       this[j] = temp;
     }
 
-    /* 快速排序 */
+    /**
+     * 快速排序
+     * 基本思路：取数组中间索引的记录为基准元素，遍历把所有比基准元素小的记录放在前一部分，
+     * 把所有比基准元素大的记录放在后一部分，递归遍历
+     */
     function quickSort(arr){
       if(arr.length <= 1) return arr;
 
@@ -29,7 +33,11 @@
       return quickSort(left).concat([pivot], quickSort(right));
     }
 
-    /* 插入排序 */
+    /**
+     * 插入排序
+     * 基本思路：从无序区的第一个元素开始和它前面的有序区的元素进行比较，如果比前面的元素小，
+     * 那么前面的元素向后移动，否则就将此元素插入到相应的位置 
+     */
     function insertSort(arr){
       var len = arr.length
         , i = 1
@@ -50,7 +58,10 @@
       return arr;  
     }
 
-    /* 冒泡排序 */
+    /**
+     * 冒泡排序
+     * 基本思路：通过在无序区的相邻元素的比较和替换，使较小的元素浮到最上面
+     */
     function bubbleSort(arr){
       var len = arr.length
         , i, j;
@@ -63,6 +74,29 @@
             arr[j] = d;
           }
         }
+      }
+      return arr;  
+    }
+
+    /**
+     * 冒泡排序（改进版）
+     * 基本思路：如果在某次的排序中没有出现交换的情况，那么说明无序的元素现在已经是有序的了，就可以直接返回
+     */
+    function bubbleSort(arr){
+      var len = arr.length
+        , i, j, exchange;
+
+      for(i = len - 1; i >= 1; i--){
+        exchange = 0;
+        for(j = 0; j <= i - 1; j++){  
+          if(arr[j] > arr[j + 1]){  
+            d = arr[j + 1];
+            arr[j + 1] = arr[j];
+            arr[j] = d;
+            exchange = 1;
+          }
+        }
+        if(!exchange) return arr;
       }
       return arr;  
     }
