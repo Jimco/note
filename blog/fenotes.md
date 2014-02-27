@@ -101,6 +101,30 @@
       return arr;  
     }
 
+    /**
+     * 选择排序
+     * 基本思路：在无序区中选出最小的元素，然后将它们和无序区的第一个元素交换位置
+     */
+    function selectSort(arr){
+      var len = arr.length
+        , i, j, k, temp;
+
+      for(i = 0; i < len; i++){
+        k = i;
+        for(j = i + 1; j < len; j++){
+          if(arr[k] > arr[j]) k = j;
+        }
+
+        if(k !== i){
+          temp = arr[k];
+          arr[k] = arr[i];
+          arr[i] = temp;
+        }
+      }
+
+      return arr;
+    }
+
     /* 堆排序 */
     function heapSort(arr){
       for(var i = 1; i < arr.length; ++i){
