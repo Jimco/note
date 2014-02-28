@@ -144,35 +144,50 @@
       return arr;
     }
 
-    /* 希尔排序 */
-    function ShellSort(arr){ //插入排序->希儿排序
-      var st = new Date();
-      var increment = arr.length;
-      do {
-       increment = (increment/3|0) + 1;
-       arr = ShellPass(arr, increment);
-      }
-      while (increment > 1)
+    /**
+     * 希尔排序
+     * 基本思路：我们在第 i 次时取 gap = n/(2的i次方)，
+     * 然后将数组分为 gap 组(从下标0开始，每相邻的gap个元素为一组)，接下来我们对每一组进行直接插入排序。
+     */
+    function ShellSort(arr){
+      var len = arr.length
+        , gap = parseInt(len/2)
+        , i, j, temp;
 
-      status = (new Date() - st) + ' ms';
-      return arr;
-    }
+      while(gap > 0){
+        for(i = gap; i < len; i++){
+          temp = arr[i];
+          j = i - gap;
 
-    function ShellPass(arr, d){ //希儿排序分段执行函数
-      var temp, j;
-      for(var i = d; i < arr.length; i++) {
-        if((arr[i]) < (arr[i-d])) {
-          temp = arr[i]; j = i - d;
-          do {
-            arr[j+d] = arr[j];
-            j = j-d;
+          while(j >= 0 && temp < arr[j]){
+            arr[j + gap] = arr[j];
+            j = j - gap;
           }
-          while (j >- 1 && (temp) < (arr[j]));
-          arr[j + d] = temp;
+
+          arr[j + gap] = temp;
         }
+        gap = parseInt(gap/2);
       }
       return arr;
     }
+
+    /**
+     * 归并排序
+     * 基本思路：
+     * (1)归并：
+     *
+     * (2)排序：
+     * 
+     */
+    function merge(arr, low, mid, high){
+
+    }
+
+    function mergePass(arr, length, n){
+
+    }
+
+    function mergeSort(arr){}
 
 
 
