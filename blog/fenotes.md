@@ -288,14 +288,14 @@ IE7中引入的hasLayout成员
         .wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
         .center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
         .center{width: 100%; background: #eee;}
-        .left{width: 120px; margin-left: 100%; background: #ace; position: relative; left: -120px;}
+        .left{width: 120px; margin-left: -100%; background: #ace; position: relative; left: -120px;}
         .right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
         
         <div class="header"></div>
         <div class="wrap">
-        <div class="main"></div>
-        <div class="left"></div>
-        <div class="right"></div>
+          <div class="center"></div>
+          <div class="left"></div>
+          <div class="right"></div>
         </div>
         <div class="footer"></div>
 
@@ -710,6 +710,23 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 (16) 享元模式
 
 (17) 状态模式
+
+
+## 3.10 前端 MV* 框架的意义
+
+早期前端都是比较简单，基本以页面为工作单元，内容以浏览型为主，也偶尔有简单的表单操作，这个时期每个界面上只有很少的 JavaScript 逻辑，基本不太需要框架。随着 Ajax 的出现，Web2.0 的兴起，人们可以在页面上可以做比较复杂的事情了，然后前端框架才真正出现了，以 jQuery 为代表，针对界面上常见的 DOM 操作，远程请求，数据处理等作了封装，也有专注于处理数据的 Underscore，严格来说，这些都不能算框架，而是算库。
+
+库和框架是有一些区别的：库是一种工具，我提供了，你可以不用，即使你用了，也没影响你自己的代码结构。框架则是面向一个领域，提供一套解决方案，如果你用我，就得按照我的方式办事。按照这个定义，jQuery 和 Underscore 都只能算是库，ExtJS 和 dojo 算框架。
+
+jQuery 的思维方式是：以 DOM 操作为中心
+MV* 框架的思维方式是：以模型为中心，DOM 操作只是附加
+
+## 3.11 Javascript 的类型转换
+
+
+
+
+
 
 
 
