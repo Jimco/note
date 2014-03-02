@@ -414,7 +414,7 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
         }
 
 
-## 3.1 Javascript OO 简单说明
+## 3.1 Javascript OO 
 
 ### 简单栗子
 
@@ -446,46 +446,290 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
 
     Circle.prototype.area = compute_area;
 
-### 继承
+### 创建对象
 
-注意两点：
+（1）工厂模式
 
-1. 定义继承关系 `ChildCircle.prototype = new Circle(0);` 其中 0 是占位用的
-2. 调用父类的构造函数
+    function createPerson(name, age, job){
+      var o = new Object();
+      o.name = name;
+      o.age = age;
+      o.job = job;
+      o.sayName = function(){
+        console.log(this.name);
+      }
 
-        // 定义 ChildCircle 子类
-        function ChildCircle(radius){
-        this.base = Circle;
-        this.base(radius);
-        }
-        
-        ChildCircle.prototype = new Circle(0);
-        
-        function Circle_max(a, b){
-        return (a.r > b.r) ? a : b;
-        }
-        
-        ChildCircle.max = Circle_max;
-        
-        // 使用 ChildCircle 子类
-        var c = new ChildCircle(1);
-        var d = new ChildCircle(2);
-        var bigger = d.max(c, d);
-        console.log(bigger.area());
+      return o;
+    }
 
-### var 式定义
+    var person1 = createPerson('jimco', 24, 'Front-end Engineer');
+    var person2 = crestePerson('Lucy', 25, 'Dcotor');
 
-JS 还支持一种 `var Circle = { radius: 1.0, PI: 3.1415926 }` 的形式，因此如果 Circle 只有一个实例，下面的定义方式更简洁：
+（2）构造函数模式
 
-    var newCircle = {
-      r: 1.0,
-      PI: 3.14.15926,
-      area: function(){
-        return this.PI * this.r * this.r;
+    function Person(name, age, job){
+      this.name = name;
+      this.age = age;
+      this.job = job;
+      this.sayName = function(){
+        console.log(this.name);
+      }
+    }
+    
+    var person1 = new Person('jimco', 24, 'Front-end Engineer');
+    var person2 = new Person('Lucy', 25, 'Dcotor');
+
+创建 Person 的新实例，必须使用 `new` 操作符，以这种方式调用构造函数实际上会经历以下 4 个步骤：
+
+1. 创建一个新对象
+2. 将构造函数的作用域赋给新对象（因此 this 就指向这个新对象）
+3. 执行构造函数中的代码（为这个对象添加属性） 
+4. 返回新对象
+
+（3）原型模式
+
+    function Person(){}
+
+    Person.prototype.name = 'jimco';
+    Person.prototype.age = '24';
+    Person.prototype.job = 'Front-end Engineer';
+    Person.prototype.sayName = function(){
+      console.log(this.name);
+    };
+
+    var person1 = new Person();
+    var person2 = new Person();
+    console.log(person1.sayName == person2.sayName); // true
+
+更简单的原型语法：
+
+    function Person(){}
+
+    Person.prototype = {
+      constructor: Person,
+      name: 'jimco',
+      age: 24,
+      job: 'Front-end Engineer',
+      sayName: function(){
+        console.log(this.name);
       }
     }
 
-    console.log(newCircle.area());
+（4）组合使用构造函数模式和原型模式
+
+    function Person(name, age, job){
+      this.name = name;
+      this.age = age;
+      thia.job = job;
+      this.friends = ['Shelby', 'Court'];
+    }
+
+    Person.prototype = {
+      constructor: Person,
+      sayName: function(){
+        console.log(this.name);
+      }
+    }
+
+    var person1 = new Person('jimco', 24, 'Front-end Engineer');
+    var person2 = new Person('Lucy', 25, 'Dcotor');
+
+    person1.friends.push('Van');
+
+    console.log(person1.friends);
+    console.log(person2.friends);
+    console.log(person1.friends === person2.friends); // false
+    console.log(person1.sayName === person2.sayName); // true
+
+
+
+
+### 继承
+
+基本思想：利用原型让一个引用类型继承另一个引用类型的属性和方法。
+
+每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针(constructor)，而示例都包含一个指向原型对象的内部指针。那么，假如我们让原型对象等于另一个类型的示例，显然，此时的原型对象将包含一个指向另一个原型的指针，相应地，另一个原型中也包含这一个指向另一个构造函数的指针。假如另一个原型又是另一个类型的示例，如此层层递进，就构成了实例与原型的链条。这就是原型链的基本概念。
+
+原型链基本模式：
+
+    function SuperType(){
+      this.property = true;
+    }
+
+    SuperType.prototype.getSuperVal = function(){
+      return this.property;
+    }
+
+    function SubType = {
+      this.subproperty = false;
+    }
+
+    SubType.prototype = new SuperType();
+    SubType.prototype.constructor = SubType; // 若不重写则指向 SuperType
+
+    SubType.prototype.getSubVal = function(){
+      return this.subproperty;
+    }
+
+    var instance = new SubType();
+    console.log(instance.getSuperVal()); // true
+
+原型链的问题：包含引用类型值的属性会被所有实例共享。
+    
+    function SuperType(){
+      this.colors = ['red', 'green', 'blue'];
+    }
+
+    function SubType(){}
+
+    SubType.prototype = new SuperType();
+
+    var instance1 = new SubType();
+    instance1.colors.push('black');
+    console.log(instance1.colors); // ['red', 'green', 'blue', 'black']
+
+    var instance2 = new SubType();
+    console.log(instance2.colors); // ['red', 'green', 'blue', 'black']
+
+借用构造函数：
+
+    function SuperType(){
+      this.colors = ['red', 'green', 'blue'];
+      this.getColors = function(){
+        console.log(this.colors);
+      }
+    }
+
+    function SubType(){
+      // 继承了 SuperType
+      SuperType.call(this);
+    }
+
+    var instance1 = new SubType();
+    instance1.colors.push('black');
+    console.log(instance1.colors); // ['red', 'green', 'blue', 'black']
+
+    var instance2 = new SubType();
+    console.log(instance2.colors); // ['red', 'green', 'blue']
+
+缺陷：方法都在构造函数中定义，复用无从谈起。而且在超类型的原型中定义的方法，对子类型而言也是不可见的
+
+组合继承：
+
+    function SuperType(name){
+      this.name = name;
+      this.colors = ['red', 'green', 'blue'];
+    }
+
+    SuperType.prototype.sayName = function(){
+      console.log(this.name);
+    }
+
+    function SubType(name, age){
+      SuperType.call(this, name); // 继承属性
+      this.age = age;
+    }
+
+    SubType.prototype = new SuperType(); // 继承方法
+
+    SubType.prototype.sayAge = function(){
+      console.log(this.age);
+    }
+
+    var instance1 = new SubType('jimco', 24);
+    instance1.colors.push('black');
+    console.log(instance1.colors); // ['red', 'green', 'blue', 'black']
+    instance1.sayName();           // 'Jimco'
+    instance1.sayAge();            // 24
+
+    var instance2 = new SubType('Lucy', 25);
+    console.log(instance2.colors); // ['red', 'green', 'blue']
+    instance2.sayName();           // 'Lucy'
+    instance2.sayAge();            // 25
+
+原型式继承：
+
+    function object(o){
+      function F(){};
+      F.prototype = o;
+      return new F();
+    }
+
+    var person = {
+      name: 'jimco',
+      friends: ['Shelby', 'Court', 'Van']
+    }
+
+    var person1 = object(person);
+    person1.name = 'Greg';
+    person1.friends.push('Bob');
+
+    var person2 = object(person);
+    person2.name = 'Linda';
+    person2.friends.push('Barbie');
+
+    console.log(person2.friends); // ['Shelby', 'Court', 'Van', 'Bob', 'Barbie']
+
+object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
+
+在没有必要兴师动众地创建构造函数的，而只想让一个对象与另一个对象保持类似的情况下，原型式继承完全是可以胜任的。不过，包含引用类型值的属性始终都会共享相应的值，就像使用原型模式一样
+
+寄生式继承：
+
+    function createAnother(original){
+      var clone = object(original); // 通过调用函数创建一个新对象
+      clone.sayHi = function(){     // 以某种方式来增强这个对象
+        console.log('hi');
+      }
+
+      return clone; // 返回这个对象
+    }
+
+    var person = {
+      name: 'jimco',
+      friend: ['Shelby', 'Court', 'Van']
+    }
+    
+    var person1 = createAnother(person);
+    person1.sayHi(); // 'hi'
+
+使用寄生式继承来为对象添加函数，会由于不能做到函数复用而降低效率，这一点与构造函数模式类似。
+
+寄生组合式继承： (引用类型最理想的继承范式)
+
+    function object(o){
+      function F(){}
+      F.prototype = o;
+      return new F();
+    }
+
+    function inheritPrototype(subType, superType){
+      var prototype = object(superType);
+      prototype.constructor = subType;
+      subType.prototype = prototype;
+    }
+
+    function SuperType(name){
+      this.name = name;
+      this.colors = ['red', 'green', 'blue'];
+    }
+
+    SuperType.prototype.sayName = function(){
+      console.log(this.name);
+    }
+
+    function SubType(name, age){
+      SuperType.call(this, name);
+      this.age = age;
+    }
+
+    inheritPrototype(SubType, SuperType);
+
+    SubType.prototype.sayAge = function(){
+      console.log(this.age);
+    }
+
+这个例子的高效率体现在它只调用了一次 SuperType 构造函数，并且避免了在 SuperType.prototype 上面创建不必要的、多余的属性。与此同时，原型链还能保持不变；因此还能够正常使用 instanceof 和 isPrototypeOf()。
 
 
 ## 3.2 Javascript 跨域总结
