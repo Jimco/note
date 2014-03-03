@@ -1033,6 +1033,50 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 
 (17) 状态模式
 
+(18) 沙箱模式
+
+    function SandBox(){
+      var args = Array.prototype.slice.call(arguments)
+        , callback = args.pop()
+        , modules = (args[0] && typeof argus[0] === 'string') ? args : args[0];
+
+      if(!(this instanceof SandBox)){
+        return new SandBox(modules, callback);
+      }
+
+      if(!modules || modules === '*'){
+        modules = [];
+        for(i in SandBox.modules){
+          if(SandBox.modules.hasOwnProperty(i)){
+            modules.push(i);
+          }
+        }
+      }
+
+      for(var i = 0, len = modules.length; i < len; i++){
+        SandBox.modules[modules[i]](this);
+      }
+      callback(this);
+    }
+
+    SandBox.prototype = {
+      name: 'My Application',
+      versino: 0.0.1,
+      getName: function(){
+        return this.name;
+      }
+    }
+
+    SandBox.modules = {};
+    
+    SandBox.modules.dom = function(box){
+      
+    }
+      
+    SandBox.modules.ajas = function(box){
+
+    }
+
 
 ## 3.10 前端 MV* 框架的意义
 
