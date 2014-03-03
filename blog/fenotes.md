@@ -548,7 +548,7 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
 
 基本思想：利用原型让一个引用类型继承另一个引用类型的属性和方法。
 
-每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针(constructor)，而示例都包含一个指向原型对象的内部指针。那么，假如我们让原型对象等于另一个类型的示例，显然，此时的原型对象将包含一个指向另一个原型的指针，相应地，另一个原型中也包含这一个指向另一个构造函数的指针。假如另一个原型又是另一个类型的示例，如此层层递进，就构成了实例与原型的链条。这就是原型链的基本概念。
+每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针(constructor)，而实例都包含一个指向原型对象的内部指针。那么，假如我们让原型对象等于另一个类型的实例，显然，此时的原型对象将包含一个指向另一个原型的指针，相应地，另一个原型中也包含着一个指向另一个构造函数的指针。假如另一个原型又是另一个类型的实例，如此层层递进，就构成了实例与原型的链条。这就是原型链的基本概念。
 
 原型链基本模式：
 
@@ -923,13 +923,91 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 
 (1) 单例模式
 
-(2) 工厂模式
+    var singleton = function(fn){
+        var result;
+        return function(){
+          return result || (result = fn.apply(this, arguments));
+        }
+      }
+
+    var cresteMask = singleton(function(){
+        return document.body.appendChild(document.createElement('div')); 
+      });
+
+(2) 简单工厂模式
+
+简单工厂模式是由一个方法来决定到底要创建哪个类的实例，而这些实例通常都拥有相同的接口，这种模式主要用在所实例化的类型在编译期并不能确定，而是在执行期决定的情况。
 
 (3) 观察者模式
 
+    var eventTarget = {
+        on: function(e, fn){
+          if(e.indexOf(',') > -1){
+            var es = e.split(',');
+            for(var i = 0, len = es.length; i < len; i++){
+              this.on(es[i], fn);
+            }
+          }
+          else{
+            var ev = (this.evts = this.evts || {})[e];
+            ev = ev || (this.evts[e] = []);
+            ev.push(fn);
+          }
+          return this;
+        },
+
+        fire: function(){
+          this.evts = this.evts || {};
+          var args = Array.prototypt.slice.call(arguments, 0)
+            , ev = args.shift()
+            , scope = this;
+          
+          if(typeof ev !== 'string'){
+            scope = ev;
+            ev = args.shift();
+          }
+
+          var fn = this.evts[ev];
+          if(fn instanceof Array){
+            for(var i = 0, p; p = fn[i++];){
+              this.eventTag = ev;
+              p.apply(scope, args);
+            }
+          }
+          return this; 
+        },
+
+        off: function(e, fn){
+          this.evts = this.evts || {};
+          var ev = this.evts[e];
+          if(ev){
+            if(!!fn){
+              for(var i = 0, p; p = ev[i++]; ){
+                if(fn = p){
+                  ev.splice(i - 1, 1);
+                  i--;
+                }
+              }
+            }
+            else{
+              this.evts[e] = null;
+            }
+          }
+          return this;
+        }
+      }
+
 (4) 适配器模式
 
+适配器模式的作用，就像一个转接口，比如你现在正在用一个自定义的js库，里面有个根据 id 获取节点的方法 $id()， 有天你觉得 jquery 里的$实现得更酷，但你又不想让你的工程师去学习新的库和语法，那一个适配器就能让你完成这件事情。
+
+    $id = function(id){
+      return jQuery('#' + id)[0];
+    }
+
 (5) 代理模式
+
+代理模式的定义是把对一个对象的访问，交给另一个代理对象来操作    
 
 (6) 桥接模式
 
