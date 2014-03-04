@@ -704,7 +704,7 @@ object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
     }
 
     function inheritPrototype(subType, superType){
-      var prototype = object(superType);
+      var prototype = object(superType.prototype);
       prototype.constructor = subType;
       subType.prototype = prototype;
     }
