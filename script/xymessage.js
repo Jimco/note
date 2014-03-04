@@ -1,5 +1,6 @@
 /**
  * iframe 跨域通信兼容性解决方案
+ * IE8+ 使用 postMessage API。IE6/7 ，利用 navigator 对象在父窗口和 iframe 之间是共享的。
  */
 window.Message = (function(){
   var prefix = '[PROJECT_NAME]'
