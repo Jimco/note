@@ -1021,17 +1021,97 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 
 (11) 中介者模式
 
+中介者对象可以让各个对象之间可以不需要显式地相互引用，从而使其松耦合，而且可以独立地改变他们之间的交互。
+
+切回到程序世界里的 MVC，无论是 j2ee 中 struts 的 Action，还是 js 中 Backbone.js 和 spine.js 里的 Controler 都起到了一个中介者的作用。
+
+拿 Backbone 举例， 一个 model 里的数据并不确定最后被哪些 view 使用， view 需要的数据也可以来自任意一个 model ，所有的绑定关系都在 controler 里决定，中介者把复杂的多对多关系，变成了 2 个相对简单的 1 对多关系。
+
+    var model1 = Model.create()
+      , model2 = Model.create()
+      , view1 = View.create()
+      , view2 = View.create();
+
+    var controler1 = Controler.create(model1, view1, function(){
+        view1.el.find('div').bind('click', function(e){
+          this.innerHTML = model1.find('data');
+        });
+      });
+
+    var controler2 = Controler.create(model2, view2, function(){
+        view2.el.find('div').bind('click', function(e){
+          this.innerHTML = model2.find('data');
+        });
+      });
+
 (12) 迭代器模式
 
 (13) 组合模式
 
 (14) 备忘录模式
 
+备忘录模式在 js 中常用于数据缓存，比如一个分页控件，从服务端获得某一页数据后可以存入缓存。以后再返回这一页的时候，可以直接使用缓存里的数据而无需再次请求服务器。
+
+伪代码：
+
+    var Page = function(){
+        var page = 1
+          , cache = {}
+          , data;
+
+        return function(page){
+          if(cache[page]){
+            data = cache[page];
+            render(data);
+          }
+          else{
+            $.post('comment.xxx.com/xxx', function(data){
+              cache[page] = data;
+              render(data);  
+            });
+          }
+        }
+      }
+
 (15) 职责链模式
 
 (16) 享元模式
 
 (17) 状态模式
+
+状态模式主要可以用于这种场景：
+
+1. 一个对象的行为取决于它的状态
+
+2. 一个操作中含有庞大的条件分支语句
+
+    var stateManager = function(){
+      var currState = 'wait';
+      var states = {
+          jump: function(state){},
+          wait: function(state){},
+          attack: function(state){},
+          crouch: function(state){},
+          defense: function(state){
+            if(currState === 'jump'){
+              return false; // 不成功，跳跃的时候不能防御
+            }
+            // dosomething
+            currState = 'defense'; // 切换状态
+          }
+        };
+
+      var changeState = function(state){
+        states[state] && states[state]();
+      }
+
+      return {
+        changeState: changeState
+      }
+    }
+
+    var stateManager = stateManager();
+    stateManager.changeState('defense');
 
 (18) 沙箱模式
 
