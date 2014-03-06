@@ -300,6 +300,43 @@ IE7中引入的hasLayout成员
         <div class="footer"></div>
 
 
+## 1.2 inline-block 问题
+
+* 行内元素 display:inline-block;
+
+    html:
+    <div class="item-list">
+      <a href="#">行内元素a</a>
+      <a href="#">行内元素a</a>
+    </div>
+
+    css:
+    .item-list{ font-size: 0; *word-spacing: -0.18em;/* 这里是定值，不需要随字体类型、大小而变化 */ }
+    item{ font-size: 12px; display:inline-block; *word-spacing: normal; }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0){
+      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
+    }
+
+* 块级元素 display:inline-block;
+
+IE7 及一下浏览器，块级元素 `display:inline-block;` 会换行，解决办法：
+
+    html:
+    <div class="item-list">
+      <a href="#">行内元素a</a>
+      <a href="#">行内元素a</a>
+    </div>
+
+    css:
+    .item-list{ font-size:0; }
+    .item{ font-size:12px; display:inline-block; *display:inline; *zoom:1; }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0){
+      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
+    }
+
+
 
 # 2. HTTP
 
