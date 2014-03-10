@@ -1,361 +1,6 @@
-# 前端笔记
+# 1. JavaScript
 
-# 0. 基础数据结构与算法
-
-## 简单排序算法的 js 实现
-
-    Array.prototype.swap = function(i, j){
-      var temp = this[i];
-      this[i] = this[j];
-      this[j] = temp;
-    }
-
-    /**
-     * 快速排序
-     * 基本思路：取数组中间索引的记录为基准元素，遍历把所有比基准元素小的记录放在前一部分，
-     * 把所有比基准元素大的记录放在后一部分，递归遍历
-     */
-    function quickSort(arr){
-      if(arr.length <= 1) return arr;
-
-      var pivotIndex = Math.floor(arr.length/2)
-        , pivot = arr.splice(pivotIndex, 1)[0]
-        , left = []
-        , right = [];
-
-      for(var i = 0; i < arr.length; i++){
-        if(arr[i] < pivot){
-          left.push(arr[i]);
-        }else{
-          right.push(arr[i]);
-        }
-      }
-      return quickSort(left).concat([pivot], quickSort(right));
-    }
-
-    /**
-     * 插入排序
-     * 基本思路：从无序区的第一个元素开始和它前面的有序区的元素进行比较，如果比前面的元素小，
-     * 那么前面的元素向后移动，否则就将此元素插入到相应的位置 
-     */
-    function insertSort(arr){
-      var len = arr.length
-        , i = 1
-        , j, key;
-
-      for(; i < len; i++){
-        j = i;
-        key = arr[j];  
-        while(--j > -1){ 
-          if(arr[j] > key){  
-            arr[j + 1] = arr[j];  
-          }else{
-            break;  
-          }  
-        }  
-        arr[j + 1] = key;  
-      }  
-      return arr;  
-    }
-
-    /**
-     * 冒泡排序
-     * 基本思路：通过在无序区的相邻元素的比较和替换，使较小的元素浮到最上面
-     */
-    function bubbleSort(arr){
-      var len = arr.length
-        , i, j;
-
-      for(i = len - 1; i >= 1; i--){  
-        for(j = 0; j <= i - 1; j++){  
-          if(arr[j] > arr[j + 1]){  
-            d = arr[j + 1];
-            arr[j + 1] = arr[j];
-            arr[j] = d;
-          }
-        }
-      }
-      return arr;  
-    }
-
-    /**
-     * 冒泡排序（改进版）
-     * 基本思路：如果在某次的排序中没有出现交换的情况，那么说明无序的元素现在已经是有序的了，就可以直接返回
-     */
-    function bubbleSort(arr){
-      var len = arr.length
-        , i, j, exchange;
-
-      for(i = len - 1; i >= 1; i--){
-        exchange = 0;
-        for(j = 0; j <= i - 1; j++){  
-          if(arr[j] > arr[j + 1]){  
-            d = arr[j + 1];
-            arr[j + 1] = arr[j];
-            arr[j] = d;
-            exchange = 1;
-          }
-        }
-        if(!exchange) return arr;
-      }
-      return arr;  
-    }
-
-    /**
-     * 选择排序
-     * 基本思路：在无序区中选出最小的元素，然后将它们和无序区的第一个元素交换位置
-     */
-    function selectSort(arr){
-      var len = arr.length
-        , i, j, k, temp;
-
-      for(i = 0; i < len; i++){
-        k = i;
-        for(j = i + 1; j < len; j++){
-          if(arr[k] > arr[j]) k = j;
-        }
-
-        if(k !== i){
-          temp = arr[k];
-          arr[k] = arr[i];
-          arr[i] = temp;
-        }
-      }
-
-      return arr;
-    }
-
-    /* 堆排序 */
-    function heapSort(arr){
-      for(var i = 1; i < arr.length; ++i){
-        for (var j = i, k = (j - 1) >> 1; k >= 0; j = k, k = (k - 1) >> 1){
-          if(arr[k] >= arr[j]) break;
-          arr.swap(j, k);
-        }
-      }
-      for(var i = arr.length - 1; i > 0; --i){
-        arr.swap(0, i);
-        for(var j = 0, k = (j + 1) << 1; k <= i; j = k, k = (k + 1) << 1){
-          if(k == i || arr[k] < arr[k - 1]) --k;
-          if(arr[k] <= arr[j]) break;
-          arr.swap(j, k);
-        }
-      }
-      return arr;
-    }
-
-    /**
-     * 希尔排序
-     * 基本思路：我们在第 i 次时取 gap = n/(2的i次方)，
-     * 然后将数组分为 gap 组(从下标0开始，每相邻的gap个元素为一组)，接下来我们对每一组进行直接插入排序。
-     */
-    function ShellSort(arr){
-      var len = arr.length
-        , gap = parseInt(len/2)
-        , i, j, temp;
-
-      while(gap > 0){
-        for(i = gap; i < len; i++){
-          temp = arr[i];
-          j = i - gap;
-
-          while(j >= 0 && temp < arr[j]){
-            arr[j + gap] = arr[j];
-            j = j - gap;
-          }
-
-          arr[j + gap] = temp;
-        }
-        gap = parseInt(gap/2);
-      }
-      return arr;
-    }
-
-    /**
-     * 归并排序
-     * 基本思路：
-     * (1)归并：
-     *
-     * (2)排序：
-     * 
-     */
-    function merge(arr, low, mid, high){
-
-    }
-
-    function mergePass(arr, length, n){
-
-    }
-
-    function mergeSort(arr){}
-
-
-
-# 1. HTML/CSS
-
-## 1.0 BFC 和 HasLayout
-
-### BFC 的定义
-
-是 W3C CSS2.1 规范中的一个概念，它决定了元素如何对其元素进行定位，以及与其它元素的关系和相互作用。
-
-在创建了 Block Formating Context 的元素中，其子元素会一个接一个地放置。垂直方向上他们的起点是一个包含块的顶部，两个相邻的元素之间的垂直距离取决于 margin 特性。在 Block Formating Context 中相邻的块级元素的垂直边距会折叠（collapse）。
-
-在 Block Formating Context 中，每一个元素左外边距与包含块的左边相接触（对于从右到左的格式化，右外边接触右边），即使存在浮动也是如此（尽管一个元素的内容区域会由于浮动而压缩），除非这个元素也创建了一个 Block Formating Context。
-
-### BFC到底是什么？
-
-当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。
-
-### 怎样才能形成BFC
-
-* `float`的值不为`none`
-* `overflow`的值不为`visible`
-* `display`的值为`table-cell`, `table-caption`, `inline-block`中的任何一个
-* `position`的值不为`relative`和`static`
-
-### BFC 的作用
-
-1. 不和浮动元素重叠
-  如果一个浮动元素后面跟着一个非浮动的元素，那么就会产生一个覆盖的现象，很多自适应的两栏布局就是这么做的。比如下图的效果，[参考例子](http://hikejun.com/blog/2011/10/26/%E8%BF%91%E6%9C%9F%E9%9D%A2%E8%AF%95%E6%84%9F%E5%8F%97/)
-
-2. 清除元素内部浮动
-  只要把父元素设为BFC就可以清理子元素的浮动了，最常见的用法就是在父元素上设置`overflow: hidden`样式，对于 IE6 加上`zoom:1`就可以了(IE Haslayout)
-
-3. 嵌套元素 margin 边距折叠问题的解决
-  按照BFC的定义，只有同属于一个BFC时，两个元素才有可能发生垂直Margin的重叠，这个包括相邻元素，嵌套元素，只要他们之间没有阻挡(例如边框，非空内容，padding等)就会发生margin重叠。
-  因此要解决margin重叠问题，只要让它们不在同一个BFC就行了，但是对于两个相邻元素来说，意义不大，没有必要给它们加个外壳，但是对于嵌套元素来说就很有必要了，只要把父元素设为BFC就可以了。这样子元素的margin就不会和父元素的margin发生重叠了。
-
-### IE HasLayout
-
-Layout 是一个 Internet Explorer for Windows 的私有概念，它决定了一个元素如何显示以及约束其包含的内容、如何与其他元素交互和建立联系、如何响应和传递应用程序事件、用户事件等。这种渲染特性可以通过某些 CSS 属性被不可逆转地触发。而有些 HTML 元素则默认就具有 layout。
-
-一个元素“得到 layout”，或者说一个元素“拥有 layout” 的时候，是指它的微软专有属性 hasLayout 被设为了 true 。一个“layout 元素”可以是一个默认就拥有 layout 的元素或者是一个通过设置某些 CSS 属性得到 layout 的元素。
-
-不同于标准属性，也不像某些浏览器的私有 CSS 属性，layout 无法通过某一个 CSS 声明直接设定 。也就是说没有“layout 属性”这么一个东西，元素要么本身自动拥有 layout，要么借助一些 CSS 声明悄悄地获得 layout。
-
-下列元素应该是默认具有 layout 的：
-
-* `<html>`, `<body>`
-* `<table>`, `<tr>`, `<th>`, `<td>`
-* `<img>`
-* `<hr>`
-* `<input>`, `<button>`, `<select>`, `<textarea>`, `<fieldset>`, `<legend>`
-* `<iframe>`, `<embed>`, `<object>`, `<applet>`
-* `<marquee>`
-
-下列 CSS 属性和取值将会让一个元素获得 layout：
-
-* position: `absolute` 
-  绝对定位元素的包含区块(containing block)就会经常在这一方面出问题。
-* float: `left` | `right` 
-  由于 layout 元素的特性，浮动模型会有很多怪异的表现。
-* display: `inline-block` 
-  当一个内联级别的元素需要 layout 的时候往往就要用到它，这也可能也是这个 CSS 属性的唯一效果–让某个元素拥有 layout。`inline-block行为`在 IE 中是可以实现的，但是非常与众不同： IE/Win: inline-block and hasLayout 。
-* width: 除 `auto` 外的任意值 
-  很多人遇到 layout 相关问题发生时，一般都会先尝试用这个来修复。
-* height: 除 `auto` 外的任意值 
-  height: 1% 就在 Holly Hack 中用到。
-* zoom: 除 `normal` 外的任意值 
-  IE专有属性。不过 zoom: 1 可以临时用做调试。
-* writing-mode: `tb-rl` 
-  MS专有属性。
-
-IE7中引入的hasLayout成员
-
-* overflow: `hidden` | `scroll` | `auto`
-  在 IE7 中，`overflow` 也变成了一个 layout 触发器，这个属性在之前版本 IE 中没有触发 layout 的功能。
-* position: `fixed`
-* min-width: 任意值 
-  就算设为0也可以让该元素获得 layout。
-* max-width: 除 `none` 之外的任意值
-* min-height: 任意值 
-  即使设为0也可以让该元素的 haslayout=true
-* max-height: 除 `none` 之外的任意值
-
-
-## 1.1 圣杯布局
-
-经典的三列布局，也叫做圣杯布局【Holy Grail of Layouts】，是Kevin Cornell在2006年提出的一个布局模型概念，在国内最早是由淘宝UED的工程师传播开来，在中国也有叫法是双飞翼布局，它的布局要求有几点：
-
-1. 三列布局，中间宽度自适应，两边定宽
-2. 中间栏要在浏览器中优先展示渲染
-3. 允许任意列的高度最高
-4. 要求只用一个额外的 div 标签
-5. 要求用最少的 CSS，最少的 Hack 语句
-
-
-        .wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
-        .center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
-        .center{width: 100%; background: #eee;}
-        .left{width: 120px; margin-left: -100%; background: #ace; position: relative; left: -120px;}
-        .right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
-        
-        <div class="header"></div>
-        <div class="wrap">
-          <div class="center"></div>
-          <div class="left"></div>
-          <div class="right"></div>
-        </div>
-        <div class="footer"></div>
-
-
-## 1.2 inline-block 问题
-
-* 行内元素 display:inline-block;
-
-    html:
-    <div class="item-list">
-      <a href="#">行内元素a</a>
-      <a href="#">行内元素a</a>
-    </div>
-
-    css:
-    .item-list{ font-size: 0; *word-spacing: -0.18em;/* 这里是定值，不需要随字体类型、大小而变化 */ }
-    item{ font-size: 12px; display:inline-block; *word-spacing: normal; }
-
-    @media screen and (-webkit-min-device-pixel-ratio: 0){
-      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
-    }
-
-* 块级元素 display:inline-block;
-
-IE7 及一下浏览器，块级元素 `display:inline-block;` 会换行，解决办法：
-
-    html:
-    <div class="item-list">
-      <a href="#">行内元素a</a>
-      <a href="#">行内元素a</a>
-    </div>
-
-    css:
-    .item-list{ font-size:0; }
-    .item{ font-size:12px; display:inline-block; *display:inline; *zoom:1; }
-
-    @media screen and (-webkit-min-device-pixel-ratio: 0){
-      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
-    }
-
-
-
-# 2. HTTP
-
-Http 定义了与服务器交互的不同方法，最基本的方法有 4 种，分别是 `GET、POST、PUT、DELETE`。URL 全称是资源描述符，我们可以这样认为：一个 URL 地址，它用于描述一个网络上的资源，而 HTTP 中的 `GET、POST、PUT、DELETE` 就对应着这个资源的 `查、该、增、删` 4个操作。
-
-在传统的模式，用户请求的生命周期如下：
-
-1. 浏览器发送一个 HTTP 请求到 Web 服务器。
-2. Web 服务器解析请求，然后读取数据存储层，制定一个 HTML 文件，并用一个 HTTP 响应把它发送到客户端。
-3. HTTP 响应通过互联网传送到浏览器。
-4. 浏览器解析 Web 服务器的响应，使用 HTML 文件构建了一个的 DOM 树，并且下载引用的 CSS 和 JavaScript 文件。
-5. CSS 资源下载后，浏览器解析它们，并将它们应用到 DOM 树。
-6. JavaScript 资源下载后，浏览器解析并执行它们。
-
-
-
-# 3. JavaScript
-
-## 3.0 javascript 异步编程原理
+## 1.0 javascript 异步编程原理
 
 Javascript 的执行环境是单线程的，所谓的单线程，就是指一次只能完成一件任务，如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。
 
@@ -424,7 +69,7 @@ setTimeout 是异步编程不可缺少的角色，但它本身存在诸多问题
 2. 事件监听（on / off / trigger）
 JS 和浏览器提供的原生方法基本都是基于事件触发机制的，耦合度很低，不过事件不能得到流程控制。
 
-3. 发布/订阅模式（Pub / Sub）
+1. 发布/订阅模式（Pub / Sub）
 把事件全部交给控制器管理，可以完全掌握事件被订阅的次数，以及订阅者的信息，管理起来特别方便。
 这种方法的性质与“事件监听”类似，但是明显优于后者。因为我们可以通过查看“消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。
 
@@ -451,7 +96,7 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
         }
 
 
-## 3.1 Javascript OO 
+## 1.1 Javascript OO 
 
 ### 简单栗子
 
@@ -459,14 +104,14 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
 
 1. function, JS 世界里 Class 的定义用 `function`, function 里面的内容就是构造函数的内容
 2. this, 代表调用这个函数的对象
-3. prototype, 用它来定义成员函数，比较规范和保险
+1. prototype, 用它来定义成员函数，比较规范和保险
 
         // 定义 Circle 类，拥有成员变量 r，常量 PI 和计算面积的成员函数 area()
         function Circle(radius){
         this.r = radius;
         }
         
-        Circle.PI = 3.1415926;
+        Circle.PI = 1.1415926;
         Circle.prototype.area = function(){
         return Circle.PI * this.r * this.r;
         }
@@ -520,7 +165,7 @@ promise 模式在任何时候都处于一下 3 中状态之一：未完成(unful
 
 1. 创建一个新对象
 2. 将构造函数的作用域赋给新对象（因此 this 就指向这个新对象）
-3. 执行构造函数中的代码（为这个对象添加属性） 
+1. 执行构造函数中的代码（为这个对象添加属性） 
 4. 返回新对象
 
 （3）原型模式
@@ -769,13 +414,13 @@ object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
 这个例子的高效率体现在它只调用了一次 SuperType 构造函数，并且避免了在 SuperType.prototype 上面创建不必要的、多余的属性。与此同时，原型链还能保持不变；因此还能够正常使用 instanceof 和 isPrototypeOf()。
 
 
-## 3.2 Javascript 跨域总结
+## 1.2 Javascript 跨域总结
 
 ### 什么情况会跨域
 
 1. 主域不同
 2. 主域相同，子域不同
-3. 域名相同，协议不同 (http / https)
+1. 域名相同，协议不同 (http / https)
 4. 域名相同，端口不同
 
 ### Ajax 跨域解决办法
@@ -828,19 +473,19 @@ object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
 
 (5) 利用 HTML5 postMessage
 
-`postMessage` 是 HTML5 新增 API 之一，下一代浏览器支持这个功能 Chrome 2.0+, Internet Explorer 8.0+, Firefox 3.0+, Opera 9.6+, 和 Safari 4.0+ 。
+`postMessage` 是 HTML5 新增 API 之一，下一代浏览器支持这个功能 Chrome 2.0+, Internet Explorer 8.0+, Firefox 1.0+, Opera 9.6+, 和 Safari 4.0+ 。
 参考资料：[Window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage)
 
 (6) 利用 Flash
 
 
-## 3.3 Javascript 事件机制
+## 1.3 Javascript 事件机制
 
 事件触发有 3 个阶段
 
 1. document 往事件触发地点，捕获前进，遇到相同注册事件立即触发
 2. 到达事件位置，触发事件（**如果该处既注册了冒泡事件，也注册了捕获事件，按照注册顺序执行**）
-3. 事件触发地点往 document 方向，冒泡前进，遇到相同注册事件立即触发
+1. 事件触发地点往 document 方向，冒泡前进，遇到相同注册事件立即触发
 
 
 几个注意点：
@@ -855,7 +500,7 @@ object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
 * `setCapture` 和 `releaseCapture`, 这两个是 IE 下的事件绑定函数，对指定对象设置/释放鼠标捕获，只要我们在某个元素上 setCapture 了，那么你在任何地方的鼠标操作（mouseXXX之类的动作）都会在这个元素上触发（前提是你在这个元素上绑定了事件），releaseCapture 或者本窗口失去聚焦才会释放这个绑定
 
 
-## 3.4 前端模块化开发的价值
+## 1.4 前端模块化开发的价值
 
 主要解决：命名冲突、文件依赖。
 其他：模块版本管理、提高可维护性、前端性能优化、跨环境共享模块
@@ -866,20 +511,20 @@ object() 方法与 ECMAScript 5 新增的 object.create() 方法类似
 
 2. 解析模块的层次依赖关系：一般采用正则匹配
 
-3. 添加事件机制，优化管理代码
+1. 添加事件机制，优化管理代码
 
 
 Seajs，模块的加载采用的是创建文本节点，让文档去加载模块，实时查看状态为 interactive 的 script 标签，如果处于交互状态就拿到它的代码，接着删除节点。当节点数目为 0 的时候，加载工作完成。
 在 Seajs 中，所有 Javascript 模块都遵循 CMD 模块定义规范，该规范明确了模块的基本书写格式和基本交互规则。
 
 
-## 3.5 Javascript 中的内存管理
+## 1.5 Javascript 中的内存管理
 
 无论哪种语言，内存的生命周期差不多总是相同的：
 
 1. 分配你需要的内存
 2. 使用它（读、写）
-3. 当不再需要已分配的内存时释放它
+1. 当不再需要已分配的内存时释放它
 
 js 中，大部分内存管理问题出现在释放内存阶段l，基本问题在于无法确定一些内存是否“不再被需要”。高阶语言的的解释器包含一个称为“垃圾收集器”的软件，它的工作是追踪内存的分配使用，以便在于不再需要某个已分配的内存时发现，并自动释放它。
 
@@ -909,7 +554,7 @@ js 中，大部分内存管理问题出现在释放内存阶段l，基本问题�
 [理解并解决IE的内存泄漏方式](http://birdshome.cnblogs.com/archive/2006/05/28/IE_MemoryLeak.html)
 
 
-## 3.6 WebSocket 协议
+## 1.6 WebSocket 协议
 
 ### Web 的交互过程
 
@@ -931,18 +576,18 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 [参考资料](http://www.cnblogs.com/dxy1982/archive/2012/01/19/2325419.html)
 
 
-## 3.7 Web Worker 多线程
+## 1.7 Web Worker 多线程
 
 在 HTML5 之前，浏览器中的 Javascript 的运行都是以单线程的方式工作的，虽然有多种方式实现了对多线程的模拟（例如：Javascript 中的 setInterval 、setTimeout 方法等），但是在本质上程序的运行仍然是由 Javascript 引擎以单线程调度的方式进行的。在HTML5 中引入的工作线程使得浏览器端的 Javascirpt 引擎可以并发地执行 Javascript 代码，从而实现了对浏览器端多线程编程的良好支持。
 
 [参考资料](http://www.cnblogs.com/dxy1982/archive/2012/08/06/2359202.html)
 
 
-## 3.8 雅虎14条前端性能优化原则
+## 1.8 雅虎14条前端性能优化原则
 
 1. 尽可能的减少 HTTP 的请求数 [content]
 2. 使用 CDN（Content Delivery Network） [server]
-3. 添加 Expires 头(或者 Cache-control ) [server]
+1. 添加 Expires 头(或者 Cache-control ) [server]
 4. Gzip 组件 [server]
 5. 将 CSS 样式放在页面的上方 [css]
 6. 将脚本移动到底部（包括内联的） [javascript]
@@ -952,11 +597,11 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 10. 压缩 JavaScript 和 CSS (包括内联的) [javascript] [css]
 11. 避免重定向 [server]
 12. 移除重复的脚本 [javascript]
-13. 配置实体标签（ETags） [css]
+11. 配置实体标签（ETags） [css]
 14. 使 AJAX 缓存 
 
 
-## 3.9 常用 Javascript 设计模式
+## 1.9 常用 Javascript 设计模式
 
 (1) 单例模式
 
@@ -1195,7 +840,7 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
     }
 
 
-## 3.10 前端 MV* 框架的意义
+## 1.10 前端 MV* 框架的意义
 
 早期前端都是比较简单，基本以页面为工作单元，内容以浏览型为主，也偶尔有简单的表单操作，这个时期每个界面上只有很少的 JavaScript 逻辑，基本不太需要框架。随着 Ajax 的出现，Web2.0 的兴起，人们可以在页面上可以做比较复杂的事情了，然后前端框架才真正出现了，以 jQuery 为代表，针对界面上常见的 DOM 操作，远程请求，数据处理等作了封装，也有专注于处理数据的 Underscore，严格来说，这些都不能算框架，而是算库。
 
@@ -1204,29 +849,39 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 jQuery 的思维方式是：以 DOM 操作为中心
 MV* 框架的思维方式是：以模型为中心，DOM 操作只是附加
 
-## 3.11 Javascript 的类型转换
+## 1.11 Javascript 的类型转换
 
+基本上，所有 js 数据类型都拥有 valueOf 和 toString 这两个方法。它们解决 javascript 值运算与显示的问题
 
+    var obj = {
+        i: 10,
+        valueOf: function(){ return this.i + 30; },
+        toString: function(){ return this.valueOf() + 10 }
+      };
 
+    console.log(obj > 20); // true
+    console.log(+obj);     // 40
+    console.log(obj);      // 50
 
+之所以有这样的结果，是因为它们偷偷调用了 valueOf 或 toString 方法。如何区分什么情况下是调用了什么方法，我们可以通过另一个方法测试一下：
 
+    var obj = {
+        i: 10,
+        valueOf: function(){
+          console.log('valueOf');
+          return this.i;
+        },
+        toString: function(){
+          console.log('toString');
+          return this.i;
+        }
+      };
 
+    console.log(obj);          // toString Object{...}
+    console.log(+obj);         // valueOf 10
+    console.log('' + obj);     // valueOf 10
+    console.log(String(obj));  // toString 10
+    console.log(Number(obj));  // valueOf 10
+    console.log(obj == '10');  // valueOf true
+    console.log(obj === '10'); // false
 
-
-
-
-# 4. 浏览器对网页的解析渲染
-
-渲染引擎首先通过请求获得文档的内容，渲染引擎在取得内容之后的流程：
-
- `构建 dom 树 -> 构建 render 树 -> 布局 render 树 -> 绘制 render 树`
-
-这个过程是逐步完成的，为了更好的用户体验，渲染引擎将会尽可能早的将内容呈现到屏幕上，并不会等到所有 html 解析完成之后再去构建和布局 render 树。它是解析完一部分内容就显示一部分内容，同时，可能还在通过网络下载其余内容。
-
-chrome 浏览器下，如果我们在 render 树未完全绘制并渲染之前，向下快速拖动滚动条，会出现白屏现象。应该说这是避免不了的，我们能做的是：
-
-* 遵循 XHTML 编码规范，错误的标签在解析的过程中，浏览器需要花更多的时间去进行容错处理，会在构建 dom 树时花掉额外的时间
-* 优化 html 代码，减少代码层次
-* 优化 css，减少样式计算所需要的时间，尽量不要出现太过复杂的选择符
-* 尽量不要使用 document.write，html 不能被自顶向下或自底向上地解析，一种重要的原因也是因为脚本标签中含有这个所导致，它可能会添加标签
-* 减少第一屏的内容，后几屏的内容用 js 异步+判断滚动条动作载入，减少构建和布局 render 树的时间

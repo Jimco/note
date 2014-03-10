@@ -1,0 +1,147 @@
+# 1. HTML/CSS
+
+## 1.0 BFC 和 HasLayout
+
+### BFC 的定义
+
+是 W3C CSS2.1 规范中的一个概念，它决定了元素如何对其元素进行定位，以及与其它元素的关系和相互作用。
+
+在创建了 Block Formating Context 的元素中，其子元素会一个接一个地放置。垂直方向上他们的起点是一个包含块的顶部，两个相邻的元素之间的垂直距离取决于 margin 特性。在 Block Formating Context 中相邻的块级元素的垂直边距会折叠（collapse）。
+
+在 Block Formating Context 中，每一个元素左外边距与包含块的左边相接触（对于从右到左的格式化，右外边接触右边），即使存在浮动也是如此（尽管一个元素的内容区域会由于浮动而压缩），除非这个元素也创建了一个 Block Formating Context。
+
+### BFC到底是什么？
+
+当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。
+
+### 怎样才能形成BFC
+
+* `float`的值不为`none`
+* `overflow`的值不为`visible`
+* `display`的值为`table-cell`, `table-caption`, `inline-block`中的任何一个
+* `position`的值不为`relative`和`static`
+
+### BFC 的作用
+
+1. 不和浮动元素重叠
+
+  如果一个浮动元素后面跟着一个非浮动的元素，那么就会产生一个覆盖的现象，很多自适应的两栏布局就是这么做的。比如下图的效果，[参考例子](http://hikejun.com/blog/2011/10/26/%E8%BF%91%E6%9C%9F%E9%9D%A2%E8%AF%95%E6%84%9F%E5%8F%97/)
+
+2. 清除元素内部浮动
+
+  只要把父元素设为BFC就可以清理子元素的浮动了，最常见的用法就是在父元素上设置`overflow: hidden`样式，对于 IE6 加上`zoom:1`就可以了(IE Haslayout)
+
+3. 嵌套元素 margin 边距折叠问题的解决
+
+  按照BFC的定义，只有同属于一个BFC时，两个元素才有可能发生垂直Margin的重叠，这个包括相邻元素，嵌套元素，只要他们之间没有阻挡(例如边框，非空内容，padding等)就会发生margin重叠。
+  因此要解决margin重叠问题，只要让它们不在同一个BFC就行了，但是对于两个相邻元素来说，意义不大，没有必要给它们加个外壳，但是对于嵌套元素来说就很有必要了，只要把父元素设为BFC就可以了。这样子元素的margin就不会和父元素的margin发生重叠了。
+
+### IE HasLayout
+
+Layout 是一个 Internet Explorer for Windows 的私有概念，它决定了一个元素如何显示以及约束其包含的内容、如何与其他元素交互和建立联系、如何响应和传递应用程序事件、用户事件等。这种渲染特性可以通过某些 CSS 属性被不可逆转地触发。而有些 HTML 元素则默认就具有 layout。
+
+一个元素“得到 layout”，或者说一个元素“拥有 layout” 的时候，是指它的微软专有属性 hasLayout 被设为了 true 。一个“layout 元素”可以是一个默认就拥有 layout 的元素或者是一个通过设置某些 CSS 属性得到 layout 的元素。
+
+不同于标准属性，也不像某些浏览器的私有 CSS 属性，layout 无法通过某一个 CSS 声明直接设定 。也就是说没有“layout 属性”这么一个东西，元素要么本身自动拥有 layout，要么借助一些 CSS 声明悄悄地获得 layout。
+
+下列元素应该是默认具有 layout 的：
+
+* `<html>`, `<body>`
+* `<table>`, `<tr>`, `<th>`, `<td>`
+* `<img>`
+* `<hr>`
+* `<input>`, `<button>`, `<select>`, `<textarea>`, `<fieldset>`, `<legend>`
+* `<iframe>`, `<embed>`, `<object>`, `<applet>`
+* `<marquee>`
+
+下列 CSS 属性和取值将会让一个元素获得 layout：
+
+* position: `absolute` 
+  绝对定位元素的包含区块(containing block)就会经常在这一方面出问题。
+* float: `left` | `right` 
+  由于 layout 元素的特性，浮动模型会有很多怪异的表现。
+* display: `inline-block` 
+  当一个内联级别的元素需要 layout 的时候往往就要用到它，这也可能也是这个 CSS 属性的唯一效果–让某个元素拥有 layout。`inline-block行为`在 IE 中是可以实现的，但是非常与众不同： IE/Win: inline-block and hasLayout 。
+* width: 除 `auto` 外的任意值 
+  很多人遇到 layout 相关问题发生时，一般都会先尝试用这个来修复。
+* height: 除 `auto` 外的任意值 
+  height: 1% 就在 Holly Hack 中用到。
+* zoom: 除 `normal` 外的任意值 
+  IE专有属性。不过 zoom: 1 可以临时用做调试。
+* writing-mode: `tb-rl` 
+  MS专有属性。
+
+IE7中引入的hasLayout成员
+
+* overflow: `hidden` | `scroll` | `auto`
+  在 IE7 中，`overflow` 也变成了一个 layout 触发器，这个属性在之前版本 IE 中没有触发 layout 的功能。
+* position: `fixed`
+* min-width: 任意值 
+  就算设为0也可以让该元素获得 layout。
+* max-width: 除 `none` 之外的任意值
+* min-height: 任意值 
+  即使设为0也可以让该元素的 haslayout=true
+* max-height: 除 `none` 之外的任意值
+
+
+## 1.1 圣杯布局
+
+经典的三列布局，也叫做圣杯布局【Holy Grail of Layouts】，是Kevin Cornell在2006年提出的一个布局模型概念，在国内最早是由淘宝UED的工程师传播开来，在中国也有叫法是双飞翼布局，它的布局要求有几点：
+
+1. 三列布局，中间宽度自适应，两边定宽
+2. 中间栏要在浏览器中优先展示渲染
+3. 允许任意列的高度最高
+4. 要求只用一个额外的 div 标签
+5. 要求用最少的 CSS，最少的 Hack 语句
+
+
+        .wrap{padding: 0 100px 0 120px; overflow: hidden; zoom: 1;}
+        .center, .left, .right{float: left; height: 200px; padding-bottom: 9999px; margin-bottom: -9999px;}
+        .center{width: 100%; background: #eee;}
+        .left{width: 120px; margin-left: -100%; background: #ace; position: relative; left: -120px;}
+        .right{width: 100px; margin-left: -100px; background: #f50; position: relative; right: -100px;}
+        
+        <div class="header"></div>
+        <div class="wrap">
+          <div class="center"></div>
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+        <div class="footer"></div>
+
+
+## 1.2 inline-block 问题
+
+* 行内元素 display:inline-block;
+
+    html:
+    <div class="item-list">
+      <a href="#">行内元素a</a>
+      <a href="#">行内元素a</a>
+    </div>
+
+    css:
+    .item-list{ font-size: 0; *word-spacing: -0.18em;/* 这里是定值，不需要随字体类型、大小而变化 */ }
+    item{ font-size: 12px; display:inline-block; *word-spacing: normal; }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0){
+      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
+    }
+
+* 块级元素 display:inline-block;
+
+IE7 及一下浏览器，块级元素 `display:inline-block;` 会换行，解决办法：
+
+    html:
+    <div class="item-list">
+      <a href="#">行内元素a</a>
+      <a href="#">行内元素a</a>
+    </div>
+
+    css:
+    .item-list{ font-size:0; }
+    .item{ font-size:12px; display:inline-block; *display:inline; *zoom:1; }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0){
+      .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
+    }
