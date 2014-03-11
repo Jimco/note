@@ -885,3 +885,8 @@ MV* 框架的思维方式是：以模型为中心，DOM 操作只是附加
     console.log(obj == '10');  // valueOf true
     console.log(obj === '10'); // false
 
+看打印出来的结果，转换为字符串时调用 toString 方法，转换为数值时调用 valueOf 方法，但其中有两个很不和谐。一个是 `console.log('' + obj);`，字符串拼接应该是调用 toString 方法。另一个是 `console.log(obj === '10');`，我们暂时可以理解为 `===` 操作符不进行隐式转换，因此步调用它们。为了追究真相，我们需要更严谨的实验：
+
+    var obj = {
+
+      }
