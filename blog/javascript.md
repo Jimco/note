@@ -888,5 +888,53 @@ MV* 框架的思维方式是：以模型为中心，DOM 操作只是附加
 看打印出来的结果，转换为字符串时调用 toString 方法，转换为数值时调用 valueOf 方法，但其中有两个很不和谐。一个是 `console.log('' + obj);`，字符串拼接应该是调用 toString 方法。另一个是 `console.log(obj === '10');`，我们暂时可以理解为 `===` 操作符不进行隐式转换，因此步调用它们。为了追究真相，我们需要更严谨的实验：
 
     var obj = {
+        i: 10,
+        toString: function(){
+          console.log('toString');
+          return this.i;
+        }
+      };
 
-      }
+    console.log(obj);         // toString {...}
+    console.log(+obj);        // toString 10 
+    console.log('' + obj);    // toString 10
+    console.log(String(obj)); // toString 10 
+    console.log(Number(obj)); // toString 10
+    console.log(obj == '10'); // toString true
+
+
+    var obj = {
+        i: 10,
+        valueOf: function(){
+          console.log('valueOf');
+          return this.i;
+        }
+      };
+
+    console.log(obj);         // [object Object]
+    console.log(+obj);        // valueOf 10 
+    console.log('' + obj);    // valueOf 10
+    console.log(String(obj)); // [object Object]
+    console.log(Number(obj)); // valueOf 10
+    console.log(obj == '10'); // valueOf true
+
+发现上面两段代码的不同了吗？valueOf 没有像 toString 那样规整，对于哪个 `[object Object]` 估计是从 Object 那里继承过来的，我们可以重写再看看：
+
+    Object.prototype.toString = null;
+
+    var obj = {
+        i: 10,
+        valueOf: function(){
+          console.log('valueOf');
+          return this.i;
+        }
+      };
+
+    console.log(obj);         // valueOf 10
+    console.log(+obj);        // valueOf 10
+    console.log('' + obj);    // valueOf 10
+    console.log(String(obj)); // valueOf 10
+    console.log(Number(obj)); // valueOf 10
+    console.log(obj == '10'); // valueOf true
+
+结论：如果只重写了 toString，对象转换会无视 valueOf 的存在来进行转值。但是，如果只重写了 valueOf，在转换为字符串的时候会优先考虑 valueOf 方法。在不能调用 toString 的情况下，只能让 valueOf 上阵了。对于那个奇怪的字符串拼接问题，可能是出于操作符上，翻开 ECMA262-5 发现都有一个 getValue 操作，那么谜底应该是揭开了，重写会加大它们调用的优先级，而在有操作符的情况下，valueOf 的优先级比 toString 高。
