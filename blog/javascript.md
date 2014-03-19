@@ -938,3 +938,76 @@ MV* 框架的思维方式是：以模型为中心，DOM 操作只是附加
     console.log(obj == '10'); // valueOf true
 
 结论：如果只重写了 toString，对象转换会无视 valueOf 的存在来进行转值。但是，如果只重写了 valueOf，在转换为字符串的时候会优先考虑 valueOf 方法。在不能调用 toString 的情况下，只能让 valueOf 上阵了。对于那个奇怪的字符串拼接问题，可能是出于操作符上，翻开 ECMA262-5 发现都有一个 getValue 操作，那么谜底应该是揭开了，重写会加大它们调用的优先级，而在有操作符的情况下，valueOf 的优先级比 toString 高。
+
+
+## 1.11 使用 Javascript File API 实现文件上传
+
+Demo:
+    
+    <!-- html -->
+    <form method="post" name="demoForm" id="demoForm" action="javascript:uploadAndSubmit();" enctype="multipart/form-data">
+      <p>Upload File: <input type="file" name="file"></p>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+
+    <div>Progressing (in Bytes): <span id="bytesRead"></span> / <span id="bytesTotal"></span></div>
+
+    /* javascript */
+    function uploadAndSubmit(){
+      var form = document.getElementById('demoForm');
+
+      if(form['file'].files.length > 0){
+        var file = form['file'].files[0]
+          , reader = new FileReader()
+          , readEl = document.getElementById('bytesRead')
+          , totalEl = document.getElementById('bytesTotal');
+
+        // 在开始读取时触发
+        reader.onloadstart = function(){
+          console.log('onloadstart');
+          totalEl.textContent = file.size;
+        }
+
+        // 在读取进行中触发
+        reader.onprogress = function(p){
+          console.log('onprogress');
+          readEl.textContent = p.loaded;
+        }
+
+        // 在读取成功结束后触发
+        reader.onload = function(){
+          console.log('load complete');
+        }
+        
+        // 在读取结束后，无论成功或者失败都会触发
+        reader.onloadend = function(){
+          if(reader.error){
+            console.log(reader.error);
+          }
+          else{
+            readEl.textContent = file.size;
+            var xhr = new XMLHttpRequest();
+            xhr.open(/* method */ 'POST', /* target url */ "upload.jsp?fileName=" + file.name /*, async, default to true */);
+            xhr.overrideMimeType("application/octet-stream"); 
+            xhr.sendAsBinary(reader.result);
+            xhr.onreadystatechange = function() { 
+              if(xhr.readyState == 4){ 
+                if(xhr.status == 200){ 
+                 console.log('upload complete'); 
+                 console.log('response: ' + xhr.responseText);
+                } 
+              } 
+            }
+
+          }
+        }
+
+        reader.readAsBinaryString(file);
+      }
+      else{
+        alert('Please choose a file...');
+      }
+    }
+
+
+
