@@ -767,33 +767,33 @@ WebSocket API 最伟大之处在于服务器和客户端可以在给定的时间
 
 2. 一个操作中含有庞大的条件分支语句
 
-    var stateManager = function(){
-      var currState = 'wait';
-      var states = {
-          jump: function(state){},
-          wait: function(state){},
-          attack: function(state){},
-          crouch: function(state){},
-          defense: function(state){
-            if(currState === 'jump'){
-              return false; // 不成功，跳跃的时候不能防御
-            }
-            // dosomething
-            currState = 'defense'; // 切换状态
+        var stateManager = function(){
+          var currState = 'wait';
+          var states = {
+              jump: function(state){},
+              wait: function(state){},
+              attack: function(state){},
+              crouch: function(state){},
+              defense: function(state){
+                if(currState === 'jump'){
+                  return false; // 不成功，跳跃的时候不能防御
+                }
+                // dosomething
+                currState = 'defense'; // 切换状态
+              }
+            };
+
+          var changeState = function(state){
+            states[state] && states[state]();
           }
-        };
 
-      var changeState = function(state){
-        states[state] && states[state]();
-      }
+          return {
+            changeState: changeState
+          }
+        }
 
-      return {
-        changeState: changeState
-      }
-    }
-
-    var stateManager = stateManager();
-    stateManager.changeState('defense');
+        var stateManager = stateManager();
+        stateManager.changeState('defense');
 
 (18) 沙箱模式
 
