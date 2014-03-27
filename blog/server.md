@@ -7,3 +7,5 @@
 2. 更改 apache 默认根目录，打开 D:/wamp/bin/apache/Apache2.2.11/conf/httpd.conf, 查找 D:/wamp/www 修改为 D:/workspace/cloudTV/trunk/src。
 
 3. 重启服务器。
+
+
