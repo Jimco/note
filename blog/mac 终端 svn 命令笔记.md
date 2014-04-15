@@ -182,3 +182,10 @@ svn resolved: 移除工作副本的目录或文件的“冲突”状态。
 svn cat 目标[@版本]...如果指定了版本，将从指定的版本开始查找。
 
 svn cat -r PREV filename > filename (PREV 是上一版本,也可以写具体版本号,这样输出结果是可以提交的)
+
+## 19. Branch 的创建
+
+svn copy 创建 branch
+
+svn copy http://example.com/myproject/trunk http://example.com/myproject/branches/releaseForAug -m 'create branch for release on August'
+
