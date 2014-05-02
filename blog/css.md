@@ -83,6 +83,10 @@ IE7中引入的hasLayout成员
   即使设为0也可以让该元素的 haslayout=true
 * max-height: 除 `none` 之外的任意值
 
+参考资料：
+
+常规流( Normal flow )：[http://www.w3help.org/zh-cn/kb/010/](http://www.w3help.org/zh-cn/kb/010/)
+
 
 ## 1.1 圣杯布局
 
