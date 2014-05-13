@@ -149,3 +149,12 @@ IE7 及一下浏览器，块级元素 `display:inline-block;` 会换行，解决
     @media screen and (-webkit-min-device-pixel-ratio: 0){
       .item-list{ letter-spacing:-1em; } /* just target safari，因为font-size:0时，此条对chrome无效 */
     }
+
+## 1.3 What's the valid way to include an image with no src?
+
+    <img src="javascript:void(0);">
+    <img src="//:0">
+
+参考资料： [What's the valid way to include an image with no src?](http://stackoverflow.com/questions/5775469/whats-the-valid-way-to-include-an-image-with-no-src)
+
+

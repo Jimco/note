@@ -64,18 +64,22 @@ setTimeout 是异步编程不可缺少的角色，但它本身存在诸多问题
 ### 常见异步模型
 
 1. 回调函数
-陷入回调地狱，解耦程度特别低。
+
+    陷入回调地狱，解耦程度特别低。
 
 2. 事件监听（on / off / trigger）
-JS 和浏览器提供的原生方法基本都是基于事件触发机制的，耦合度很低，不过事件不能得到流程控制。
 
-1. 发布/订阅模式（Pub / Sub）
-把事件全部交给控制器管理，可以完全掌握事件被订阅的次数，以及订阅者的信息，管理起来特别方便。
-这种方法的性质与“事件监听”类似，但是明显优于后者。因为我们可以通过查看“消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。
+    JS 和浏览器提供的原生方法基本都是基于事件触发机制的，耦合度很低，不过事件不能得到流程控制。
+
+3. 发布/订阅模式（Pub / Sub）
+
+    把事件全部交给控制器管理，可以完全掌握事件被订阅的次数，以及订阅者的信息，管理起来特别方便。
+    这种方法的性质与“事件监听”类似，但是明显优于后者。因为我们可以通过查看“消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。
 
 4. Promise 对象
-Promise 对象是 CommonJS 工作组提出的一种规范，目的是为异步编程提供统一的接口。简单说，它的思想是，每一个异步任务返回一个 Promise 对象，该对象有一个 then 方法，允许指定回调函数。
-promise 模式在任何时候都处于一下 3 中状态之一：未完成(unfulfilled)、已完成(resolved)、和拒绝(rejected)。以 CommonJS Promise/A 标准为例，promise 对象上的 then 方法负责添加针对已完成和拒绝状态下的处理函数。then 方法会返回另一个 promise 对象，以便于形成 promise 管道，这种返回 promise 对象的方式能够支持开发人员把异步操作串联起来，如 `then(resolvedHandler, rejectedHandler);` 。`resolvedHandler` 回调函数在 promise 对象进入完成状态时会触发，并传递结果；`rejectedHandler` 函数会在拒绝状态下调用。
+
+    Promise 对象是 CommonJS 工作组提出的一种规范，目的是为异步编程提供统一的接口。简单说，它的思想是，每一个异步任务返回一个 Promise 对象，该对象有一个 then 方法，允许指定回调函数。
+    promise 模式在任何时候都处于一下 3 中状态之一：未完成(unfulfilled)、已完成(resolved)、和拒绝(rejected)。以 CommonJS     Promise/A 标准为例，promise 对象上的 then 方法负责添加针对已完成和拒绝状态下的处理函数。then 方法会返回另一个 promise 对象，以便于形成 promise 管道，这种返回 promise 对象的方式能够支持开发人员把异步操作串联起来，如 `then(resolvedHandler, rejectedHandler);` 。`resolvedHandler` 回调函数在 promise 对象进入完成状态时会触发，并传递结果；`rejectedHandler` 函数会在拒绝状态下调用。
 
 
         var Promise = function(thens){
