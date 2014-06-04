@@ -1088,7 +1088,7 @@ Demo:
 * debug : 调试模式
 
 
-# 1.13 Javascript 四则符和比较符
+## 1.13 Javascript 四则符和比较符
 
     var a = '10';
     var b = 1;
