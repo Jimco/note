@@ -1063,17 +1063,17 @@ Demo:
 
 * alias : 别名配置，当模块标识很长时可以用 alias 来简化
 
-    seajs.config({
-      alias: {
-        'jquery': 'jquery/jquery/1.10.1/jquery',  
-        'app/biz': 'http://path/to/app/biz.js',
-      }
-    });
+        seajs.config({
+          alias: {
+            'jquery': 'jquery/jquery/1.10.1/jquery',  
+            'app/biz': 'http://path/to/app/biz.js',
+          }
+        });
 
-    define(function(require, exports, module){
-      var $ = require('jquery')
-        , biz = require('app/biz');
-    });
+        define(function(require, exports, module){
+          var $ = require('jquery')
+            , biz = require('app/biz');
+        });
 
 使用 alias 可以让文件的真实路径与调用标识分开，有利于统一维护。
 
