@@ -1063,17 +1063,17 @@ Demo:
 
 * alias : 别名配置，当模块标识很长时可以用 alias 来简化
 
-    seajs.config({
-      alias: {
-        'jquery': 'jquery/jquery/1.10.1/jquery',  
-        'app/biz': 'http://path/to/app/biz.js',
-      }
-    });
+        seajs.config({
+          alias: {
+            'jquery': 'jquery/jquery/1.10.1/jquery',  
+            'app/biz': 'http://path/to/app/biz.js',
+          }
+        });
 
-    define(function(require, exports, module){
-      var $ = require('jquery')
-        , biz = require('app/biz');
-    });
+        define(function(require, exports, module){
+          var $ = require('jquery')
+            , biz = require('app/biz');
+        });
 
 使用 alias 可以让文件的真实路径与调用标识分开，有利于统一维护。
 
@@ -1088,3 +1088,133 @@ Demo:
 * debug : 调试模式
 
 
+## 1.13 Javascript 四则符和比较符
+
+    var a = '10';
+    var b = 1;
+    console.log(a + b); // '101'
+    console.log(a - b); // 9
+    console.log(a > b); // true
+    console.log(a < b); // false
+
+可以看到当a的类型变成字符串的时候，`a + b`的结果已经不一样了，是一个字符串的 "101"，这就是加号(+)的一个二义性，务必记住：当加号两边含有字符串（String）的时候，它们不会进行数学运算的加法，而会执行字符串连接。
+
+字符串在执行减法运算的时候，会先把自己转换成一个数字，然后再做运算，也就是说字符串 "10" 在做减法之前，会直接变成数字 10，然后和后面的 1 相减，得出的结果自然就是数字 9.
+
+这个不只是减法，实际上乘 (*)，除以 (/)，求余 (%) 都是这样的步骤，先把字符串转换成数字，再做运算。
+
+需要注意的是，这里的字符串转成数字，并不是执行 `parseInt` 或者 `parseFloat` 等函数，而是使用了内部转换，规则看一下例子就明白了：
+
+    "123"     ==> 123
+    "  123"   ==> 123
+    "  123  " ==> 123
+    "a12"     ==> NaN
+    "1 2"     ==> NaN
+    "1,2"     ==> NaN
+    "1b2"     ==> NaN
+    "12c"     ==> NaN
+    "1.234"   ==> 1.234
+    "  1.234" ==> 1.234
+    " .234"   ==> 0.234
+
+除了字符串，其他基本类型，比如undefined，null，boolean,这些是如何运算的呢？
+
+其实很简单，只要记住下面即可：
+
+    undefined ==> NaN
+    null ==> 0
+    true ==> 1
+    false ==> 0
+
+知道了这些，我们下面来看看高级点的东西，比如 array
+
+    var a = [10, 11];
+    var b = 1;
+    console.log(a + b); // "10,111"
+    console.log(a - b); // NaN
+    console.log(a > b); // false
+    console.log(a < b); // false
+
+上面把 a 换成一个数组，这个时候再对它进行运算，大家会看到结果已经完全变了，为什么会出现这个结果呢？
+
+（注意，以下说的基本类型指的是 undefined, null, true, false, Number, String等）
+
+事实上，由于数组不是一个基本类型，所以 JavaScript 对它执行四则或者比较的时候，会预先执行一个叫 ToPrimitive 的步骤，就是先把数组或者对象转成一个基本类型。
+
+转换的步骤是这样的，第一步是执行 对象的 valueOf 函数，如果返回值是一个基本类型，那么就直接用这个返回值来运算
+
+如果 valueOf 函数得到的结果并不是基本类型，那么就会继续执行 toString() 函数，如果它的返回值是一个基本类型，那么就用这个返回值来运算。
+
+如果上面两个都没有满足，会抛出一个 `Cannot convert object to primitive value` 的类型错误
+
+上面的道理明白了以后，那么再回过头来看看那个数组的运算。 这里的 a 定义是一个值为 `[10, 11]` 的数组，我们首先看看它的 valueOf 的值，实际上，`[10,11].valueOf()` 的返回值依旧是一个数组，而不是上面所说的基本类型，所以再查看一下它的 toString() 的值，结果是 `"10,11"` ,这是一个字符串，符号上面所说的基本类型，所以这个 返回值是可以用来做运算的。
+
+所以上面的 a 在做运算的时候，都可以看成是一个字符串 "10,11" 来做运算，这样结果就不言而喻
+
+由于有字符串参与，所以加号是连字符，`a + b` 的返回值是字符串 `"10,111"`，减法的时候，字符串先预转成数字，我们前面的规则告诉我们 `"10,11"`这个字符串，预转数字的时候是 NaN，对 NaN 执行任何四则运算结果都是NaN。 比较的时候同减法，由于 a 这个时候相当于 NaN，而 NaN 和任何数字（包括它自己）都不相等，对它做任何大小比较也都会返回 false。
+
+object 实际上在执行运算的时候和 array 相同，遵行同样的法则，先查看 valueOf，不符合条件再查看 toString，得到的基本类型再做运算。
+
+    var a = { a: 1, b: 2, c: 3 };
+    var b = 1;
+    console.log(a + b); // "[object Object]1"
+    console.log(a - b); // NaN
+    console.log(a > b); // false
+    console.log(a < b); // false
+
+上面的结果应该不用说都明白了吧，下面我们来看个稍微复杂的例子
+
+    
+    var a = { a: 1, b: 2, c: 3, valueOf: function(){ return 10 } };
+    var b = 1;
+    console.log(a + b); // 11
+    console.log(a - b); // 9
+    console.log(a > b); // true
+    console.log(a < b); // false
+
+这个结果和第一个例子的结果完全一致，其原因在于我们重写了 valueOf 函数，它返回了一个基本类型数字 10，这个返回值 10 由于是基本类型，所以可以用来做比较，那么下面对它做运算的时候，实际上都是用 10 这个数字来运算的。
+
+我们下面同时重写一下 a 的 toString 方法，让它返回一个字符串。
+
+    var a = { a: 1, b: 2, c: 3, valueOf: function(){ return 10 }, toString: function(){ return 'abc' } };
+    var b = 1;
+    console.log(a + b);  // 11
+    console.log(a - b);  // 9
+    console.log(a > b);  // true
+    console.log(a < b);  // false
+
+可以看到结果没有任何影响，其原因是 valueOf 返回了基本类型，后面的 toString 对于四则和比较运算已经没了意义。
+
+如果把 valueOf 去掉或者让 valueOf 返回一个非基本类型的话，就能看到另一番结果了。
+
+    var a = { a: 1, b: 2, c: 3, valueOf: function(){ return [] }, toString: function(){ return true } };
+    var b = 1;
+    console.log(a + b);  // 2
+    console.log(a - b);  // 0
+    console.log(a > b);  // false
+    console.log(a < b);  // false
+    console.log(a == b); // true
+
+上面这里的运算，a 就相当于一个数字 1。
+
+我们上面说到的加号可以作为连字符，还有一种操作，比如[1,2,3].join(”)也可以把数组格式化成一个字符串，这个时候如果数组里有一个非基本类型的值，比如[1,{a:2},3]这样的数组，那么它执行join的时候是怎么样的呢？
+
+实际上还是需要执行 ToPrimitive 这个步骤，只不过这个时候是要把 DefaultValue 指定为 String，所以它转换成字符串是这么 一个顺序：先查看 toString() ，如果返回基本类型，那么就用这个返回值，如果不是，则查看 valueOf() ，如果返回基本类型，那么就用它，否 则报 typeerror 的错误。
+
+和上面讲的四则的 ToPrimitive 顺序是反着的，大家要注意一下。
+
+总结一下：
+
+1. 数组和对象做四则或比较运算，会先查看其 valueOf 的返回值。
+
+2. 返回值不是基本类型（undefined，null，true，false，Number，String）的时候，查看其 toString() 的值。
+
+3. toString 的返回值不是基本类型则报错，是则使用返回的值来运算。
+
+4. 字符串或者其它非数字的基本类型执行预算的时候会预转为数字，规则在上面写了。
+
+5. 如果含有一个字符串，那么加号（+）的意义不再是四则加，而是连字符。
+
+6. NaN 是个特殊的数字，很多的时候字符串会变成它来进行运算，这个时候得到的结果是无意义的。
+
+7. 大小比较和减法类似，如果 a-b 是个大于 0 的数字，那么 a 就大于 b，反之亦然。
