@@ -37,7 +37,7 @@ Tomcat 默认端口：8080
 虚拟主机配置，在 httpd.conf 配置文件底部添加：
 
     <virtualhost *:80>
-        ServerName xxx.cn
+        ServerName www.xxx.cn
         DocumentRoot D:\workspace\www\phpcms
     </virtualhost>
 
@@ -45,4 +45,10 @@ Tomcat 默认端口：8080
         ServerName xx.baidu.com
         DocumentRoot D:\workspace\www\dedecms
     </virtualhost>
+
+最后，修改 hosts 文件：
+
+    127.0.0.1  www.xxx.cn
+    127.0.0.1  xx.baidu.com
+
 
