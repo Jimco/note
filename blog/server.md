@@ -23,4 +23,26 @@ Mysql 默认端口：3306
 Sql 默认端口：3389
 Tomcat 默认端口：8080
 
+# XAMPP 本地多域名虚拟主机配置
+
+首先配置网站根目录 
+    
+    DocumentRoot "D:/workspace"
+    <Directory "D:/workspace">
+      ...
+    </Directory>
+
+注意：若根目录未配置，会有访问权限问题。
+
+虚拟主机配置，在 httpd.conf 配置文件底部添加：
+
+    <virtualhost *:80>
+        ServerName xxx.cn
+        DocumentRoot D:\workspace\www\phpcms
+    </virtualhost>
+
+    <virtualhost *:80>
+        ServerName xx.baidu.com
+        DocumentRoot D:\workspace\www\dedecms
+    </virtualhost>
 
