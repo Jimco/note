@@ -23,12 +23,12 @@ Mysql 默认端口：3306
 Sql 默认端口：3389
 Tomcat 默认端口：8080
 
-# XAMPP 本地多域名虚拟主机配置
+# 3. XAMPP 本地多域名虚拟主机配置
 
 首先配置网站根目录 
     
-    DocumentRoot "D:/workspace"
-    <Directory "D:/workspace">
+    DocumentRoot "D:/workspace/www"
+    <Directory "D:/workspace/www">
       ...
     </Directory>
 
