@@ -52,3 +52,42 @@
     127.0.0.1  xx.baidu.com
 
 
+# 4. Tomcat 默认根目录修改
+
+修改 $tomcat/conf/server.xml 文件：
+
+    <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+      ...
+    </Host>
+
+增加一行：
+
+    <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+      ...
+      <Context path="" docBase="D:/workspace/www/example" debug="0" reloadable="true" crossContext="true" />
+    </Host>
+
+path 是说明虚拟目录的名字，如果你要只输入 IP 地址就显示主页，则该键值留空。
+
+docBase 是虚拟目录的路径，它默认的是 $tomcat/webapps/ROOT 目录，现在我们将它指向 D:/workspace/www/example 目录，让该目录作为 tomcat 的默认目录。
+
+debug 和 reloadable 一般都分别设置成 0 和 true。
+
+### 默认首页设置
+
+修改 $tomcat/conf/web.xml 文件。
+
+    <welcome-file-list>
+      <welcome-file>index.html</welcome-file>
+      <welcome-file>index.htm</welcome-file>
+      <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+插入一行 `<welcome-file>abc.jsp</welcome-file>`， 增加自定义的默认首页。
+
+### 更改端口
+
+    <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+
+将 port "8080" 改成自定义的端口，保存文件，重启 tomcat。
+
