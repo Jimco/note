@@ -157,4 +157,38 @@ IE7 及一下浏览器，块级元素 `display:inline-block;` 会换行，解决
 
 参考资料： [What's the valid way to include an image with no src?](http://stackoverflow.com/questions/5775469/whats-the-valid-way-to-include-an-image-with-no-src)
 
+## 1.4 position 详解
+
+position 的属性值 `relative`, `absolute`, `fixed`, `static`, 'inherit'. 目前几乎所有主流的浏览器都支持 position 属性( inherit 除外，inherit 不支持所有包括 IE8 和之前版本的 IE 浏览器 )。
+
+
+1. relative
+
+相对定位，对象脱离正常文档流 ( 即在文档中已经不占据位置 )，相对于元素本身在文档中应该出现的位置来移动这个元素，可以通过 top, right, bottom, left ( 简称TRBL ) 来移动元素的位置，实际上该元素依然占据文档中原有的位置，只是视觉上相对原来的位置有移动。
+
+2. absolute
+
+绝对定位，对象脱离正常文档流，参照浏览器的左上角通过 TRBL 定位。可以选取具有定位的父级对象 ( 下文将说到 relative 与 absolute 的结合使用 ) 或者 body 坐标原点进行定位，也可以通过 z-index 进行层次分级。absolute 在没有设定 TRBL 值时是根据父级对象的坐标作为始点的 ( 此时依然受文档流影响 )，当设定 TRBL 值后则根据浏览器的左上角作为原始点。
+
+3. fixed
+
+绝对定位，对象脱离正常文档流，使用 top, right, bottom, left 等属性以窗口为参考点进行定位，当出现滚动条时，对象不会随着滚动。IE6及以下不支持此参数值。
+
+4. static
+
+默认值，没有定位，对象出现在正常的文档流中 ( 忽略 TRBL 以及 z-index )。
+
+5. inherit
+
+从父元素继承 position 属性。
+
+6. relative 和 absolute 结合使用
+
+对象的 position 属性为 absolute, 父对象 position 为 relative/absolute 时，根据父对象进行定位。
+
+
+
+
+
+
 
