@@ -1059,9 +1059,13 @@ Demo:
 
 ## 1.12 seajs 配置详解
 
-* base : Seajs 基础路径配置(默认为 path/to/sea.js 的 path/to 路径)
+* base [String] : Seajs 基础路径配置(默认为 path/to/sea.js 的 path/to 路径)
 
-* alias : 别名配置，当模块标识很长时可以用 alias 来简化
+Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识
+
+注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。
+
+* alias [Object] : 别名配置，当模块标识很长时可以用 alias 来简化
 
         seajs.config({
           alias: {
@@ -1077,15 +1081,88 @@ Demo:
 
 使用 alias 可以让文件的真实路径与调用标识分开，有利于统一维护。
 
-* paths : 路径配置
+* paths [Object] : 路径配置
 
-* vars : 变量配置
+        // 当目录比较深，或需要跨目录调用模块时，可以使用 paths 来简化书写
+        seajs.config({
+            paths: {
+                'gallery': 'https://a.alipayobjects.com/gallery',
+                'app': 'path/to/app'
+            }
+        });
 
-* map : 映射配置
+        define(function(require, exports, module) {
 
-* preload : 预加载项
+            var underscore = require('gallery/underscore'); // 加载的是 https://a.alipayobjects.com/gallery/underscore.js
+            
+            var biz = require('app/biz'); // 加载的是 path/to/app/biz.js
+            
 
-* debug : 调试模式
+        });
+
+* vars [Object] : 变量配置
+
+        // 有些场景下，模块路径在运行时才能确定，这时可以使用 vars 变量来配置
+        seajs.config({
+            vars: {
+              'locale': 'zh-cn'
+            }
+        });
+
+        define(function(require, exports, module) {
+
+            var lang = require('./demo/{locale}.js'); // 加载的是 path/to/demo/zh-cn.js
+
+        });
+
+* map [Array] : 映射配置
+        
+        // 该配置可对模块路径进行映射修改，可用于路径转换、在线调试等
+        seajs.config({
+            map: [
+                [ '.js', '-debug.js' ]
+            ]
+        });
+
+        define(function(require, exports, module) {
+
+            var a = require('./a'); // 加载的是 path/to/a-debug.js
+
+        });
+
+* preload [Array] : 预加载项
+
+        // 使用 preload 配置项，可以在普通模块加载前，提前加载并初始化好指定模块
+        seajs.config({
+            preload: [
+                Function.prototype.bind ? '' : 'es5-safe',
+                this.JSON ? '' : 'json' 
+            ]
+        });
+
+* debug [Boolean] : 调试模式
+
+值为 true 时，加载器不会删除动态插入的 script 标签。插件也可以根据 debug 配置，来决策 log 等信息的输出。
+
+* charset [String | Function] : 文件编码
+
+获取模块文件时，`<script>` 或 `<link>` 标签的 charset 属性。 默认是 utf-8
+
+charset 还可以是一个函数：
+
+    seajs.config({
+        charset: function(url) {
+
+            // xxx 目录下的文件用 gbk 编码加载
+            if (url.indexOf('http://example.com/js/xxx') === 0) {
+               return 'gbk';
+            }
+
+            // 其他文件用 utf-8 编码
+            return 'utf-8';
+
+        }
+    });
 
 
 ## 1.13 Javascript 四则符和比较符

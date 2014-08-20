@@ -1,6 +1,8 @@
 # 移动端 web 开发小记
 
-1、`-webkit-tap-highlight-color:rgba(255,255,255,0)` 可以同时屏蔽 ios 和 android 下点击元素时出现的阴影。
+1、`-webkit-tap-highlight-color` 这个属性只用于 iOS (iPhone和iPad)。当你点击一个链接或者通过 Javascript 定义的可点击元素的时候，它就会出现一个半透明的灰色背景。要重设这个表现，你可以设置 -webkit-tap-highlight-color 为任何颜色。想要禁用这个高亮，设置颜色的 alpha 值为0即可。
+
+`-webkit-tap-highlight-color:rgba(255,255,255,0)` 可以同时屏蔽 ios点击元素时出现的阴影。
 
 备注：transparent 的属性值在 android 下无效。
 
