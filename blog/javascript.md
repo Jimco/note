@@ -1061,9 +1061,9 @@ Demo:
 
 * base [String] : Seajs 基础路径配置(默认为 path/to/sea.js 的 path/to 路径)
 
-Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识
+    Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识
 
-注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。
+    注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。
 
 * alias [Object] : 别名配置，当模块标识很长时可以用 alias 来简化
 
@@ -1079,7 +1079,7 @@ Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参�
             , biz = require('app/biz');
         });
 
-使用 alias 可以让文件的真实路径与调用标识分开，有利于统一维护。
+    使用 alias 可以让文件的真实路径与调用标识分开，有利于统一维护。
 
 * paths [Object] : 路径配置
 
