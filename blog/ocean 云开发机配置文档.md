@@ -1,6 +1,6 @@
 # 百度电视云 OCEAN 云开发机配置文档
 
-1、安装 ODP3.0 (正式版)
+## 1、安装 ODP3.0 (正式版)
 
 ssh 进入云开发机，在个人目录下，下载安装 odp
 
@@ -21,7 +21,7 @@ ssh 进入云开发机，在个人目录下，下载安装 odp
     php/bin/php -m  # 查看 php 扩展的加载情况
 
 
-2、启动服务
+## 2、启动服务
 
 启动 php: `php/sbin/php-fpm start`
 
@@ -35,11 +35,11 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 关于 odp 及 nginx 相关问题，请查看这里 [传送门](http://man.baidu.com/inf/odp/#参考文档)
 
-3、pull 项目
+## 3、pull 项目
 
 `~ cd odp/webroot` 进入 web 文档目录，更新相应 web 项目
 
-4、配置 php.conf
+## 4、配置 php.conf
 
 `~ vim odp/webserver/vhost/php.conf` 找到以下代码（ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作，具体配置移步 [ocean](http://ocean.baidu.com/) 主页查看）：
 
@@ -65,7 +65,7 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
 `webserver/loadnginx.sh restart` 重启 nginx
 
 
-5、增加 url rewrite 
+## 5、增加 url rewrite 
 
 `~ vim odp/webserver/vhost/rewrite` 这边只列举几个相关 url rewrite (注意修改 repo 路径)
 
