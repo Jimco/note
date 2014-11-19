@@ -37,7 +37,7 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 ## 3、pull 项目
 
-`~ cd odp/webroot` 进入 web 文档目录，更新相应 web 项目
+`~ cd odp/webroot` 进入 web 文档目录，svn checkout 拉取相应 web 项目
 
 ## 4、配置 php.conf
 
