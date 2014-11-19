@@ -84,3 +84,20 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
 
 `webserver/loadnginx.sh restart` 重启 nginx
 
+
+## 附录
+
+### OCEAN 云开发机 SAMBA 配置
+
+1. 登录ocean。http://ocean.baidu.com/
+
+2. 在我的资源—>更多选择中设置Samba密码
+
+3. 点击资源域名，查看开发机IP地址
+
+4. Windows 下 win+R 运行框中输入 `\\{IP}` 地址 (Mac 下 cmd+k 输入 `smb://{IP}`)
+
+5. 输入用户名和密码
+
+6. 映射到磁盘
+
