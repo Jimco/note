@@ -41,7 +41,7 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 ## 4、配置 php.conf
 
-`~ vim odp/webserver/vhost/php.conf` 找到以下代码（ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作，具体配置移步 [ocean](http://ocean.baidu.com/) 主页查看）：
+`~ vim odp/webserver/vhost/php.conf` 找到以下代码（ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作，具体配置移步 [传送门](https://github.com/Jimco/note/blob/master/blog/ocean%20%E4%BA%91%E5%BC%80%E5%8F%91%E6%9C%BA%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3.md#ocean-%E4%BA%91%E5%BC%80%E5%8F%91%E6%9C%BA-samba-%E9%85%8D%E7%BD%AE)）：
 
     # 统一配置全局的 rewrite 规则请打开如下配置项，并配置当前目录下的 rewrite 文件
     include vhost/rewrite;
