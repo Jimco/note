@@ -17,8 +17,8 @@ ssh 进入云开发机，在个人目录下，下载安装 odp
 
 查看安装信息：
 
-    bin/ocm list    #查看安装的ODP组件列表
-    php/bin/php -m  #查看php扩展的加载情况
+    bin/ocm list    # 查看安装的 ODP 组件列表
+    php/bin/php -m  # 查看 php 扩展的加载情况
 
 
 2、启动服务
@@ -37,11 +37,11 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 3、pull 项目
 
-`~ cd odp/webroot` 进入 web 文档目录，更新 web 项目
+`~ cd odp/webroot` 进入 web 文档目录，更新相应 web 项目
 
 4、配置 php.conf
 
-`~ vim odp/webserver/vhost/php.conf` 
+`~ vim odp/webserver/vhost/php.conf` (ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作)
 
     # 统一配置全局的rewrite规则请打开如下配置项，并配置当前目录下的rewrite文件
     include vhost/rewrite;
@@ -62,6 +62,8 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
         root /home/users/{user}/odp/webroot;
     }
 
+`webserver/loadnginx.sh` 重启 nginx
+
 
 5、增加 url rewrite 
 
@@ -80,8 +82,5 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
     rewrite "^/devices/(.*)$" /{repo}/web/v2/devices/$1.php last;
     rewrite "^/(.*)$" /{repo}/web/v2/$1 last;
 
-
-
-
-
+`webserver/loadnginx.sh` 重启 nginx
 
