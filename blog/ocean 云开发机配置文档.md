@@ -50,16 +50,8 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源的 rewrite, 否则静态资源 MIME type 会以 text/html 返回（以下代码注意修改路径）：
 
-    location ~ \.css {
-        root /home/users/{user}/odp/webroot;
-    }
-
-    location ~ \.js {
-        root /home/users/{user}/odp/webroot;
-    }
-
-    location ~ \.(jpg|jpeg|gif|png) {
-        root /home/users/{user}/odp/webroot;
+    location ~ \.(css|js|jpg|jpeg|gif|png) {
+        root /home/users/xiejiancong01/odp/webroot;
     }
 
 `webserver/loadnginx.sh restart` 重启 nginx
