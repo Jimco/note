@@ -46,7 +46,7 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
     # 统一配置全局的 rewrite 规则请打开如下配置项，并配置当前目录下的 rewrite 文件
     include vhost/rewrite;
 
-把 `include vhost/rewrite` 前面的 # 注释符号去掉，开启 nginx rewrite
+把 `include vhost/rewrite` 前面的 # 注释符号去掉，启用全局 rewrite 配置
 
 php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源的 rewrite, 否则静态资源 MIME type 会以 text/html 返回（以下代码注意修改路径）：
 
