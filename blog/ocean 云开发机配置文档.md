@@ -54,6 +54,13 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
         root /home/users/{user}/odp/webroot;
     }
 
+    location ~ \.html$ {
+        root            /home/users/{user}/odp/webroot;
+        fastcgi_pass    $php_upstream;
+        fastcgi_index   index.html;
+        include         fastcgi.conf;
+    }
+
 `webserver/loadnginx.sh restart` 重启 nginx
 
 
