@@ -41,7 +41,7 @@ ODP weberver 端口默认为 8080，如果端口已被占用，则需要修改�
 
 ## 4、配置 php.conf
 
-`~ vim odp/webserver/vhost/php.conf` 找到以下代码（ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作，具体配置移步 [ocean](http://ocean.baidu.com/) 或查看文档最下方附录）：
+`~ vim odp/webserver/conf/vhost/php.conf` 找到以下代码（ocean 云开发机支持 samba 服务，不熟悉 vim 的同学可将云开发机映射到本地进行相关操作，具体配置移步 [ocean](http://ocean.baidu.com/) 或查看文档最下方附录）：
 
     # 统一配置全局的 rewrite 规则请打开如下配置项，并配置当前目录下的 rewrite 文件
     include vhost/rewrite;
@@ -60,13 +60,23 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
         fastcgi_index   index.html;
         include         fastcgi.conf;
     }
+    
+注意，以上的 rewrite 要放在下面一段代码之前：
+
+    location / {
+        root /home/users/{user}/odp/webroot;
+        index index.php;
+        fastcgi_pass    $php_upstream;
+        include         fastcgi.conf;
+        rewrite ^/([^/.]*)(/[^\?]*)?((\?.*)?)$ /$1/index.php$2$3 break;
+    }
 
 `webserver/loadnginx.sh restart` 重启 nginx
 
 
 ## 5、增加 url rewrite 
 
-`~ vim odp/webserver/vhost/rewrite` 这边只列举几个相关 url rewrite (注意修改 repo 路径)
+`~ vim odp/webserver/conf/vhost/rewrite` 这边只列举几个相关 url rewrite (注意修改 repo 路径)
 
     rewrite "^/rest/.*" /{repo}/controller.php last;
 
