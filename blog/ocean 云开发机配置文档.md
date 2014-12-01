@@ -98,9 +98,9 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
 
 ### OCEAN 云开发机 SAMBA 配置
 
-1. 登录ocean。http://ocean.baidu.com/
+1. 登录 Ocean。 http://ocean.baidu.com/
 
-2. 在我的资源—>更多选择中设置Samba密码
+2. 在我的资源 -> 更多选择中设置 Samba 密码
 
 3. 点击资源域名，查看开发机IP地址
 
