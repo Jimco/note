@@ -122,6 +122,7 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
     unzip master
     cd phpredis-master
 
+
 2. 执行下 `phpize` / `/usr/local/php/bin/phpize` 确认是否可用，显示的结果大概如下代码：
 
     Configuring for:
@@ -129,20 +130,22 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
     Zend Module Api No:      20090626
     Zend Extension Api No:   220090626
 
+
 3. 配置 configure
 
 odp 环境下，执行 `./configure --with-php-config=/home/users/xiejiancong01/odp/bin/php-config`
 
+
 4. 编译安装，执行 `make && make install`
+
 
 5. 添加模块
 
 编辑 odp/php/etc/php.ini 文件，找到 extension_dir 的位置在下边添加如下内容：
 
-    extension=redis.so
-    
-6. 重启 php 和 nginx
+    extension=redis.so    
 
+6. 重启 php 和 nginx
 
     php/sbin/php-fpm restart
     webserver/loadnginx.sh restart
