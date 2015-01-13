@@ -115,7 +115,7 @@ php.conf 中默认了几个 url rewrite, 可以不改，下方增加静态资源
 
 1、下载 phpredis 扩展源码
 
-    `wget https://codeload.github.com/nicolasff/phpredis/zip/master`
+    wget https://codeload.github.com/nicolasff/phpredis/zip/master
     
 解压：
 
