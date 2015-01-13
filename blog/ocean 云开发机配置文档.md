@@ -140,8 +140,9 @@ odp 环境下，执行 `./configure --with-php-config=/home/users/xiejiancong01/
 编辑 odp/php/etc/php.ini 文件，找到 extension_dir 的位置在下边添加如下内容：
 
     extension=redis.so
-
+    
 6. 重启 php 和 nginx
+
 
     php/sbin/php-fpm restart
     webserver/loadnginx.sh restart
