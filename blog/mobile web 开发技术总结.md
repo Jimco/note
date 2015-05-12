@@ -16,9 +16,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> // 编码
     <meta id="viewport" name="viewport" content="width=320; initial-scale=1.0;maximum-scale=1.0; user-scalable=no;"/>
     <meta name="apple-mobile-web-app-capable" content="yes" /> // 离线应用的另一个技巧         
-    <meta content="black" name="apple-mobile-web-app-status-bar-style" /> //指定的iphone中safari顶端的状态条的样式       
-    <meta content="telephone=no" name="format-detection" /> //告诉设备忽略将页面中的数字识别为电话号码     
-    <meta name="Author" contect="Mr.He"/ >
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" /> // 指定的iphone中safari顶端的状态条的样式       
+    <meta content="telephone=no" name="format-detection" /> // 告诉设备忽略将页面中的数字识别为电话号码     
 
 在设置了initial-scale=1 之后，我们终于可以以 1:1 的比例进行页面设计了。关于 viewport，还有一个很重要的概念是：iphone 的 safari 浏览器完全没有滚动条，而且不是简单的“隐藏滚动条”，是根本没有这个功能。iphone 的 safari 浏览器实际上从一开始就完整显示了这个网页，然后用 viewport 查看其中的一部分。当你用手指拖动时，其实拖的不是页面，而是 viewport。浏览器行为的改变不止是滚动条，交互事件也跟普通桌面不一样。
 
