@@ -10,15 +10,15 @@
 
 a）、app.icns文件制作
 
-    为你的App制作特定图标，可准备一张 1024*1024 的 png 图片，利用 icns-Tool 工具生成 app.icns 图标文件。
+为你的App制作特定图标，可准备一张 1024*1024 的 png 图片，利用 icns-Tool 工具生成 app.icns 图标文件。
 
 b）、修改 Info.plist 文件
 
-    为你的 App 制作或修改特定的描述文件。
+为你的 App 制作或修改特定的描述文件。
 
 c）、打包 *.app
 
-    从官网再次下载 node-webkit 的 Mac 版，命令行执行：
+从官网再次下载 node-webkit 的 Mac 版，命令行执行：
 
     mv demo.nw app.nw
     cp app.nw nwjs.app/Contents/Resources/
