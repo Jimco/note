@@ -321,16 +321,15 @@
 (这个启动函数就很好理解了。但是为什么要使用 -webkit-animation-delay 这句呢？因为当一个元素过渡显示完成后，若其样式没有变化，下一次将无法进行过渡动画显示。我们巧妙的利用其动画延迟时间定义，使其有所变化，就避免了上述问题。其中使用随机数函数 Math.random()，产生一个大于 0 小于 1 的随机数。当然，延迟零点几毫秒，用户是不会察觉的。)
 
 ## 补充：
-1. 锁定 viewport
-
+(1) 锁定 viewport
     
-ontouchmove="event.preventDefault()" //锁定viewport，任何屏幕操作不移动用户界面（弹出键盘除外）。
+    ontouchmove="event.preventDefault()" //锁定viewport，任何屏幕操作不移动用户界面（弹出键盘除外）。
 
-2. 被点击元素的外观变化，可以使用样式来设定：
+(2) 被点击元素的外观变化，可以使用样式来设定：
 
     -webkit-tap-highlight-color: 颜色
 
-3. 侦测iPhone/iPod
+(3) 侦测iPhone/iPod
 
 开发特定设备的移动网站，首先要做的就是设备侦测了。下面是使用Javascript侦测iPhone/iPod的UA，然后转向到专属的URL。
 
@@ -348,18 +347,18 @@ ontouchmove="event.preventDefault()" //锁定viewport，任何屏幕操作不移
     　　exit();
     }
 
-4. 阻止旋转屏幕时自动调整字体大小
+(4) 阻止旋转屏幕时自动调整字体大小
 
     
     html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 { -webkit-text-size-adjust:none; }
 
-5. iPhone 才识别的 CSS
+(5) iPhone 才识别的 CSS
 
 如果不想设备侦测，可以用 CSS 媒体查询来专为 iPhone/iPod 定义样式。
 
     @media screen and (max-device-width: 480px) {}
 
-6. 缩小图片
+(6) 缩小图片
 
 网站的大图通常宽度都超过 480 像素，如果用前面的代码限制了缩放，这些图片在 iPhone 版显示显然会超过屏幕。好在 iPhone 机能还够，我们可以用 CSS 让 iPhone 自动将大图片缩小显示。
 
@@ -367,7 +366,7 @@ ontouchmove="event.preventDefault()" //锁定viewport，任何屏幕操作不移
     　　img{max-width:100%;height:auto;}
     }
 
-7. 模拟 :hover 伪类
+(7) 模拟 :hover 伪类
 
 因为 iPhone 并没有鼠标指针，所以没有 hover 事件。那么 CSS :hover 伪类就没用了。但是 iPhone 有 Touch 事件，onTouchStart 类似 onMouseOver，onTouchEnd 类似 onMouseOut。所以我们可以用它来模拟 hover。使用 Javascript：
 
