@@ -1,42 +1,42 @@
 ### 滚动问题
 
-iOS 5和安卓4.1开始支持div内滚动条：
+iOS5 和安卓4.1 开始支持 div 内滚动条：
 
     -webkit-overflow-scrolling: touch; 
     overflow: auto;   
 
-老版本尽量使用body滚动条或者采用iscroll
+老版本尽量使用 body 滚动条或者采用 iscroll
 
-### backgroundp-size兼容性
+### backgroundp-size 兼容性
 
-安卓4.4版本之前不支持将backgroundp-size与background合并，如果在background中简写background-size，整条语句就失效了，gulp的css-min压缩默认会将两个属性合并，因此需要添加如下配置项：
+安卓4.4 版本之前不支持将 backgroundp-size 与 background 合并，如果在 background 中简写 background-size，整条语句就失效了，gulp 的 css-min 压缩默认会将两个属性合并，因此需要添加如下配置项：
 
     minifyCSS({'noAdvanced': true});
 
-### iOS7的header问题
+### iOS7 的 header 问题
 
-header会覆盖在webview上层，其他版本则没有这个问题。
+header 会覆盖在 webview 上层，其他版本则没有这个问题。
 
 ### 动画性能
 
-主要有3个相关维度影响了动画性能：
+主要有 3 个相关维度影响了动画性能：
 
 * 分辨率：高分辨率的机器更吃性能。我的小米2s滑动还不如我的安卓2.2的老机器。
 
-* webview版本：安卓4.4以前的webview是一个简化版的webkit内核，性能很差，4.4以后采用了chromium的内核性能有了很大的提升。
+* webview 版本：安卓4.4 以前的 webview 是一个简化版的 webkit 内核，性能很差，4.4以后采用了 chromium 的内核性能有了很大的提升。
 
-*硬件性能：硬件性能越好，当然对流畅度越好。
+* 硬件性能：硬件性能越好，当然对流畅度越好。
 
-### hover效果
+### hover 效果
 
-移动端是没有hover效果的，如果在CSS中有如下代码：
+移动端是没有 hover 效果的，如果在 CSS 中有如下代码：
 
     .test{color:red;}
     .test:hover{color:blue;}
 
 在某些浏览器下，比如iOS的Safari，实际生效的会是第二行代码。也就是说，该元素的颜色实际上会一直保持蓝色。
 
-### flex布局
+### flex 布局
 
 移动端可以使用flex进行布局，但是需要注意flex的语法标准是修订过一次的，一部分浏览器使用的是老的语法，一部分采用新的语法，因此需要注意兼容性问题，比如需要像下面这样的写法：
 
@@ -54,7 +54,7 @@ header会覆盖在webview上层，其他版本则没有这个问题。
 
 移动端的click事件有300ms的延迟，一方面可以通过touch事件的组合来模拟一个tap事件来代替click（很多库中都有对tap的封装），另外在Safari和Android chrome 32以后的版本上已经移除了click事件的延迟，随着浏览器的发展，或许几年后可以逐步放弃模拟的方式。
 
-### safari的alert存在bug
+### safari 的 alert 存在 bug
 
 如果存在这样的代码结构：
 
@@ -88,10 +88,10 @@ header会覆盖在webview上层，其他版本则没有这个问题。
         -webkit-user-select : none; /* 如果用户长按web网页的文本内容，都会出现选中的行为，提供复制文字等功能。禁止用户选中文字 for iOS */
     } 
     a, img {  
-        -webkit-touch-callout:none;  /* 禁止用户在新窗口打开页面、如何禁止用户保存图片＼复制图片 for iOS */  
+        -webkit-touch-callout: none;  /* 禁止用户在新窗口打开页面、如何禁止用户保存图片＼复制图片 for iOS */  
     } 
 
-### iOS 8 box-shadow不显示
+### iOS 8 box-shadow 不显示
 
 解决方法：
 
@@ -114,7 +114,7 @@ Android2.3系统下，对页面上存在的元素做innerHTML赋值会报错，�
 
     border-radius: 9999px;
 
-### iOS 6 webview scroll会clear timer
+### iOS 6 webview scroll 会 clear timer
 
 iOS 6下webview下如果滚动条滚动，会清掉setTimeout/setInterval，因此如果在有滚动条的情况下需要timer正常执行，可以暂时禁掉滚动条。
 
@@ -125,4 +125,57 @@ iOS 7+ 、android4.4+ 都支持:active, 在iOS 6， android4.1下:active不会�
     document.body.addEventListener('touchstart', function(){
        console.log("touchstart"); //随便什么都可以。
     }) 
+
+### 移动端字体
+
+三大手机系统的字体：
+
+_ios 系统_
+
+* 默认中文字体是 Heiti SC
+
+* 默认英文字体是 Helvetica
+
+* 默认数字字体是 HelveticaNeue
+
+* 无微软雅黑字体
+
+_android 系统_
+
+* 默认中文字体是 Droidsansfallback
+* 默认英文和数字字体是 Droid Sans
+* 无微软雅黑字体
+
+_winphone 系统_
+
+* 默认中文字体是 Dengxian(方正等线体)
+
+* 默认英文和数字字体是 Segoe
+
+* 无微软雅黑字体
+
+各个手机系统有自己的默认字体，且都不支持微软雅黑 如无特殊需求，手机端无需定义中文字体，使用系统默认 英文字体和数字字体可使用 Helvetica ，三种系统都支持
+
+    /* 移动端定义字体的代码 */
+    body { font-family: Helvetica; }
+
+### Retina 显示屏，及其带来的问题
+
+`retina`：一种具备超高像素密度的液晶屏，同样大小的屏幕上显示的像素点由 1 个变为多个，如在同样带下的屏幕上，苹果设备的 retina 显示屏中，像素点 1 个变为 4 个
+
+在高清显示屏中的位图被放大，图片会变得模糊，*因此移动端的视觉稿通常会设计为传统 PC 的 2 倍*
+
+那么，前端的应对方案是：
+
+设计稿切出来的图片长宽保证为偶数，并使用 backgroud-size 把图片缩小为原来的 1/2
+
+    //  例如图片宽高为：200px*200px，那么写法如下
+    .css { width: 100px; height: 100px; background-size: 100px 100px; }
+
+其它元素的取值为原来的1/2，例如视觉稿40px的字体，使用样式的写法为20px
+
+    .css { font-size: 20px; }
+
+
+
 
