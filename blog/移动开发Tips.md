@@ -176,6 +176,93 @@ _winphone 系统_
 
     .css { font-size: 20px; }
 
+### 移动端字体单位 font-size 选择 px 还是 rem
+
+对于只需要适配手机设备，使用px即可
+
+对于需要适配各种移动设备，使用rem，例如只需要适配iPhone和iPad等分辨率差别比较挺大的设备
+
+rem配置参考：
+
+    html {font-size:10px}
+    @media screen and (min-width:480px) and (max-width:639px) {
+        html {
+            font-size: 15px
+        }
+    }
+    @media screen and (min-width:640px) and (max-width:719px) {
+        html {
+            font-size: 20px
+        }
+    }
+    @media screen and (min-width:720px) and (max-width:749px) {
+        html {
+            font-size: 22.5px
+        }
+    }
+    @media screen and (min-width:750px) and (max-width:799px) {
+        html {
+            font-size: 23.5px
+        }
+    }
+    @media screen and (min-width:800px) and (max-width:959px) {
+        html {
+            font-size: 25px
+        }
+    }
+    @media screen and (min-width:960px) and (max-width:1079px) {
+        html {
+            font-size: 30px
+        }
+    }
+    @media screen and (min-width:1080px) {
+        html {
+            font-size: 32px
+        }
+    }
+
+### 屏幕旋转的事件和样式
+
+window.orientation，取值：正负 90 表示横屏模式、0 和 180 表现为竖屏模式
+
+    window.onorientationchange = function() {
+        switch(window.orientation){
+            case -90:
+            case 90:
+            alert("横屏:" + window.orientation);
+            case 0:
+            case 180:
+            alert("竖屏:" + window.orientation);
+            break;
+        }
+    } 
+
+样式
+
+    // 竖屏时使用的样式
+    @media all and (orientation:portrait) {
+        .css{}
+    }
+
+    // 横屏时使用的样式
+    @media all and (orientation:landscape) {
+        .css{}
+    }
+
+### audio 元素和 video 元素在 ios 和 andriod 中无法自动播放
+
+方案1：触屏即播
+
+    $('html').one('touchstart',function(){
+        audio.play()
+    })
+
+方案2：利用微信api
+
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        document.getElementById('audio').play();
+        document.getElementById('video').play();
+    }, false);
 
 
 
