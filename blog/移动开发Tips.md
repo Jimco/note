@@ -142,7 +142,7 @@ _ios 系统_
 
 _android 系统_
 
-* 默认中文字体是 Droidsansfallback
+* 默认中文字体是 Droid sans fallback
 * 默认英文和数字字体是 Droid Sans
 * 无微软雅黑字体
 
