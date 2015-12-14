@@ -4,6 +4,8 @@
     
     find .  -name "test.file" -exec rm -rf {} \;
     
+    find . -name "test.file" | xargs rm -rf;
+    
 find：linux的查找命令，用户查找指定条件的文件
     
 .：当前目录
@@ -50,4 +52,13 @@ rm -rf：强制删除文件，包括目录
           -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;
           -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;
 
+
+## 2. .gitignore 忽略文件不生效解决办法
+
+在项目开发过程中，突然心血来潮想把某些目录或文件加入忽略规则，此时将忽略文件写入 .gitignore 发现并未生效，原因是 .gitignore 只能忽略那些原来没有被 track 的文件，如果某些文件已经被纳入了版本管理中，则修改 .gitignore 是无效的。那么解决方法就是先把本地缓存删除（改变成未 track 状态），然后再提交
+
+    git rm -r --cached .
+    git add .
+    git commit -m 'update .gitignore'
+    
 
