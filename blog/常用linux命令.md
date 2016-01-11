@@ -61,4 +61,9 @@ rm -rf：强制删除文件，包括目录
     git add .
     git commit -m 'update .gitignore'
     
+## 3. 解决 Mac XAMPP Mysql 无法启动问题
+
+    ps -ef | grep mysqld # 得到相应进程 PID
+    sudo kill PID
+    sudo /Applications/XAMPP/xamppfiles/bin/mysql.server start
 
