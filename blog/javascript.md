@@ -1344,3 +1344,24 @@ object 实际上在执行运算的时候和 array 相同，遵行同样的法则
         return true;
     };
     
+## 1.15 运算符优先级问题
+
+    function Foo() {
+        getName = function () { alert (1); };
+        return this;
+    }
+    Foo.getName = function () { alert (2); };
+    Foo.prototype.getName = function () { alert (3); };
+    var getName = function () { alert (4); };
+    function getName() { alert (5); }
+    
+    
+    // 请写出以下输出结果：
+    Foo.getName(); // 2: 访问Foo函数上存储的静态属性
+    getName(); // 4: 变量声明提升、函数表达式
+    Foo().getName(); // 1: 变量作用域问题、this指向问题
+    getName(); // 1: 相当于 window.getName(), 变量已经被Foo函数执行时修改
+    new Foo.getName(); // 2: 运算符优先级问题，点（.）的优先级高于new操作
+    new Foo().getName(); // 3: 实际执行为 (new Foo()).getName()
+    new new Foo().getName(); // 3: 实际执行为 new ( (new Foo()).getName )()
+    
