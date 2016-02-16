@@ -1365,3 +1365,5 @@ object 实际上在执行运算的时候和 array 相同，遵行同样的法则
     new Foo().getName(); // 3: 实际执行为 (new Foo()).getName()
     new new Foo().getName(); // 3: 实际执行为 new ( (new Foo()).getName )()
     
+参考链接：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Operator_Precedence](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+
