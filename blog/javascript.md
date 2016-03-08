@@ -108,7 +108,7 @@ setTimeout 是异步编程不可缺少的角色，但它本身存在诸多问题
 
 1. function, JS 世界里 Class 的定义用 `function`, function 里面的内容就是构造函数的内容
 2. this, 代表调用这个函数的对象
-1. prototype, 用它来定义成员函数，比较规范和保险
+3. prototype, 用它来定义成员函数，比较规范和保险
 
         // 定义 Circle 类，拥有成员变量 r，常量 PI 和计算面积的成员函数 area()
         function Circle(radius){
